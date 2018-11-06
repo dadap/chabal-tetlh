@@ -37,12 +37,43 @@
  *
  */
 
+function yIjom() {
+    global $wpdb;
+
+    $collate = $wpdb->get_charset_collate();
+    $pfx = $wpdb->prefix . "chabal_tetlh_";
+
+    $muzsql = "CREATE TABLE IF NOT EXISTS ${pfx}muz (
+                   mIz int NOT NULL AUTO_INCREMENT,
+                   chabal text NOT NULL,
+                   tulwIz int NOT NULL,
+                   PRIMARY KEY (mIz)
+               ) $collate;";
+
+    $wIvsql = "CREATE TABLE IF NOT EXISTS ${pfx}wIv (
+                   chabal int NOT NULL,
+                   wIvwIz int NOT NULL
+               ) $collate;";
+
+    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+    dbDelta($muzsql);
+    dbDelta($wIvsql);
+}
+register_activation_hook(__FILE__, 'yIjom');
+
 function chabal_tISuq() {
+    global $wpdb;
+    $pfx = $wpdb->prefix . "chabal_tetlh_";
 ?>
     <form>
         <input type="text" />
     </form>
 <?php
+    print "<ul>\n";
+    foreach ($wpdb->get_results("SELECT chabal FROM ${pfx}muz") as $muz) {
+        print("    <li>$muz->chabal</li>\n");
+    }
+    print "</ul>\n";
 }
 add_shortcode('chabal_tetlh', 'chabal_tISuq');
 ?>
