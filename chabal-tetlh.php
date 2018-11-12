@@ -6,30 +6,27 @@
  * Author: De'nIl maqel puqloD DapDap tuq
  * Author URI: https://github.com/dadap
  *
- *                                nIqHom mab quv
+ *                               batlh nIqHom mab
  *
  * nIqHomvam lulo' Hoch net chaw'. meq wIvlaH lo'wI'. nIqHom choHlu' net chaw'
  * je. nIqHomvam velqa' chenmoHlu' net chaw' je 'ej velqa' lInlu' net chaw'.
- * lInlu'chugh, tu'qom wIvlaH lInwI'. Hoch chawlu', 'ach cha' chut pabnISlu':
+ * lInlu'chugh, tu'qom wIvlaH lInwI'. Hoch chaw'lu', 'ach chutvam pabnISlu':
  *
- *     wa':  reH nIqHomvam tlhejnIS mabvam. mabvam teqlu' net tuch.
- *     cha': potlh mabvam mu'mey.  mabvam choHlu' net tuch.
+ *     reH nIqHomvam tlhejnIS mabvam. mabvam teqlu' net tuch.
  *
  * nIqHomvam lupeS neH nIqHom peSwI'pu': lo'wI' ngoQvaD mIt 'oH 'e' lay'be'lu'.
  * nIqHomvam lo'lu'taHvIS qaSchugh vay', ngoy' nIqHom lo'wI' neH.
  *
- *                       The honorable software contract
+ *                        The software contract of honor
  *
  * It is permitted for all to use this software. A user may choose the reason.
  * It is also permitted that the software be altered. It is also permitted that
  * replicas of this software be created, and it is permitted that replicas be
  * shared. If it is shared, the one who shares may choose the form. All is
- * permitted, but two laws must be followed:
+ * permitted, but this law must be followed:
  *
- *     one:  This contract must always accompany this software. It is forbidden
- *           to remove this contract.
- *     two:  The words of this contract are important. It is forbidden to alter
- *           this contract.
+ *     This contract must always accompany this software. It is forbidden to
+ *     remove this contract.
  *
  * The suppliers of the software only supply it: It is not promised that it be
  * suitable for the user's purpose. If something occurs while this software is
