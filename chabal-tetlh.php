@@ -44,30 +44,39 @@ function yIjom() {
     $collate = $wpdb->get_charset_collate();
     $pfx = qawHaq_moHaq();
 
-    $muzsql = "CREATE TABLE IF NOT EXISTS ${pfx}muz (
-                   mIz int NOT NULL AUTO_INCREMENT,
-                   chabal text NOT NULL,
-                   tulwIz int NOT NULL,
-                   PRIMARY KEY (mIz)
-               ) $collate;";
-
     $wIvsql = "CREATE TABLE IF NOT EXISTS ${pfx}wIv (
-                   chabal int NOT NULL,
-                   wIvwIz int NOT NULL
+                   chabal INT NOT NULL,
+                   wIvwIz INT NOT NULL,
+                   wIv INT NOT NULL,
+                   ghorgh TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
                ) $collate;";
 
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-    dbDelta($muzsql);
     dbDelta($wIvsql);
 }
 register_activation_hook(__FILE__, 'yIjom');
+
+function DezHom_Sar_yIcher() {
+    register_post_type( 'chabal',
+        array(
+            'labels' => array(
+            'name' => __( 'chabal' ),
+            'singular_name' => __( 'chabal' )
+        ),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'chabal'),
+        )
+    );
+}
+add_action( 'init', 'DezHom_Sar_yIcher' );
 
 function SaH_zIv() {
     require_once( ABSPATH . 'wp-includes/user.php');
     return get_current_user_id();
 }
 
-function chabal_zar_chawluz() {
+function chabal_zar_chawzluz() {
     // TODO: allow a different number of words depending on user type.
     return 4;  // chosen by fair dice roll. guaranteed to be random.
 }
@@ -76,8 +85,10 @@ function chabal_zar_peSluz() {
     global $wpdb;
     $pfx = qawHaq_moHaq();
 
-    return $wpdb->get_var("SELECT COUNT(*) FROM ${pfx}muz WHERE tulwIz = " .
-                          SaH_zIv());
+    return count(get_posts(array(
+        'author' => SaH_zIv(),
+        'post_type' => 'chabal',
+    )));
 }
 
 function chabal_tISuq() {
@@ -88,42 +99,34 @@ function chabal_tISuq() {
         print("<p>You must <a href='" . wp_login_url(get_permalink()) .
               "'>log in</a> to submit words or vote.</p>\n");
     } else {
-        if ($_POST["chabal"] == "tIlaj") {
-            for ($i = chabal_zar_peSluz(); $i < chabal_zar_chawluz(); $i++) {
-                if ($_POST["chabal$i"]) {
-                    $wpdb->insert(
-                        "${pfx}muz",
-                        array(
-                            "chabal" => $_POST["chabal$i"],
-                            "tulwIz" => SaH_zIv()
-                        ),
-                        array('%s', '%d')
-                    );
-                }
-            }
+        if ($_POST["muz"]) {
+            wp_insert_post(array(
+                'post_title' => $_POST["muz"],
+                'post_content' => $_POST["QIjmeH_per"],
+                'post_status' => 'publish',
+                'post_type' => 'chabal',
+            ));
         }
-?>
-    <form method='POST'>
-        <input type='hidden' name='chabal' value='tIlaj' />
-<?php
-        $submit = false;
-        for ($i = chabal_zar_peSluz(); $i < chabal_zar_chawluz(); $i++) {
-            print("        <input type='text' name='chabal$i' />\n");
-            $submit = true;
+
+        print("<p>Your membership level allows you to submit " .
+               chabal_zar_chawzluz() . " entries. You may submit " .
+               (chabal_zar_chawzluz() - chabal_zar_peSluz()) .
+               " more entries.</p>");
+
+        if (chabal_zar_peSluz() < chabal_zar_chawzluz()) {
+            print("    <form method='POST'>\n");
+            print("        <input type='text' name='muz' />\n");
+            print("        <input type='text' name='QIjmeH_per' />\n");
+            print("        <input type='submit' />\n");
+            print("    </form>\n");
         }
-        if ($submit) {
-            print("       <input type='submit' />\n");
-        }
-?>
-    </form>
-<?php
     }
 
     print "<ul>\n";
-    foreach ($wpdb->get_results("SELECT chabal FROM ${pfx}muz") as $muz) {
+    foreach (get_posts(array('post_type' => 'chabal')) as $muz) {
         // TODO: add voting mechanism; way for users to withdraw their own
         // submissions
-        print("    <li>$muz->chabal</li>\n");
+        print("    <li>$muz->post_title</li>\n");
     }
     print "</ul>\n";
 }
