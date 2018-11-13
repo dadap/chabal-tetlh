@@ -60,14 +60,15 @@ function DezHom_Sar_yIcher() {
     register_post_type( 'chabal',
         array(
             'labels' => array(
-            'name' => __( 'chabal' ),
-            'singular_name' => __( 'chabal' )
-        ),
+                'name' => __( 'chabal' ),
+                'singular_name' => __( 'chabal' )
+            ),
             'public' => true,
             'has_archive' => true,
             'rewrite' => array('slug' => 'chabal'),
         )
     );
+    add_post_type_support('chabal', 'comments');
 }
 add_action( 'init', 'DezHom_Sar_yIcher' );
 
