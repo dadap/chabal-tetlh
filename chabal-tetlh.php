@@ -127,7 +127,10 @@ function chabal_tISuq() {
     foreach (get_posts(array('post_type' => 'chabal')) as $muz) {
         // TODO: add voting mechanism; way for users to withdraw their own
         // submissions
-        print("    <li>$muz->post_title</li>\n");
+        print("    <a href='" . get_post_permalink($muz) . "'/><li>\n");
+        print("        <div class='muz'>$muz->post_title</div>\n");
+        print("        <div class='QIjmeH_per'>$muz->post_content</div>\n");
+        print("    </li></a>\n");
     }
     print "</ul>\n";
 }
