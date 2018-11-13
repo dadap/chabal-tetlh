@@ -101,18 +101,27 @@ function chabal_tISuq() {
               "'>log in</a> to submit words or vote.</p>\n");
     } else {
         if ($_POST["muz"]) {
-            wp_insert_post(array(
-                'post_title' => $_POST["muz"],
-                'post_content' => $_POST["QIjmeH_per"],
-                'post_status' => 'publish',
+            $match = get_posts(array(
                 'post_type' => 'chabal',
+                'title' => $_POST["muz"]
             ));
+            if ($match) {
+                print("<p class='error'>An entry already exists for the word " .
+                      $_POST["muz"] . ". Please choose a different word.</p>\n");
+            } else {
+                wp_insert_post(array(
+                    'post_title' => $_POST["muz"],
+                    'post_content' => $_POST["QIjmeH_per"],
+                    'post_status' => 'publish',
+                    'post_type' => 'chabal',
+                ));
+            }
         }
 
         print("<p>Your membership level allows you to submit " .
                chabal_zar_chawzluz() . " entries. You may submit " .
                (chabal_zar_chawzluz() - chabal_zar_peSluz()) .
-               " more entries.</p>");
+               " more entries.</p>\n");
 
         if (chabal_zar_peSluz() < chabal_zar_chawzluz()) {
             print("    <form method='POST'>\n");
