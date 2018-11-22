@@ -144,4 +144,33 @@ function chabal_tISuq() {
     print "</ul>\n";
 }
 add_shortcode('chabal_tetlh', 'chabal_tISuq');
+
+function wIv_tItogh($chabal)
+{
+    global $wpdb;
+    $pfx = qawHaq_moHaq();
+
+    $res = $wpdb->get_var("SELECT SUM(wIv) FROM " . $pfx .
+        "wIv WHERE chabal = " . $chabal);
+
+    return $res ? $res : 0;
+}
+
+function chabal_tIjatlh()
+{
+    $tetlh = get_posts(array('post_type' => 'chabal'));
+
+    $Qav = end(array_keys($tetlh));
+    print('{');
+    foreach ($tetlh as $i => $muz) {
+        print('"' . $muz->ID . '":' . wIv_tItogh($muz->ID));
+        if ($i != $Qav) {
+            printf(',');
+        }
+    }
+    print('}');
+    wp_die();
+}
+add_action('wp_ajax_chabal_tetlh', 'chabal_tIjatlh');
+add_action('wp_ajax_nopriv_chabal_tetlh', 'chabal_tIjatlh');
 ?>
