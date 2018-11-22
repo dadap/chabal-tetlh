@@ -48,7 +48,8 @@ function yIjom() {
                    chabal INT NOT NULL,
                    wIvwIz INT NOT NULL,
                    wIv INT NOT NULL,
-                   ghorgh TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                   ghorgh TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                   PRIMARY KEY (chabal, wIvwIz)
                ) $collate;";
 
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -134,16 +135,28 @@ function chabal_tISuq() {
 
     print "<ul>\n";
     foreach (get_posts(array('post_type' => 'chabal')) as $muz) {
-        // TODO: add voting mechanism; way for users to withdraw their own
-        // submissions
-        print("    <a href='" . get_post_permalink($muz) . "'/><li>\n");
-        print("        <div class='muz'>$muz->post_title</div>\n");
-        print("        <div class='QIjmeH_per'>$muz->post_content</div>\n");
-        print("    </li></a>\n");
+        // TODO: add way for users to withdraw their own submissions
+        $nabHom = "onclick='chabal_tetlh_chabal_yIpatlh(this);'";
+        print("    <li>\n");
+        print("        <div class='wIv' id='chabal_tetlh_$muz->ID'>\n");
+        print("            <div class='ghurmoH' $nabHom>+</div>\n");
+        print("            <div class='mIvwaz'>" . wIv_tItogh($muz->ID) .
+              "</div>\n");
+        print("            <div class='nupmoH' $nabHom>-</div>\n");
+        print("        </div>\n");
+        print("        <a href='" . get_post_permalink($muz) . "'>\n");
+        print("            <div class='muz'>$muz->post_title</div>\n");
+        print("            <div class='QIjmeH_per'>$muz->post_content</div>\n");
+        print("        </a>\n");
+        print("    </li>\n");
     }
     print "</ul>\n";
 }
 add_shortcode('chabal_tetlh', 'chabal_tISuq');
+wp_enqueue_script('chabal_tetlh', plugins_url('chabal-tetlh.js', __FILE__),
+    array('jquery'));
+wp_localize_script('chabal_tetlh', 'chabal_tetlh_wpdata',
+    array('ajax' => get_option('siteurl') . '/wp-admin/admin-ajax.php'));
 
 function wIv_tItogh($chabal)
 {
@@ -158,6 +171,32 @@ function wIv_tItogh($chabal)
 
 function chabal_tIjatlh()
 {
+    $chabal = get_post($_POST["chabal"]);
+    $wIv = $_POST["wIv"];
+
+    if (SaH_zIv() && $chabal && $wIv != null) {
+
+        if ($chabal && $chabal->post_type == 'chabal') {
+            if ($wIv > 0) {
+                $wIv = 1;
+            } else if ($wIv < 0) {
+                $wIv = -1;
+            }
+
+            global $wpdb;
+            $pfx = qawHaq_moHaq();
+            $wpdb->replace(
+                $pfx . "wIv",
+                array(
+                    'chabal' => $chabal->ID,
+                    'wIvwIz' => SaH_zIv(),
+                    'wIv' => $wIv
+                ),
+                '%d'
+            );
+        }
+    }
+
     $tetlh = get_posts(array('post_type' => 'chabal'));
 
     $Qav = end(array_keys($tetlh));
