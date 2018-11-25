@@ -1,14 +1,25 @@
 function chabal_tetlh_chabal_yIpatlh(e)
 {
-    pongDaH = e.parentNode.id.split('_');
+    var pongDaH = e.parentNode.id.split('_');
 
-    if (pongDaH.length == 3 && pongDaH[0] == 'chabal' && pongDaH[1] == 'tetlh') {
-        if (e.className.includes('ghurmoH')) {
-            patlh = 1;
-        } else if (e.className.includes('nupmoH')) {
-            patlh = -1;
-        } else {
+    if (pongDaH.length == 3 && pongDaH[0] == 'chabal' &&
+        pongDaH[1] == 'tetlh') {
+        if (e.className.includes('wIvbogh')) {
             patlh = 0;
+            e.className = e.className.replace(/ *wIvbogh/, '');
+        } else {
+            if (e.className.includes('ghurmoH')) {
+                patlh = 1;
+            } else if (e.className.includes('nupmoH')) {
+                patlh = -1;
+            } else {
+                patlh = 0;
+            }
+            for (var sibling = e.parentNode.firstElementChild; sibling;
+                 sibling = sibling.nextElementSibling) {
+                sibling.className = sibling.className.replace(/ *wIvbogh/, '');
+            }
+            e.className += ' wIvbogh';
         }
 
         jQuery.ajax({

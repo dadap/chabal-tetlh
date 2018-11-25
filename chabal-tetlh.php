@@ -157,6 +157,7 @@ wp_enqueue_script('chabal_tetlh', plugins_url('chabal-tetlh.js', __FILE__),
     array('jquery'));
 wp_localize_script('chabal_tetlh', 'chabal_tetlh_wpdata',
     array('ajax' => get_option('siteurl') . '/wp-admin/admin-ajax.php'));
+wp_enqueue_style('chabal_tetlh', plugins_url('chabal-tetlh.css', __FILE__));
 
 function wIv_tItogh($chabal)
 {
