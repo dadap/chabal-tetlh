@@ -133,7 +133,7 @@ function chabal_tISuq() {
         }
     }
 
-    print "<ul>\n";
+    print "<ul id='chabal_tetlh'>\n";
     print "<noscript><p id='chabal_tetlh_JS_QIn'>You must have JavaScript " .
         "enabled in order to vote.</p></noscript>\n";
 
@@ -157,12 +157,16 @@ function chabal_tISuq() {
         print("    </li>\n");
     }
     print "</ul>\n";
+    print "<script>chabal_tetlh_tetlh_yIvurmoH();</script>\n";
 }
 add_shortcode('chabal_tetlh', 'chabal_tISuq');
 wp_enqueue_script('chabal_tetlh', plugins_url('chabal-tetlh.js', __FILE__),
     array('jquery'));
 wp_localize_script('chabal_tetlh', 'chabal_tetlh_wpdata',
-    array('ajax' => get_option('siteurl') . '/wp-admin/admin-ajax.php'));
+    array(
+        'ajax' => get_option('siteurl') . '/wp-admin/admin-ajax.php',
+        'user' => SaH_zIv()
+    ));
 wp_enqueue_style('chabal_tetlh', plugins_url('chabal-tetlh.css', __FILE__));
 
 function wIv_tItogh($chabal, $Dop)
