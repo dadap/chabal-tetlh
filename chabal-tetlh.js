@@ -36,6 +36,20 @@ function chabal_tetlh_chabal_yIpatlh(e)
     }
 }
 
+function chabal_tetlh_chabal_yIlel(chabal)
+{
+    if (confirm("Deleting this entry will also remove all associated activity "
+        + "including votes and comments.")) {
+        jQuery.ajax({
+            url: chabal_tetlh_wpdata.ajax,
+            method: 'POST',
+            data: { action: 'chabal_tetlh', yIlel: chabal }
+        }).done(function() {
+            location.reload(true);
+        });
+    }
+}
+
 function chabal_tetlh_tetlh_yIvurmoH()
 {
     if (!chabal_tetlh_wpdata.user) {
@@ -60,6 +74,9 @@ function chabal_tetlh_tetlh_yIvurmoH()
                 <button class='nupmoH${nupbogh}'
                     onclick='chabal_tetlh_chabal_yIpatlh(this);'>-</button>
             ` : '';
+            var yIlel = tetlh[chabal]["v"] ?
+                "<button class='lel' onclick='chabal_tetlh_chabal_yIlel(" +
+                chabal + ");'>x</button>\n" : "";
 
             jQuery("#chabal_tetlh").append(`
                 <li>
@@ -74,6 +91,7 @@ function chabal_tetlh_tetlh_yIvurmoH()
                         <div class='muz'>${tetlh[chabal]["m"]}</div>
                         <div class='QIjmeH_per'>${tetlh[chabal]["p"]}</div>
                     </a>
+                    ${yIlel}
                 </li>
             `);
         }

@@ -138,8 +138,6 @@ function chabal_tISuq() {
         "enabled in order to vote.</p></noscript>\n";
 
     foreach (get_posts(array('post_type' => 'chabal')) as $muz) {
-        // TODO: add way for users to withdraw their own submissions
-
         $zarlogh_naDluz = wIv_tItogh($muz->ID, 1);
         $zarlogh_naDHazluz = wIv_tItogh($muz->ID, -1);
         $mIvwaz = "<div class='mIz_toghbogh'>" .
@@ -184,29 +182,42 @@ function wIv_tItogh($chabal, $Dop)
 function chabal_tIjatlh()
 {
     global $wpdb;
-    $chabal = get_post($_POST["chabal"]);
-    $wIv = $_POST["wIv"];
     $pfx = qawHaq_moHaq();
 
-    if (SaH_zIv() && $chabal && $wIv != null) {
+    if (SaH_zIv()) {
+        $chabal = get_post($_POST["chabal"]);
+        $wIv = $_POST["wIv"];
+        $yIlel = $_POST["yIlel"];
 
-        if ($chabal && $chabal->post_type == 'chabal') {
-            if ($wIv > 0) {
-                $wIv = 1;
-            } else if ($wIv < 0) {
-                $wIv = -1;
+        if ($chabal && $wIv != null) {
+
+            if ($chabal && $chabal->post_type == 'chabal') {
+                if ($wIv > 0) {
+                    $wIv = 1;
+                } else if ($wIv < 0) {
+                    $wIv = -1;
+                }
+
+                $wpdb->replace(
+                    $pfx . "wIv",
+                    array(
+                        'chabal' => $chabal->ID,
+                        'wIvwIz' => SaH_zIv(),
+                        'wIv' => $wIv
+                    ),
+                    '%d'
+                );
             }
-
-            $wpdb->replace(
-                $pfx . "wIv",
-                array(
-                    'chabal' => $chabal->ID,
-                    'wIvwIz' => SaH_zIv(),
-                    'wIv' => $wIv
-                ),
-                '%d'
-            );
         }
+
+            if ($yIlel) {
+                $lelbogh = get_post($yIlel);
+
+                if ($lelbogh && $lelbogh->post_author == SaH_zIv() &&
+                    $lelbogh->post_type == 'chabal') {
+                    wp_delete_post($lelbogh->ID);
+                }
+            }
     }
 
     $tetlh = get_posts(array('post_type' => 'chabal'));
@@ -224,6 +235,9 @@ function chabal_tIjatlh()
                 "= $muz->ID AND wIvwIz = " . SaH_zIv());
             if ($mIvwaz) {
                 print(',"w":' . $mIvwaz);
+            }
+            if ($muz->post_author == SaH_zIv()) {
+                print(',"v":1');
             }
         }
         print('}');
