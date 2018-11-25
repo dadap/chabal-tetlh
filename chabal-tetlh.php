@@ -134,15 +134,21 @@ function chabal_tISuq() {
     }
 
     print "<ul>\n";
+    print "<noscript><p id='chabal_tetlh_JS_QIn'>You must have JavaScript " .
+        "enabled in order to vote.</p></noscript>\n";
+
     foreach (get_posts(array('post_type' => 'chabal')) as $muz) {
         // TODO: add way for users to withdraw their own submissions
-        $nabHom = "onclick='chabal_tetlh_chabal_yIpatlh(this);'";
+
+        $zarlogh_naDluz = wIv_tItogh($muz->ID, 1);
+        $zarlogh_naDHazluz = wIv_tItogh($muz->ID, -1);
+        $mIvwaz = "<div class='mIz_toghbogh'>" .
+            ($zarlogh_naDluz + $zarlogh_naDHazluz) . "</div>" .
+            "<div class='gherzId_naQ'>(+$zarlogh_naDluz/" .
+            "-$zarlogh_naDHazluz)</div>";
         print("    <li>\n");
         print("        <div class='wIv' id='chabal_tetlh_$muz->ID'>\n");
-        print("            <div class='ghurmoH' $nabHom>+</div>\n");
-        print("            <div class='mIvwaz'>" . wIv_tItogh($muz->ID) .
-              "</div>\n");
-        print("            <div class='nupmoH' $nabHom>-</div>\n");
+        print("            $mIvwaz\n");
         print("        </div>\n");
         print("        <a href='" . get_post_permalink($muz) . "'>\n");
         print("            <div class='muz'>$muz->post_title</div>\n");
@@ -159,21 +165,24 @@ wp_localize_script('chabal_tetlh', 'chabal_tetlh_wpdata',
     array('ajax' => get_option('siteurl') . '/wp-admin/admin-ajax.php'));
 wp_enqueue_style('chabal_tetlh', plugins_url('chabal-tetlh.css', __FILE__));
 
-function wIv_tItogh($chabal)
+function wIv_tItogh($chabal, $Dop)
 {
     global $wpdb;
     $pfx = qawHaq_moHaq();
+    $patlhmoHmeH = $Dop < 0 ? '<' : '>';
 
-    $res = $wpdb->get_var("SELECT SUM(wIv) FROM " . $pfx .
-        "wIv WHERE chabal = " . $chabal);
+    $res = $wpdb->get_var("SELECT COUNT(wIv) FROM ${pfx}wIv " .
+        "WHERE chabal = $chabal AND wIv $patlhmoHmeH 0");
 
     return $res ? $res : 0;
 }
 
 function chabal_tIjatlh()
 {
+    global $wpdb;
     $chabal = get_post($_POST["chabal"]);
     $wIv = $_POST["wIv"];
+    $pfx = qawHaq_moHaq();
 
     if (SaH_zIv() && $chabal && $wIv != null) {
 
@@ -184,8 +193,6 @@ function chabal_tIjatlh()
                 $wIv = -1;
             }
 
-            global $wpdb;
-            $pfx = qawHaq_moHaq();
             $wpdb->replace(
                 $pfx . "wIv",
                 array(
@@ -199,14 +206,23 @@ function chabal_tIjatlh()
     }
 
     $tetlh = get_posts(array('post_type' => 'chabal'));
-
-    $Qav = end(array_keys($tetlh));
     print('{');
     foreach ($tetlh as $i => $muz) {
-        print('"' . $muz->ID . '":' . wIv_tItogh($muz->ID));
-        if ($i != $Qav) {
-            printf(',');
+        if ($i > 0) {
+            print(',');
         }
+        print('"' . $muz->ID . '":{"+":' . wIv_tItogh($muz->ID, 1) .
+              ',"-":' . wIv_tItogh($muz->ID, -1) . ',"m":"' .
+              $muz->post_title . '","D":"' . get_post_permalink($muz) .
+              '","p":"' . $muz->post_content . '"');
+        if (SaH_zIv()) {
+            $mIvwaz = $wpdb->get_var("SELECT wIv FROM ${pfx}wIv WHERE chabal " .
+                "= $muz->ID AND wIvwIz = " . SaH_zIv());
+            if ($mIvwaz) {
+                print(',"w":' . $mIvwaz);
+            }
+        }
+        print('}');
     }
     print('}');
     wp_die();
