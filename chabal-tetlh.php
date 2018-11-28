@@ -133,9 +133,10 @@ function chabal_tISuq() {
         }
     }
 
+    print "<script>chabal_tetlh_wpdata.user = " . SaH_zIv() . "</script>\n";
     print "<ul id='chabal_tetlh'>\n";
-    print "<noscript><p id='chabal_tetlh_JS_QIn'>You must have JavaScript " .
-        "enabled in order to vote.</p></noscript>\n";
+    print "<noscript><p>You must have JavaScript enabled in order to vote." .
+          "</p></noscript>\n";
 
     foreach (get_posts(array('post_type' => 'chabal')) as $muz) {
         $zarlogh_naDluz = wIv_tItogh($muz->ID, 1);
@@ -162,8 +163,7 @@ wp_enqueue_script('chabal_tetlh', plugins_url('chabal-tetlh.js', __FILE__),
     array('jquery'));
 wp_localize_script('chabal_tetlh', 'chabal_tetlh_wpdata',
     array(
-        'ajax' => get_option('siteurl') . '/wp-admin/admin-ajax.php',
-        'user' => SaH_zIv()
+        'ajax' => get_option('siteurl') . '/wp-admin/admin-ajax.php'
     ));
 wp_enqueue_style('chabal_tetlh', plugins_url('chabal-tetlh.css', __FILE__));
 

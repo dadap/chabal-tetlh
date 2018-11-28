@@ -52,10 +52,6 @@ function chabal_tetlh_chabal_yIlel(chabal)
 
 function chabal_tetlh_tetlh_yIvurmoH()
 {
-    if (!chabal_tetlh_wpdata.user) {
-        return;
-    }
-
     jQuery.ajax({
         url: chabal_tetlh_wpdata.ajax,
         data: { action: 'chabal_tetlh' },
@@ -68,7 +64,7 @@ function chabal_tetlh_tetlh_yIvurmoH()
             var mIvwaz = tetlh[chabal]["+"] - tetlh[chabal]["-"];
             var ghurbogh = tetlh[chabal]["w"] > 0 ? ' wIvbogh' : '';
             var nupbogh = tetlh[chabal]["w"] < 0 ? ' wIvbogh' : '';
-            var leQmey = chabal_tetlh_wpdata.user ? `
+            var leQmey = chabal_tetlh_wpdata.user != 0 ? `
                 <button class='ghurmoH${ghurbogh}'
                     onclick='chabal_tetlh_chabal_yIpatlh(this);'>+</button>
                 <button class='nupmoH${nupbogh}'
