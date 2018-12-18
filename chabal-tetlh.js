@@ -1,5 +1,19 @@
 var chabal_tetlh = {};
 
+var turwIz_Daq = null;
+
+function turwIz_Daq_yIper()
+{
+    if (turwIz_Daq == null) {
+        var Daq = document.createElement('a');
+        Daq.setAttribute('href', chabal_tetlh_wpdata.ajax);
+        Daq.protocol = window.location.protocol;
+        turwIz_Daq = Daq.href;
+    }
+
+    return turwIz_Daq;
+}
+
 function chabal_tetlh_chabal_yIpatlh(e)
 {
     var pongDaH = e.parentNode.id.split('_');
@@ -25,7 +39,7 @@ function chabal_tetlh_chabal_yIpatlh(e)
         }
 
         jQuery.ajax({
-            url: chabal_tetlh_wpdata.ajax,
+            url: turwIz_Daq_yIper(),
             method: 'POST',
             data: {
                 action: 'chabal_tetlh',
@@ -43,7 +57,7 @@ function chabal_tetlh_chabal_yIlel(chabal)
     if (confirm("Deleting this entry will also remove all associated activity "
         + "including votes and comments.")) {
         jQuery.ajax({
-            url: chabal_tetlh_wpdata.ajax,
+            url: turwIz_Daq_yIper(),
             method: 'POST',
             data: { action: 'chabal_tetlh', yIlel: chabal }
         }).done(function() {
@@ -55,7 +69,7 @@ function chabal_tetlh_chabal_yIlel(chabal)
 function chabal_tetlh_tetlh_yIvurmoH()
 {
     jQuery.ajax({
-        url: chabal_tetlh_wpdata.ajax,
+        url: turwIz_Daq_yIper(),
         data: { action: 'chabal_tetlh' },
     }).done(function(Dez) {
         var tetlh = JSON.parse(Dez);
