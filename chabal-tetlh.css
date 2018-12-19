@@ -1,3 +1,65 @@
 .wIvbogh {
     background-color: #f00;
 }
+
+ul#chabal_tetlh li {
+    display: flex;
+    flex-direction: row;
+    padding: 1em 0;
+}
+
+.chabal {
+    flex-grow: 1;
+    text-decoration: none;
+}
+
+.chabal > a:hover {
+    background-color: #ddd;
+}
+
+.chabal > a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+ul#chabal_tetlh button {
+    display: block;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    margin: 1px;
+}
+
+.lel {
+    float: right;
+}
+
+.wIv {
+    text-align: center;
+    padding-right: 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+.leQmey {
+    display: flex;
+    flex-direction: row;
+}
+
+.mIz_toghbogh {
+    font-size: 120%;
+    clear: both;
+}
+
+.gherzID_naQ {
+    font-size: 80%;
+}
+
+.muz {
+    font-size: 120%;
+}
+
+.QIjmeH_per {
+    font-size: 80%;
+}

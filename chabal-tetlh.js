@@ -16,7 +16,7 @@ function turwIz_Daq_yIper()
 
 function chabal_tetlh_chabal_yIpatlh(e)
 {
-    var pongDaH = e.parentNode.id.split('_');
+    var pongDaH = e.parentNode.parentNode.id.split('_');
 
     if (pongDaH.length == 3 && pongDaH[0] == 'chabal' &&
         pongDaH[1] == 'tetlh') {
@@ -91,10 +91,12 @@ function chabal_tetlh_tetlh_yIchaz()
         var ghurbogh = chabal_tetlh[chabal]["w"] > 0 ? ' wIvbogh' : '';
         var nupbogh = chabal_tetlh[chabal]["w"] < 0 ? ' wIvbogh' : '';
         var leQmey = chabal_tetlh_wpdata.user != 0 ? `
-            <button class='ghurmoH${ghurbogh}'
-                onclick='chabal_tetlh_chabal_yIpatlh(this);'>+</button>
-            <button class='nupmoH${nupbogh}'
-                onclick='chabal_tetlh_chabal_yIpatlh(this);'>-</button>
+            <div class='leQmey'>
+                <button class='nupmoH${nupbogh}'
+                    onclick='chabal_tetlh_chabal_yIpatlh(this);'>-</button>
+                <button class='ghurmoH${ghurbogh}'
+                    onclick='chabal_tetlh_chabal_yIpatlh(this);'>+</button>
+            </div>
         ` : '';
         var yIlel = chabal_tetlh[chabal]["v"] ?
             "<button class='lel' onclick='chabal_tetlh_chabal_yIlel(" +
@@ -110,11 +112,17 @@ function chabal_tetlh_tetlh_yIchaz()
                          -${chabal_tetlh[chabal]["-"]})
                     </div>
                 </div>
-                <a href='${chabal_tetlh[chabal]["D"]}'>
-                    <div class='muz'>${chabal_tetlh[chabal]["m"]}</div>
-                    <div class='QIjmeH_per'>${chabal_tetlh[chabal]["p"]}</div>
-                </a>
-                ${yIlel}
+                <div class='chabal'>
+                    ${yIlel}
+                    <a href='${chabal_tetlh[chabal]["D"]}'>
+                        <div class='muz'>
+                            ${chabal_tetlh[chabal]["m"]}
+                        </div>
+                        <div class='QIjmeH_per'>
+                            ${chabal_tetlh[chabal]["p"]}
+                        </div>
+                    </a>
+                </div>
             </li>
         `);
     }
