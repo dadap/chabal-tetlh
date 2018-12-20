@@ -90,6 +90,7 @@ function chabal_zar_peSluz() {
     return count(get_posts(array(
         'author' => SaH_zIv(),
         'post_type' => 'chabal',
+        'numberposts' => -1,
     )));
 }
 
@@ -138,7 +139,10 @@ function chabal_tISuq() {
     print "<noscript><p>You must have JavaScript enabled in order to vote." .
           "</p></noscript>\n";
 
-    foreach (get_posts(array('post_type' => 'chabal')) as $muz) {
+    foreach (get_posts(array(
+                                'post_type' => 'chabal',
+                                'numberposts' => -1,
+                            )) as $muz) {
         $zarlogh_naDluz = wIv_tItogh($muz->ID, 1);
         $zarlogh_naDHazluz = wIv_tItogh($muz->ID, -1);
         $mIvwaz = "<div class='mIz_toghbogh'>" .
@@ -220,7 +224,7 @@ function chabal_tIjatlh()
             }
     }
 
-    $tetlh = get_posts(array('post_type' => 'chabal'));
+    $tetlh = get_posts(array('post_type' => 'chabal', 'numberposts' => -1));
     print('{');
     foreach ($tetlh as $i => $muz) {
         if ($i > 0) {
