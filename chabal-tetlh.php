@@ -135,9 +135,9 @@ function chabal_tISuq() {
     }
 
     print "<script>chabal_tetlh_wpdata.user = " . SaH_zIv() . "</script>\n";
-    print "<ul id='chabal_tetlh'>\n";
     print "<noscript><p>You must have JavaScript enabled in order to vote." .
           "</p></noscript>\n";
+    print "<ul id='chabal_tetlh'>\n";
 
     foreach (get_posts(array(
                                 'post_type' => 'chabal',
