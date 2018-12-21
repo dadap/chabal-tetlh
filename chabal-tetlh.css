@@ -3,6 +3,7 @@
 }
 
 ul#chabal_tetlh li {
+    clear: both;
     display: flex;
     flex-direction: row;
     padding: 1em 0;
@@ -62,4 +63,20 @@ ul#chabal_tetlh button {
 
 .QIjmeH_per {
     font-size: 80%;
+}
+
+ul#chabal_tetlh_chIjmeH_tetlh {
+    list-style-type: none;
+}
+
+ul#chabal_tetlh_chIjmeH_tetlh > li {
+    float: left;
+    padding: .5em;
+    margin: 1em;
+    margin-left: 0;
+    border-bottom: 1px solid black;
+}
+
+ul#chabal_tetlh_chIjmeH_tetlh > li:hover {
+    background-color: #ccc;
 }

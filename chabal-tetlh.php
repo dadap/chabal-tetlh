@@ -137,6 +137,9 @@ function chabal_tISuq() {
     print "<script>chabal_tetlh_wpdata.user = " . SaH_zIv() . "</script>\n";
     print "<noscript><p>You must have JavaScript enabled in order to vote." .
           "</p></noscript>\n";
+    if (SaH_zIv()) {
+        print "<ul id='chabal_tetlh_chIjmeH_tetlh'></ul>\n";
+    }
     print "<ul id='chabal_tetlh'>\n";
 
     foreach (get_posts(array(
@@ -160,7 +163,7 @@ function chabal_tISuq() {
         print("    </li>\n");
     }
     print "</ul>\n";
-    print "<script>chabal_tetlh_tetlh_yIvurmoH();</script>\n";
+    print "<script>chabal_tetlh_Hoch_yIchaz();</script>\n";
 }
 add_shortcode('chabal_tetlh', 'chabal_tISuq');
 wp_enqueue_script('chabal_tetlh', plugins_url('chabal-tetlh.js', __FILE__),

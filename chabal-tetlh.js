@@ -2,6 +2,14 @@ var chabal_tetlh = {};
 
 var turwIz_Daq = null;
 
+var chIjmeH_permey = {
+    "Not voted on yet" : function (c) { return  c.w == null; },
+    "My words" : function (c) { return  c.v != null; },
+    "All words" : function (c) { return  true; },
+};
+
+var chIjmeH_per = "Not voted on yet";
+
 function turwIz_Daq_yIper()
 {
     if (turwIz_Daq == null) {
@@ -66,6 +74,19 @@ function chabal_tetlh_chabal_yIlel(chabal)
     }
 }
 
+function chabal_tetlh_chabal_tlhIn_neH_yughmoH(f)
+{
+    var gherzID = {};
+
+    Object.keys(chabal_tetlh).forEach(function (p, m) {
+        if (f(chabal_tetlh[p])) {
+            gherzID[p] = chabal_tetlh[p];
+        }
+    });
+
+    return gherzID;
+}
+
 function chabal_tetlh_tetlh_yIvurmoH()
 {
     jQuery.ajax({
@@ -84,12 +105,14 @@ function chabal_tetlh_tetlh_yIvurmoH()
 
 function chabal_tetlh_tetlh_yIchaz()
 {
+    var tetlh = chabal_tetlh_chabal_tlhIn_neH_yughmoH(chIjmeH_permey[chIjmeH_per]);
+
     jQuery("#chabal_tetlh").empty();
 
-    for (var chabal in chabal_tetlh) {
-        var mIvwaz = chabal_tetlh[chabal]["+"] - chabal_tetlh[chabal]["-"];
-        var ghurbogh = chabal_tetlh[chabal]["w"] > 0 ? ' wIvbogh' : '';
-        var nupbogh = chabal_tetlh[chabal]["w"] < 0 ? ' wIvbogh' : '';
+    for (var chabal in tetlh) {
+        var mIvwaz = tetlh[chabal]["+"] - tetlh[chabal]["-"];
+        var ghurbogh = tetlh[chabal]["w"] > 0 ? ' wIvbogh' : '';
+        var nupbogh = tetlh[chabal]["w"] < 0 ? ' wIvbogh' : '';
         var leQmey = chabal_tetlh_wpdata.user != 0 ? `
             <div class='leQmey'>
                 <button class='nupmoH${nupbogh}'
@@ -98,7 +121,7 @@ function chabal_tetlh_tetlh_yIchaz()
                     onclick='chabal_tetlh_chabal_yIpatlh(this);'>+</button>
             </div>
         ` : '';
-        var yIlel = chabal_tetlh[chabal]["v"] ?
+        var yIlel = tetlh[chabal]["v"] ?
             "<button class='lel' onclick='chabal_tetlh_chabal_yIlel(" +
             chabal + ");'>x</button>\n" : "";
 
@@ -108,22 +131,50 @@ function chabal_tetlh_tetlh_yIchaz()
                     ${leQmey}
                     <div class='mIz_toghbogh'>${mIvwaz}</div>
                     <div class='gherzID_naQ'>
-                        (+${chabal_tetlh[chabal]["+"]} /
-                         -${chabal_tetlh[chabal]["-"]})
+                        (+${tetlh[chabal]["+"]} /
+                         -${tetlh[chabal]["-"]})
                     </div>
                 </div>
                 <div class='chabal'>
                     ${yIlel}
-                    <a href='${chabal_tetlh[chabal]["D"]}'>
+                    <a href='${tetlh[chabal]["D"]}'>
                         <div class='muz'>
-                            ${chabal_tetlh[chabal]["m"]}
+                            ${tetlh[chabal]["m"]}
                         </div>
                         <div class='QIjmeH_per'>
-                            ${chabal_tetlh[chabal]["p"]}
+                            ${tetlh[chabal]["p"]}
                         </div>
                     </a>
                 </div>
             </li>
         `);
     }
+}
+
+function chabal_tetlh_chIjmeH_per_yIwIv(per)
+{
+    chIjmeH_per = per;
+    chabal_tetlh_chIjmeH_tetlh_yIchaz();
+    chabal_tetlh_tetlh_yIchaz();
+}
+
+function chabal_tetlh_chIjmeH_tetlh_yIchaz()
+{
+    jQuery("#chabal_tetlh_chIjmeH_tetlh").empty();
+
+    Object.keys(chIjmeH_permey).forEach(function(per,mIz) {
+        var wIvbogh = (per == chIjmeH_per) ? "wIvbogh" : "";
+        jQuery("#chabal_tetlh_chIjmeH_tetlh").append(`
+            <li class='${wIvbogh}'
+                onclick='chabal_tetlh_chIjmeH_per_yIwIv("${per}");'>
+                ${per}
+            </li>
+        `);
+    });
+}
+
+function chabal_tetlh_Hoch_yIchaz()
+{
+    chabal_tetlh_tetlh_yIvurmoH();
+    chabal_tetlh_chIjmeH_per_yIwIv(chIjmeH_per);
 }
