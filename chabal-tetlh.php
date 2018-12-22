@@ -97,10 +97,11 @@ function chabal_zar_peSluz() {
 function chabal_tISuq() {
     global $wpdb;
     $pfx = qawHaq_moHaq();
+    $Dez = "";
 
     if (SaH_zIv() == 0) {
-        print("<p>You must <a href='" . wp_login_url(get_permalink()) .
-              "'>log in</a> to submit words or vote.</p>\n");
+        $Dez .=  "<p>You must <a href='" . wp_login_url(get_permalink()) .
+                 "'>log in</a> to submit words or vote.</p>\n";
     } else {
         if ($_POST["muz"]) {
             $match = get_posts(array(
@@ -108,8 +109,9 @@ function chabal_tISuq() {
                 'title' => $_POST["muz"]
             ));
             if ($match) {
-                print("<p class='error'>An entry already exists for the word " .
-                      $_POST["muz"] . ". Please choose a different word.</p>\n");
+                $Dez .= "<p class='error'>An entry already exists for the word "
+                        . $_POST["muz"] .
+                        ". Please choose a different word.</p>\n";
             } else {
                 wp_insert_post(array(
                     'post_title' => $_POST["muz"],
@@ -120,27 +122,27 @@ function chabal_tISuq() {
             }
         }
 
-        print("<p>Your membership level allows you to submit " .
-               chabal_zar_chawzluz() . " entries. You may submit " .
-               (chabal_zar_chawzluz() - chabal_zar_peSluz()) .
-               " more entries.</p>\n");
+        $Dez .= "<p>Your membership level allows you to submit " .
+                 chabal_zar_chawzluz() . " entries. You may submit " .
+                 (chabal_zar_chawzluz() - chabal_zar_peSluz()) .
+                " more entries.</p>\n";
 
         if (chabal_zar_peSluz() < chabal_zar_chawzluz()) {
-            print("    <form method='POST'>\n");
-            print("        <input type='text' name='muz' />\n");
-            print("        <input type='text' name='QIjmeH_per' />\n");
-            print("        <input type='submit' />\n");
-            print("    </form>\n");
+            $Dez .= "    <form method='POST'>\n";
+            $Dez .= "        <input type='text' name='muz' />\n";
+            $Dez .= "        <input type='text' name='QIjmeH_per' />\n";
+            $Dez .= "        <input type='submit' />\n";
+            $Dez .= "    </form>\n";
         }
     }
 
-    print "<script>chabal_tetlh_wpdata.user = " . SaH_zIv() . "</script>\n";
-    print "<noscript><p>You must have JavaScript enabled in order to vote." .
+    $Dez .= "<script>chabal_tetlh_wpdata.user = " . SaH_zIv() . "</script>\n";
+    $Dez .= "<noscript><p>You must have JavaScript enabled in order to vote." .
           "</p></noscript>\n";
     if (SaH_zIv()) {
-        print "<ul id='chabal_tetlh_chIjmeH_tetlh'></ul>\n";
+        $Dez .= "<ul id='chabal_tetlh_chIjmeH_tetlh'></ul>\n";
     }
-    print "<ul id='chabal_tetlh'>\n";
+    $Dez .= "<ul id='chabal_tetlh'>\n";
 
     foreach (get_posts(array(
                                 'post_type' => 'chabal',
@@ -152,18 +154,20 @@ function chabal_tISuq() {
             ($zarlogh_naDluz + $zarlogh_naDHazluz) . "</div>" .
             "<div class='gherzId_naQ'>(+$zarlogh_naDluz/" .
             "-$zarlogh_naDHazluz)</div>";
-        print("    <li>\n");
-        print("        <div class='wIv' id='chabal_tetlh_$muz->ID'>\n");
-        print("            $mIvwaz\n");
-        print("        </div>\n");
-        print("        <a href='" . get_post_permalink($muz) . "'>\n");
-        print("            <div class='muz'>$muz->post_title</div>\n");
-        print("            <div class='QIjmeH_per'>$muz->post_content</div>\n");
-        print("        </a>\n");
-        print("    </li>\n");
+        $Dez .= "    <li>\n";
+        $Dez .= "        <div class='wIv' id='chabal_tetlh_$muz->ID'>\n";
+        $Dez .= "            $mIvwaz\n";
+        $Dez .= "        </div>\n";
+        $Dez .= "        <a href='" . get_post_permalink($muz) . "'>\n";
+        $Dez .= "            <div class='muz'>$muz->post_title</div>\n";
+        $Dez .= "            <div class='QIjmeH_per'>$muz->post_content</div>\n";
+        $Dez .= "        </a>\n";
+        $Dez .= "    </li>\n";
     }
-    print "</ul>\n";
-    print "<script>chabal_tetlh_Hoch_yIchaz();</script>\n";
+    $Dez .= "</ul>\n";
+    $Dez .= "<script>chabal_tetlh_Hoch_yIchaz();</script>\n";
+
+    return $Dez;
 }
 add_shortcode('chabal_tetlh', 'chabal_tISuq');
 wp_enqueue_script('chabal_tetlh', plugins_url('chabal-tetlh.js', __FILE__),
