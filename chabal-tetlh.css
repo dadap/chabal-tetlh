@@ -2,6 +2,10 @@
     background-color: #f00;
 }
 
+.wIvbogh:hover {
+    background-color: #f00 !important;
+}
+
 ul#chabal_tetlh li {
     clear: both;
     display: flex;
