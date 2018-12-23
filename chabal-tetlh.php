@@ -142,6 +142,20 @@ function chabal_tISuq() {
     if (SaH_zIv()) {
         $Dez .= "<ul id='chabal_tetlh_chIjmeH_tetlh'></ul>\n";
     }
+
+    $Dez .= "<select id='patlh_meq' ";
+    $Dez .= "onChange='chabal_tetlh_patlh_meq_yIwIv(this.value);'>\n";
+    $Dez .= "    <option value='Total Score' />Total Score</option>\n";
+    $Dez .= "    <option value='Number of Votes' />Number of Votes</option>\n";
+    $Dez .= "    <option value='Alphabetical' />Alphabetical</option>\n";
+    $Dez .= "</select>\n";
+
+    $Dez .= "<select id='patlh_lurgh' ";
+    $Dez .= "onChange='chabal_tetlh_patlh_lurgh_yIwIv(this.value);'>\n";
+    $Dez .= "    <option value='1' />Ascending</option>\n";
+    $Dez .= "    <option value='-1' />Descending</option>\n";
+    $Dez .= "</select>\n";
+
     $Dez .= "<ul id='chabal_tetlh'>\n";
 
     foreach (get_posts(array(

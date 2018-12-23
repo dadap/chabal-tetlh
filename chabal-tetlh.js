@@ -8,6 +8,31 @@ var chIjmeH_permey = {
     "All words" : function (c) { return  true; },
 };
 
+var patlh_lurgh = {
+    "Total Score" : -1,
+    "Number of Votes" : 1,
+    "Alphabetical" : 1,
+};
+
+var patlh_mIw = {
+    "Total Score" : function (a, b) {
+        return patlh_lurgh["Total Score"] *
+               ((chabal_tetlh[a]["+"] - chabal_tetlh[a]["-"]) -
+               (chabal_tetlh[b]["+"] - chabal_tetlh[b]["-"]));
+    },
+    "Number of Votes" : function (a, b) {
+        return patlh_lurgh["Number of Votes"] *
+               ((chabal_tetlh[a]["+"] + chabal_tetlh[a]["-"]) -
+               (chabal_tetlh[b]["+"] + chabal_tetlh[b]["-"]));
+    },
+    "Alphabetical" : function (a, b) {
+        return patlh_lurgh["Alphabetical"] *
+               (chabal_tetlh[a].m.localeCompare(chabal_tetlh[b].m));
+    },
+};
+
+var patlh_meq = "Number of Votes";
+
 var chIjmeH_per = "Not voted on yet";
 
 function turwIz_Daq_yIper()
@@ -76,11 +101,11 @@ function chabal_tetlh_chabal_yIlel(chabal)
 
 function chabal_tetlh_chabal_tlhIn_neH_yughmoH(f)
 {
-    var gherzID = {};
+    var gherzID = [];
 
-    Object.keys(chabal_tetlh).forEach(function (p, m) {
+    Object.keys(chabal_tetlh).forEach(function (p) {
         if (f(chabal_tetlh[p])) {
-            gherzID[p] = chabal_tetlh[p];
+            gherzID.push(p);
         }
     });
 
@@ -105,14 +130,16 @@ function chabal_tetlh_tetlh_yIvurmoH()
 
 function chabal_tetlh_tetlh_yIchaz()
 {
-    var tetlh = chabal_tetlh_chabal_tlhIn_neH_yughmoH(chIjmeH_permey[chIjmeH_per]);
+    var tetlh =
+        chabal_tetlh_chabal_tlhIn_neH_yughmoH(chIjmeH_permey[chIjmeH_per]);
+    tetlh.sort(patlh_mIw[patlh_meq]);
 
     jQuery("#chabal_tetlh").empty();
 
-    for (var chabal in tetlh) {
-        var mIvwaz = tetlh[chabal]["+"] - tetlh[chabal]["-"];
-        var ghurbogh = tetlh[chabal]["w"] > 0 ? ' wIvbogh' : '';
-        var nupbogh = tetlh[chabal]["w"] < 0 ? ' wIvbogh' : '';
+    tetlh.forEach(function(chabal) {
+        var mIvwaz = chabal_tetlh[chabal]["+"] - chabal_tetlh[chabal]["-"];
+        var ghurbogh = chabal_tetlh[chabal]["w"] > 0 ? ' wIvbogh' : '';
+        var nupbogh = chabal_tetlh[chabal]["w"] < 0 ? ' wIvbogh' : '';
         var leQmey = chabal_tetlh_wpdata.user != 0 ? `
             <div class='leQmey'>
                 <button class='nupmoH${nupbogh}'
@@ -121,7 +148,7 @@ function chabal_tetlh_tetlh_yIchaz()
                     onclick='chabal_tetlh_chabal_yIpatlh(this);'>+</button>
             </div>
         ` : '';
-        var yIlel = tetlh[chabal]["v"] ?
+        var yIlel = chabal_tetlh[chabal]["v"] ?
             "<button class='lel' onclick='chabal_tetlh_chabal_yIlel(" +
             chabal + ");'>x</button>\n" : "";
 
@@ -131,30 +158,43 @@ function chabal_tetlh_tetlh_yIchaz()
                     ${leQmey}
                     <div class='mIz_toghbogh'>${mIvwaz}</div>
                     <div class='gherzID_naQ'>
-                        (+${tetlh[chabal]["+"]} /
-                         -${tetlh[chabal]["-"]})
+                        (+${chabal_tetlh[chabal]["+"]} /
+                         -${chabal_tetlh[chabal]["-"]})
                     </div>
                 </div>
                 <div class='chabal'>
                     ${yIlel}
-                    <a href='${tetlh[chabal]["D"]}'>
+                    <a href='${chabal_tetlh[chabal]["D"]}'>
                         <div class='muz'>
-                            ${tetlh[chabal]["m"]}
+                            ${chabal_tetlh[chabal]["m"]}
                         </div>
                         <div class='QIjmeH_per'>
-                            ${tetlh[chabal]["p"]}
+                            ${chabal_tetlh[chabal]["p"]}
                         </div>
                     </a>
                 </div>
             </li>
         `);
-    }
+    });
 }
 
 function chabal_tetlh_chIjmeH_per_yIwIv(per)
 {
     chIjmeH_per = per;
     chabal_tetlh_chIjmeH_tetlh_yIchaz();
+    chabal_tetlh_tetlh_yIchaz();
+}
+
+function chabal_tetlh_patlh_meq_yIwIv(meq)
+{
+    patlh_meq = meq;
+    jQuery("#patlh_lurgh").val(patlh_lurgh[patlh_meq]);
+    chabal_tetlh_tetlh_yIchaz();
+}
+
+function chabal_tetlh_patlh_lurgh_yIwIv(lurgh)
+{
+    patlh_lurgh[patlh_meq] = parseInt(lurgh);
     chabal_tetlh_tetlh_yIchaz();
 }
 
@@ -175,6 +215,8 @@ function chabal_tetlh_chIjmeH_tetlh_yIchaz()
 
 function chabal_tetlh_Hoch_yIchaz()
 {
+    jQuery("#patlh_meq").val(patlh_meq);
+    jQuery("#patlh_lurgh").val(patlh_lurgh[patlh_meq]);
     chabal_tetlh_tetlh_yIvurmoH();
     chabal_tetlh_chIjmeH_per_yIwIv(chIjmeH_per);
 }
