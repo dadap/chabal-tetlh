@@ -184,13 +184,20 @@ function chabal_tISuq() {
     return $Dez;
 }
 add_shortcode('chabal_tetlh', 'chabal_tISuq');
-wp_enqueue_script('chabal_tetlh', plugins_url('chabal-tetlh.js', __FILE__),
-    array('jquery'));
-wp_localize_script('chabal_tetlh', 'chabal_tetlh_wpdata',
-    array(
-        'ajax' => get_option('siteurl') . '/wp-admin/admin-ajax.php'
-    ));
-wp_enqueue_style('chabal_tetlh', plugins_url('chabal-tetlh.css', __FILE__));
+
+function nIqHomHom_tIQapbeHmoH()
+{
+    wp_enqueue_script('chabal_tetlh', plugins_url('chabal-tetlh.js', __FILE__),
+        array('jquery'));
+    wp_enqueue_style('chabal_tetlh', plugins_url('chabal-tetlh.css', __FILE__));
+    wp_localize_script('chabal_tetlh', 'chabal_tetlh_wpdata',
+        array(
+            'ajax' => get_option('siteurl') . '/wp-admin/admin-ajax.php'
+        )
+    );
+}
+
+add_action('wp_enqueue_scripts', 'nIqHomHom_tIQapbeHmoH');
 
 function wIv_tItogh($chabal, $Dop)
 {
