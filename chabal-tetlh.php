@@ -94,6 +94,11 @@ function chabal_zar_peSluz() {
     )));
 }
 
+function Dez_peSluzbogh_yInawz($Dez)
+{
+    return array_key_exists($Dez, $_POST) ? $_POST[$Dez] : "";
+}
+
 function chabal_tISuq() {
     global $wpdb;
     $pfx = qawHaq_moHaq();
@@ -103,19 +108,19 @@ function chabal_tISuq() {
         $Dez .=  "<p>You must <a href='" . wp_login_url(get_permalink()) .
                  "'>log in</a> to submit words or vote.</p>\n";
     } else {
-        if ($_POST["muz"]) {
+        $muz = Dez_peSluzbogh_yInawz("muz");
+        if ($muz) {
             $match = get_posts(array(
                 'post_type' => 'chabal',
-                'title' => $_POST["muz"]
+                'title' => $muz
             ));
             if ($match) {
                 $Dez .= "<p class='error'>An entry already exists for the word "
-                        . $_POST["muz"] .
-                        ". Please choose a different word.</p>\n";
+                        . "$muz. Please choose a different word.</p>\n";
             } else {
                 wp_insert_post(array(
-                    'post_title' => $_POST["muz"],
-                    'post_content' => $_POST["QIjmeH_per"],
+                    'post_title' => $muz,
+                    'post_content' => Dez_peSluzbogh_yInawz("QIjmeH_per"),
                     'post_status' => 'publish',
                     'post_type' => 'chabal',
                 ));
@@ -217,9 +222,9 @@ function chabal_tIjatlh()
     $pfx = qawHaq_moHaq();
 
     if (SaH_zIv()) {
-        $chabal = get_post($_POST["chabal"]);
-        $wIv = $_POST["wIv"];
-        $yIlel = $_POST["yIlel"];
+        $chabal = get_post(Dez_peSluzbogh_yInawz("chabal"));
+        $wIv = Dez_peSluzbogh_yInawz("wIv");
+        $yIlel = Dez_peSluzbogh_yInawz("yIlel");
 
         if ($chabal && $wIv != null) {
 
