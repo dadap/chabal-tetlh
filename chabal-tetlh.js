@@ -213,6 +213,53 @@ function chabal_tetlh_chIjmeH_tetlh_yIchaz()
     });
 }
 
+function rurbogh_muz_tInguz(muz)
+{
+    var rurbogh_muzmey = {};
+    var muz_DaH = []
+
+    var muz_waz = muz.toLowerCase();
+
+    Object.keys(chabal_tetlh).forEach(function(per) {
+        var muz_chaz = chabal_tetlh[per].m.toLowerCase();
+        var rav = choH_tItogh(muz_waz, muz_chaz);
+
+        if (muz_chaz.includes(" ")) {
+            muz_chaz.split(" ").forEach(function (zayz) {
+                var chuq = choH_tItogh(muz_waz, zayz);
+                if (chuq < rav) {
+                    rav = chuq;
+                }
+            });
+        }
+
+        if (rav < 3) {
+            rurbogh_muzmey[chabal_tetlh[per].m] = rav;
+	    }
+    });
+
+    muz_DaH = Object.keys(rurbogh_muzmey).sort(function (a, b) {
+        return rurbogh_muzmey[a] - rurbogh_muzmey[b];
+    });
+
+    var QIn = jQuery("#rurbogh_muz_QIn");
+
+    QIn.empty();
+
+    if (muz_DaH.length > 0) {
+        QIn.append(`
+            <p>The following similar word(s) were found: if your word is not
+               substantially different, consider voting on the similar word(s)
+               and submitting another word instead.
+            </p>
+            <ul id='rurbogh_muzmey'></ul>
+        `);
+         muz_DaH.forEach(function(muz) {
+             jQuery("#rurbogh_muzmey").append(`<li>${muz}</li>`);
+         });
+    }
+}
+
 function chabal_tetlh_Hoch_yIchaz()
 {
     jQuery("#patlh_meq").val(patlh_meq);
@@ -220,3 +267,63 @@ function chabal_tetlh_Hoch_yIchaz()
     chabal_tetlh_tetlh_yIvurmoH();
     chabal_tetlh_chIjmeH_per_yIwIv(chIjmeH_per);
 }
+
+/*
+
+This copyright notice and license text refers to the function immediately below:
+
+Copyright (c) 2011 Andrei Mackenzie
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+// Compute the edit distance between the two given strings
+function choH_tItogh(a, b){
+  if(a.length == 0) return b.length;
+  if(b.length == 0) return a.length;
+
+  var matrix = [];
+
+  // increment along the first column of each row
+  var i;
+  for(i = 0; i <= b.length; i++){
+    matrix[i] = [i];
+  }
+
+  // increment each column in the first row
+  var j;
+  for(j = 0; j <= a.length; j++){
+    matrix[0][j] = j;
+  }
+
+  // Fill in the rest of the matrix
+  for(i = 1; i <= b.length; i++){
+    for(j = 1; j <= a.length; j++){
+      if(b.charAt(i-1) == a.charAt(j-1)){
+        matrix[i][j] = matrix[i-1][j-1];
+      } else {
+        matrix[i][j] = Math.min(matrix[i-1][j-1] + 1, // substitution
+                                Math.min(matrix[i][j-1] + 1, // insertion
+                                         matrix[i-1][j] + 1)); // deletion
+      }
+    }
+  }
+
+  return matrix[b.length][a.length];
+};
