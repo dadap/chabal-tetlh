@@ -80,7 +80,7 @@ function SaH_zIv() {
 
 function chabal_zar_chawzluz() {
     // TODO: allow a different number of words depending on user type.
-    return 4;  // chosen by fair dice roll. guaranteed to be random.
+    return motlh_muz_zaqroS_yIper();
 }
 
 function chabal_zar_peSluz() {
@@ -286,4 +286,54 @@ function chabal_tIjatlh()
 }
 add_action('wp_ajax_chabal_tetlh', 'chabal_tIjatlh');
 add_action('wp_ajax_nopriv_chabal_tetlh', 'chabal_tIjatlh');
+
+function SeHlawz_yIchenmoH()
+{
+    add_options_page('chabal tetlh', 'chabal tetlh', 'manage_options',
+        'chabal_tetlh', 'SeHlawz_yIchaz');
+}
+add_action('admin_menu', 'SeHlawz_yIchenmoH');
+
+function SeHlawz_yIcher()
+{
+    register_setting('chabal_tetlh_SeHlawz', 'motlh_muz_zaqroS');
+    add_settings_section('zaqroSmey', 'Word Limits', 'zaqroS_SeHlawz_yIchaz',
+        'chabal_tetlh');
+    add_settings_field('motlh_muz_zaqroS', 'Default Word Limit',
+        'motlh_muz_zaqroS_yIchaz', 'chabal_tetlh', 'zaqroSmey');
+}
+add_action('admin_init', 'SeHlawz_yIcher');
+
+function zaqroS_SeHlawz_yIchaz()
+{
+    echo 'Set word contribution limits by member type';
+}
+
+function motlh_muz_zaqroS_yIper()
+{
+    // Default value chosen by fair dice roll. Guaranteed to be random.
+    return intval(get_option('motlh_muz_zaqroS', 4));
+}
+
+function motlh_muz_zaqroS_yIchaz()
+{
+    $zaqroS = motlh_muz_zaqroS_yIper();;
+    echo "<input type='text' name='motlh_muz_zaqroS' value='$zaqroS' />";
+}
+
+function SeHlawz_yIchaz()
+{
+    ?>
+    <div class="wrap">
+        <h2>Word Limits</h2>
+	<form action="options.php" method="POST">
+    <?php
+        settings_fields('chabal_tetlh_SeHlawz');
+        do_settings_sections('chabal_tetlh');
+        submit_button();
+    ?>
+    </form>
+    </div>
+    <?php
+}
 ?>
