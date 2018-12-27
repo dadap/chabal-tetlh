@@ -336,4 +336,13 @@ function SeHlawz_yIchaz()
     </div>
     <?php
 }
+
+function SeHlawz_Daq_yIchaz($Daqmey) {
+    $Daq = '<a href="options-general.php?page=chabal_tetlh">' .
+        __('Settings') . '</a>';
+    array_push( $Daqmey, $Daq );
+    return $Daqmey;
+}
+$chabal_tetlh_Daq = plugin_basename(__FILE__);
+add_filter("plugin_action_links_$chabal_tetlh_Daq", 'SeHlawz_Daq_yIchaz');
 ?>
