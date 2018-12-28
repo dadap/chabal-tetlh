@@ -144,8 +144,10 @@ function chabal_tISuq() {
 
         if (chabal_zar_peSluz() < chabal_zar_chawzluz()) {
             $Dez .= "    <form method='POST'>\n";
+            $Dez .= "        <label>Word</label>\n";
             $Dez .= "        <input type='text' name='muz' ";
             $Dez .= "onInput='rurbogh_muz_tInguz(this.value);' />\n";
+            $Dez .= "        <label>Description</label>\n";
             $Dez .= "        <input type='text' name='QIjmeH_per' />\n";
             $Dez .= "        <input type='submit' />\n";
             $Dez .= "    </form>\n";
