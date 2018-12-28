@@ -230,6 +230,20 @@ function wIv_tItogh($chabal, $Dop)
     return $res ? $res : 0;
 }
 
+function ghorgh_choHluz($chabal)
+{
+    global $wpdb;
+    $pfx = qawHaq_moHaq();
+
+    if (wIv_tItogh($chabal, 1) + wIv_tItogh($chabal, -1) == 0) {
+        return $wpdb->get_var("SELECT UNIX_TIMESTAMP(post_modified) FROM " .
+            $wpdb->prefix . "posts WHERE ID = $chabal;");
+    }
+
+    return $wpdb->get_var("SELECT UNIX_TIMESTAMP(MAX(ghorgh)) FROM ${pfx}wIv " .
+        "WHERE chabal = $chabal;");
+}
+
 function chabal_tIjatlh()
 {
     global $wpdb;
@@ -280,7 +294,8 @@ function chabal_tIjatlh()
         print('"' . $muz->ID . '":{"+":' . wIv_tItogh($muz->ID, 1) .
               ',"-":' . wIv_tItogh($muz->ID, -1) . ',"m":"' .
               $muz->post_title . '","D":"' . get_post_permalink($muz) .
-              '","p":"' . $muz->post_content . '"');
+              '","p":"' . $muz->post_content . '","gh":' .
+              ghorgh_choHluz($muz->ID));
         if (SaH_zIv()) {
             $mIvwaz = $wpdb->get_var("SELECT wIv FROM ${pfx}wIv WHERE chabal " .
                 "= $muz->ID AND wIvwIz = " . SaH_zIv());
