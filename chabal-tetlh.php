@@ -79,8 +79,18 @@ function SaH_zIv() {
 }
 
 function chabal_zar_chawzluz() {
-    // TODO: allow a different number of words depending on user type.
-    return motlh_muz_zaqroS_yIper();
+    $Dez = motlh_muz_zaqroS_yIper();
+    $Seghmey_zaqroSmey_je = vInDaz_Segh_zaqroSmey_tIper();
+
+    if (function_exists('pmpro_hasMembershipLevel')) {
+        foreach ($Seghmey_zaqroSmey_je as $Segh => $zaqroS) {
+            if (pmpro_hasMembershipLevel($Segh)) {
+                $Dez = max($zaqroS, $Dez);
+            }
+        }
+    }
+
+    return $Dez;
 }
 
 function chabal_zar_peSluz() {
@@ -297,10 +307,29 @@ add_action('admin_menu', 'SeHlawz_yIchenmoH');
 function SeHlawz_yIcher()
 {
     register_setting('chabal_tetlh_SeHlawz', 'motlh_muz_zaqroS');
+    register_setting('chabal_tetlh_SeHlawz', 'vInDaz_Segh');
+    register_setting('chabal_tetlh_SeHlawz', 'vInDaz_Segh_zaqroS');
     add_settings_section('zaqroSmey', 'Word Limits', 'zaqroS_SeHlawz_yIchaz',
         'chabal_tetlh');
     add_settings_field('motlh_muz_zaqroS', 'Default Word Limit',
         'motlh_muz_zaqroS_yIchaz', 'chabal_tetlh', 'zaqroSmey');
+
+    if (function_exists('pmpro_hasMembershipLevel')) {
+        $zaqroSmey = vInDaz_Segh_zaqroSmey_tIper();
+        $zaqroSmey[''] = '';
+        $i = 0;
+
+        foreach ($zaqroSmey as $Segh => $zaqroS) {
+            add_settings_field("vInDaz_Segh[$i]", 'Membership Type ' . ($i + 1),
+                'vInDaz_Segh_yIchaz', 'chabal_tetlh', 'zaqroSmey',
+                array($i, $Segh));
+            add_settings_field("vInDaz_Segh_zaqroS[$i]",
+                'Limit for Membership Type ' . ($i + 1),
+                'vInDaz_Segh_zaqroS_yIchaz', 'chabal_tetlh', 'zaqroSmey',
+                array($i, $zaqroS));
+            $i++;
+        }
+    }
 }
 add_action('admin_init', 'SeHlawz_yIcher');
 
@@ -317,8 +346,33 @@ function motlh_muz_zaqroS_yIper()
 
 function motlh_muz_zaqroS_yIchaz()
 {
-    $zaqroS = motlh_muz_zaqroS_yIper();;
+    $zaqroS = motlh_muz_zaqroS_yIper();
     echo "<input type='text' name='motlh_muz_zaqroS' value='$zaqroS' />";
+}
+
+function vInDaz_Segh_zaqroSmey_tIper()
+{
+    $Dez = array();
+    $Seghmey = (array) get_option('vInDaz_Segh', array());
+    $zaqroSmey = (array) get_option('vInDaz_Segh_zaqroS', array());
+    $rav = min(count($Seghmey), count($zaqroSmey));
+    for ($i = 0; $i < $rav; $i++) {
+        if (empty($Seghmey[$i]) || empty($zaqroSmey[$i])) {
+            continue;
+        }
+        $Dez[$Seghmey[$i]] = $zaqroSmey[$i];
+    }
+    return $Dez;
+}
+
+function vInDaz_Segh_yIchaz($Dez)
+{
+    echo "<input type='text' name='vInDaz_Segh[$Dez[0]]' value='$Dez[1]' />";
+}
+
+function vInDaz_Segh_zaqroS_yIchaz($Dez)
+{
+    echo "<input type='text' name='vInDaz_Segh_zaqroS[$Dez[0]]' value='$Dez[1]' />";
 }
 
 function SeHlawz_yIchaz()
