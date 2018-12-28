@@ -12,6 +12,7 @@ var patlh_lurgh = {
     "Total Score" : -1,
     "Number of Votes" : 1,
     "Alphabetical" : 1,
+    "Recent Activity" : -1,
 };
 
 var patlh_mIw = {
@@ -28,6 +29,10 @@ var patlh_mIw = {
     "Alphabetical" : function (a, b) {
         return patlh_lurgh["Alphabetical"] *
                (chabal_tetlh[a].m.localeCompare(chabal_tetlh[b].m));
+    },
+    "Recent Activity" : function (a, b) {
+        return patlh_lurgh["Recent Activity"] *
+               (chabal_tetlh[a].gh - chabal_tetlh[b].gh);
     },
 };
 

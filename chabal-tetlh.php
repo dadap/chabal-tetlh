@@ -167,6 +167,7 @@ function chabal_tISuq() {
     $Dez .= "    <option value='Total Score' />Total Score</option>\n";
     $Dez .= "    <option value='Number of Votes' />Number of Votes</option>\n";
     $Dez .= "    <option value='Alphabetical' />Alphabetical</option>\n";
+    $Dez .= "    <option value='Recent Activity' />Recent Activity</option>\n";
     $Dez .= "</select>\n";
 
     $Dez .= "<select id='patlh_lurgh' ";
