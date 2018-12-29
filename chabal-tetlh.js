@@ -171,11 +171,15 @@ function chabal_tetlh_tetlh_yIchaz()
             </div>
         ` : '';
         var yIlel = chabal_tetlh[chabal]["v"] ?
-            "<button class='lel' onclick='chabal_tetlh_chabal_yIlel(" +
+            "\n<button class='lel' onclick='chabal_tetlh_chabal_yIlel(" +
             chabal + ");'>x</button>\n" : "";
+        var lajQozluzpuz = chabal_tetlh[chabal]["Q"] ?
+            "\n<p>This word has been blacklisted and is no longer counted " +
+            "towards your total word allowance.</p>\n" : "";
+        var Segh = chabal_tetlh[chabal]["Q"] ? "chabal lajQozluzpuz" : "chabal";
 
         jQuery("#chabal_tetlh").append(`
-            <li>
+            <li class='${Segh}'>
                 <div class='wIv' id='chabal_tetlh_${chabal}'>
                     ${leQmey}
                     <div class='mIz_toghbogh'>${mIvwaz}</div>
@@ -184,9 +188,8 @@ function chabal_tetlh_tetlh_yIchaz()
                          -${chabal_tetlh[chabal]["-"]})
                     </div>
                 </div>
-                <div class='chabal'>
-                    ${yIlel}
-                    <a href='${chabal_tetlh[chabal]["D"]}'>
+                <div class='${Segh}'>${yIlel}
+                    <a href='${chabal_tetlh[chabal]["D"]}'>${lajQozluzpuz}
                         <div class='muz'>
                             ${chabal_tetlh[chabal]["m"]}
                         </div>

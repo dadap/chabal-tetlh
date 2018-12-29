@@ -93,15 +93,33 @@ function chabal_zar_chawzluz() {
     return $Dez;
 }
 
+function chabal_lajQozluzpuz($chabal)
+{
+    $parbogh_wIv = wIv_tItogh($chabal, -1);
+    $parHazbogh_wIv = wIv_tItogh($chabal, 1);
+
+    return ($parbogh_wIv + $parHazbogh_wIv >= lajQozmeH_wIv_zar_poQluz()) &&
+           (($parbogh_wIv * 100) / ($parbogh_wIv + $parHazbogh_wIv) >=
+            lajQozmeH_parbogh_wIv_vatlhvIz_poQluz());
+}
+
 function chabal_zar_peSluz() {
     global $wpdb;
     $pfx = qawHaq_moHaq();
-
-    return count(get_posts(array(
+    $chabalmey = get_posts(array(
         'author' => SaH_zIv(),
         'post_type' => 'chabal',
         'numberposts' => -1,
-    )));
+    ));
+    $chabal_zar = 0;
+
+    foreach ($chabalmey as $chabal) {
+        if (!chabal_lajQozluzpuz($chabal->ID)) {
+            $chabal_zar++;
+        }
+    }
+
+    return $chabal_zar;
 }
 
 function Dez_peSluzbogh_yInawz($Dez, $motlh = "", $Daq = null)
@@ -276,15 +294,17 @@ function chabal_tIjatlh()
                     $wIv = -1;
                 }
 
-                $wpdb->replace(
-                    $pfx . "wIv",
-                    array(
-                        'chabal' => $chabal->ID,
-                        'wIvwIz' => SaH_zIv(),
-                        'wIv' => $wIv
-                    ),
-                    '%d'
-                );
+                if (!chabal_lajQozluzpuz($chabal->ID)) {
+                    $wpdb->replace(
+                        $pfx . "wIv",
+                        array(
+                            'chabal' => $chabal->ID,
+                            'wIvwIz' => SaH_zIv(),
+                            'wIv' => $wIv
+                        ),
+                        '%d'
+                    );
+                }
             }
         }
 
@@ -302,6 +322,11 @@ function chabal_tIjatlh()
     print('{');
     $vayz_jazluzpuz = false;
     foreach ($tetlh as $muz) {
+        $muz_lajQozluzpuz = chabal_lajQozluzpuz($muz->ID);
+        if ($muz_lajQozluzpuz && $muz->post_author != SaH_zIv()) {
+            continue;
+        }
+
         if (ghorgh_choHluz($muz->ID) >= $ghorgh) {
             if ($vayz_jazluzpuz) {
                 print(',');
@@ -319,6 +344,9 @@ function chabal_tIjatlh()
                 }
                 if ($muz->post_author == SaH_zIv()) {
                     print(',"v":1');
+                    if ($muz_lajQozluzpuz) {
+                        print(',"Q":1');
+                    }
                 }
             }
             print('}');
@@ -344,7 +372,13 @@ function SeHlawz_yIcher()
     register_setting('chabal_tetlh_SeHlawz', 'vInDaz_Segh');
     register_setting('chabal_tetlh_SeHlawz', 'vInDaz_Segh_zaqroS');
     add_settings_section('zaqroSmey', 'Word Limits', 'zaqroS_SeHlawz_yIchaz',
-        'chabal_tetlh');
+            'chabal_tetlh');
+    register_setting('chabal_tetlh_SeHlawz',
+        'lajQozmeH_parbogh_wIv_vatlhvIz_poQluz');
+    register_setting('chabal_tetlh_SeHlawz',
+        'lajQozmeH_wIv_zar_poQluz');
+    add_settings_section('lajQozghach', 'Blacklisting',
+        'lajQozmeH_SeHlawz_yIchaz', 'chabal_tetlh');
     add_settings_field('motlh_muz_zaqroS', 'Default Word Limit',
         'motlh_muz_zaqroS_yIchaz', 'chabal_tetlh', 'zaqroSmey');
 
@@ -364,6 +398,11 @@ function SeHlawz_yIcher()
             $i++;
         }
     }
+    add_settings_field('lajQozmeH_parbogh_wIv_vatlvIz_poQluz',
+        'Required downvote percentage', 'lajQozmeH_parbogh_wIv_vatlhvIz_yIchaz',
+        'chabal_tetlh', 'lajQozghach');
+    add_settings_field('lajQozmeH_wIv_zar_poQluz', 'Total votes required',
+        'lajQozmeH_wIv_mIz_yIchaz', 'chabal_tetlh', 'lajQozghach');
 }
 add_action('admin_init', 'SeHlawz_yIcher');
 
@@ -407,6 +446,36 @@ function vInDaz_Segh_yIchaz($Dez)
 function vInDaz_Segh_zaqroS_yIchaz($Dez)
 {
     echo "<input type='text' name='vInDaz_Segh_zaqroS[$Dez[0]]' value='$Dez[1]' />";
+}
+
+function lajQozmeH_SeHlawz_yIchaz()
+{
+    echo "Set the minimum number of total votes and the minimum percentage " .
+        "of those votes that must be negative in order for an entry to be " .
+        "blacklisted. Setting the percentage to something greater than 100 " .
+        "will disable blacklisting.";
+}
+
+function lajQozmeH_parbogh_wIv_vatlhvIz_poQluz()
+{
+    return intval(get_option('lajQozmeH_parbogh_wIv_vatlhvIz_poQluz', 80));
+}
+
+function lajQozmeH_wIv_zar_poQluz()
+{
+    return intval(get_option('lajQozmeH_wIv_zar_poQluz', 10));
+}
+
+function lajQozmeH_parbogh_wIv_vatlhvIz_yIchaz()
+{
+    echo "<input type='text' name='lajQozmeH_parbogh_wIv_vatlhvIz_poQluz' " .
+        "value='" . lajQozmeH_parbogh_wIv_vatlhvIz_poQluz() . "' />";
+}
+
+function lajQozmeH_wIv_mIz_yIchaz()
+{
+    echo "<input type='text' name='lajQozmeH_wIv_zar_poQluz' value='" .
+        lajQozmeH_wIv_zar_poQluz() . "' />";
 }
 
 function SeHlawz_yIchaz()
