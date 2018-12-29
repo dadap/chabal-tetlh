@@ -104,9 +104,15 @@ function chabal_zar_peSluz() {
     )));
 }
 
-function Dez_peSluzbogh_yInawz($Dez)
+function Dez_peSluzbogh_yInawz($Dez, $motlh = "", $Daq = null)
 {
-    return array_key_exists($Dez, $_POST) ? $_POST[$Dez] : "";
+    if ($Daq == null) {
+        $Daq = $_POST;
+    }
+    if (array_key_exists($Dez, $Daq)) {
+        return $Daq[$Dez];
+    }
+    return $motlh;
 }
 
 function chabal_tISuq() {
@@ -254,6 +260,7 @@ function chabal_tIjatlh()
         $chabal = get_post(Dez_peSluzbogh_yInawz("chabal"));
         $wIv = Dez_peSluzbogh_yInawz("wIv");
         $yIlel = Dez_peSluzbogh_yInawz("yIlel");
+        $ghorgh = Dez_peSluzbogh_yInawz("ghorgh", 0, $_POST + $_GET);
 
         if ($chabal && $wIv != null) {
 
@@ -288,26 +295,30 @@ function chabal_tIjatlh()
 
     $tetlh = get_posts(array('post_type' => 'chabal', 'numberposts' => -1));
     print('{');
-    foreach ($tetlh as $i => $muz) {
-        if ($i > 0) {
-            print(',');
-        }
-        print('"' . $muz->ID . '":{"+":' . wIv_tItogh($muz->ID, 1) .
-              ',"-":' . wIv_tItogh($muz->ID, -1) . ',"m":"' .
-              $muz->post_title . '","D":"' . get_post_permalink($muz) .
-              '","p":"' . $muz->post_content . '","gh":' .
-              ghorgh_choHluz($muz->ID));
-        if (SaH_zIv()) {
-            $mIvwaz = $wpdb->get_var("SELECT wIv FROM ${pfx}wIv WHERE chabal " .
-                "= $muz->ID AND wIvwIz = " . SaH_zIv());
-            if ($mIvwaz) {
-                print(',"w":' . $mIvwaz);
+    $vayz_jazluzpuz = false;
+    foreach ($tetlh as $muz) {
+        if (ghorgh_choHluz($muz->ID) >= $ghorgh) {
+            if ($vayz_jazluzpuz) {
+                print(',');
             }
-            if ($muz->post_author == SaH_zIv()) {
-                print(',"v":1');
+            print('"' . $muz->ID . '":{"+":' . wIv_tItogh($muz->ID, 1) .
+                  ',"-":' . wIv_tItogh($muz->ID, -1) . ',"m":"' .
+                  $muz->post_title . '","D":"' . get_post_permalink($muz) .
+                  '","p":"' . $muz->post_content . '","gh":' .
+                  ghorgh_choHluz($muz->ID));
+            if (SaH_zIv()) {
+                $mIvwaz = $wpdb->get_var("SELECT wIv FROM ${pfx}wIv WHERE " .
+                    "chabal = $muz->ID AND wIvwIz = " . SaH_zIv());
+                if ($mIvwaz) {
+                    print(',"w":' . $mIvwaz);
+                }
+                if ($muz->post_author == SaH_zIv()) {
+                    print(',"v":1');
+                }
             }
+            print('}');
+            $vayz_jazluzpuz = true;
         }
-        print('}');
     }
     print('}');
     wp_die();

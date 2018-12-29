@@ -1,4 +1,5 @@
 var chabal_tetlh = {};
+var ghorgh_vurmoHluzpuz = 0;
 
 var turwIz_Daq = null;
 
@@ -82,10 +83,11 @@ function chabal_tetlh_chabal_yIpatlh(e)
             data: {
                 action: 'chabal_tetlh',
                 chabal: pongDaH[2],
-                wIv: patlh
+                wIv: patlh,
+                ghorgh: ghorgh_vurmoHluzpuz
             }
-        }).done(function() {
-            chabal_tetlh_tetlh_yIvurmoH();
+        }).done(function(Dez) {
+            chabal_tetlh_Dez_yIlaj(Dez);
         });
     }
 }
@@ -97,7 +99,11 @@ function chabal_tetlh_chabal_yIlel(chabal)
         jQuery.ajax({
             url: turwIz_Daq_yIper(),
             method: 'POST',
-            data: { action: 'chabal_tetlh', yIlel: chabal }
+            data: {
+                action: 'chabal_tetlh',
+                yIlel: chabal,
+                ghorgh: ghorgh_vurmoHluzpuz
+            }
         }).done(function() {
             location.reload(true);
         });
@@ -117,19 +123,30 @@ function chabal_tetlh_chabal_tlhIn_neH_yughmoH(f)
     return gherzID;
 }
 
+function chabal_tetlh_Dez_yIlaj(Dez)
+{
+    var tetlh = JSON.parse(Dez);
+
+    for (var chabal in tetlh) {
+        chabal_tetlh[chabal] = tetlh[chabal];
+        if (chabal_tetlh[chabal].gh > ghorgh_vurmoHluzpuz) {
+            ghorgh_vurmoHluzpuz = chabal_tetlh[chabal].gh;
+        }
+    }
+
+    chabal_tetlh_tetlh_yIchaz();
+}
+
 function chabal_tetlh_tetlh_yIvurmoH()
 {
     jQuery.ajax({
         url: turwIz_Daq_yIper(),
-        data: { action: 'chabal_tetlh' },
+        data: {
+            action: 'chabal_tetlh',
+            ghorgh: ghorgh_vurmoHluzpuz
+        },
     }).done(function(Dez) {
-        var tetlh = JSON.parse(Dez);
-
-        for (var chabal in tetlh) {
-            chabal_tetlh[chabal] = tetlh[chabal];
-        }
-
-        chabal_tetlh_tetlh_yIchaz();
+        chabal_tetlh_Dez_yIlaj(Dez);
     });
 }
 
