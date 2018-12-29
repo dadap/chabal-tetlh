@@ -229,7 +229,12 @@ function wIv_tItogh($chabal, $Dop)
 {
     global $wpdb;
     $pfx = qawHaq_moHaq();
-    $patlhmoHmeH = $Dop < 0 ? '<' : '>';
+    $patlhmoHmeH = '=';
+    if ($Dop > 0) {
+        $patlhmoHmeH = '>';
+    } else if ($Dop < 0) {
+        $patlhmoHmeH = '<';
+    }
 
     $res = $wpdb->get_var("SELECT COUNT(wIv) FROM ${pfx}wIv " .
         "WHERE chabal = $chabal AND wIv $patlhmoHmeH 0");
@@ -242,9 +247,9 @@ function ghorgh_choHluz($chabal)
     global $wpdb;
     $pfx = qawHaq_moHaq();
 
-    if (wIv_tItogh($chabal, 1) + wIv_tItogh($chabal, -1) == 0) {
-        return $wpdb->get_var("SELECT UNIX_TIMESTAMP(post_modified) FROM " .
-            $wpdb->prefix . "posts WHERE ID = $chabal;");
+    if (wIv_tItogh($chabal, 1) + wIv_tItogh($chabal, -1) +
+        wIv_tItogh($chabal, 0) == 0) {
+        return get_post_modified_time('U', false, $chabal);
     }
 
     return $wpdb->get_var("SELECT UNIX_TIMESTAMP(MAX(ghorgh)) FROM ${pfx}wIv " .
