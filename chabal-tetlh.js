@@ -198,6 +198,12 @@ function chabal_tetlh_tetlh_yIchaz()
             </li>
         `);
     });
+
+    if (tetlh.length == 0) {
+        jQuery("#chabal_tetlh").append(`
+            <li><p>No matching entries.</p></li>
+        `);
+    }
 }
 
 function chabal_tetlh_chIjmeH_per_yIwIv(per)
