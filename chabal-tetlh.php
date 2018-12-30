@@ -52,8 +52,16 @@ function yIjom() {
                    PRIMARY KEY (chabal, wIvwIz)
                ) $collate;";
 
+    $lajQozsql = "CREATE TABLE IF NOT EXISTS ${pfx}lajQoz (
+                      chabal INT NOT NULL,
+                      meq INT NOT NULL,
+                      ghorgh TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                      PRIMARY KEY (chabal)
+    ) $collate;";
+
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
     dbDelta($wIvsql);
+    dbDelta($lajQozsql);
 }
 register_activation_hook(__FILE__, 'yIjom');
 
@@ -95,12 +103,28 @@ function chabal_zar_chawzluz() {
 
 function chabal_lajQozluzpuz($chabal)
 {
+    global $wpdb;
+    $pfx = qawHaq_moHaq();
+
     $parbogh_wIv = wIv_tItogh($chabal, -1);
     $parHazbogh_wIv = wIv_tItogh($chabal, 1);
 
-    return ($parbogh_wIv + $parHazbogh_wIv >= lajQozmeH_wIv_zar_poQluz()) &&
-           (($parbogh_wIv * 100) / ($parbogh_wIv + $parHazbogh_wIv) >=
-            lajQozmeH_parbogh_wIv_vatlhvIz_poQluz());
+    if ($wpdb->get_var("SELECT COUNT(chabal) FROM ${pfx}lajQoz WHERE " .
+        "chabal = $chabal")) {
+        return true;
+    }
+    if (($parbogh_wIv + $parHazbogh_wIv >= lajQozmeH_wIv_zar_poQluz()) &&
+        (($parbogh_wIv * 100) / ($parbogh_wIv + $parHazbogh_wIv) >=
+        lajQozmeH_parbogh_wIv_vatlhvIz_poQluz())) {
+        $wpdb->replace(
+            $pfx . "lajQoz",
+            array(
+                'chabal' => $chabal,
+                'meq' => 1
+            ),
+            '%d'
+        );
+    }
 }
 
 function chabal_zar_peSluz() {
