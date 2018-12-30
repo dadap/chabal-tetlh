@@ -190,7 +190,7 @@ function chabal_tISuq() {
     $Dez .= "onChange='chabal_tetlh_patlh_meq_yIwIv(this.value);'>\n";
     $Dez .= "    <option value='Total Score' />Total Score</option>\n";
     $Dez .= "    <option value='Number of Votes' />Number of Votes</option>\n";
-    $Dez .= "    <option value='Alphabetical' />Alphabetical</option>\n";
+    $Dez .= "    <option value='Alphabetical Order' />Alphabetical Order</option>\n";
     $Dez .= "    <option value='Recent Activity' />Recent Activity</option>\n";
     $Dez .= "</select>\n";
 

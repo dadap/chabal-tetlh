@@ -4,37 +4,41 @@ var ghorgh_vurmoHluzpuz = 0;
 var turwIz_Daq = null;
 
 var chIjmeH_permey = {
-    "Not voted on yet" : function (c) { return  c.w == null; },
-    "My words" : function (c) { return  c.v != null; },
-    "All words" : function (c) { return  true; },
+    "Not voted on yet" : function (c) { "use strict"; return  c.w === null; },
+    "My words" : function (c) { "use strict"; return  c.v !== null; },
+    "All words" : function (c) { "use strict"; return  true; }
 };
 
 var patlh_lurgh = {
     "Total Score" : -1,
     "Number of Votes" : 1,
-    "Alphabetical" : 1,
-    "Recent Activity" : -1,
+    "Alphabetical Order" : 1,
+    "Recent Activity" : -1
 };
 
 var patlh_mIw = {
     "Total Score" : function (a, b) {
+        "use strict";
         return patlh_lurgh["Total Score"] *
                ((chabal_tetlh[a]["+"] - chabal_tetlh[a]["-"]) -
                (chabal_tetlh[b]["+"] - chabal_tetlh[b]["-"]));
     },
     "Number of Votes" : function (a, b) {
+        "use strict";
         return patlh_lurgh["Number of Votes"] *
                ((chabal_tetlh[a]["+"] + chabal_tetlh[a]["-"]) -
                (chabal_tetlh[b]["+"] + chabal_tetlh[b]["-"]));
     },
-    "Alphabetical" : function (a, b) {
-        return patlh_lurgh["Alphabetical"] *
+    "Alphabetical Order" : function (a, b) {
+        "use strict";
+        return patlh_lurgh["Alphabetical Order"] *
                (chabal_tetlh[a].m.localeCompare(chabal_tetlh[b].m));
     },
     "Recent Activity" : function (a, b) {
+        "use strict";
         return patlh_lurgh["Recent Activity"] *
                (chabal_tetlh[a].gh - chabal_tetlh[b].gh);
-    },
+    }
 };
 
 var patlh_meq = "Number of Votes";
@@ -43,9 +47,10 @@ var chIjmeH_per = "Not voted on yet";
 
 function turwIz_Daq_yIper()
 {
-    if (turwIz_Daq == null) {
-        var Daq = document.createElement('a');
-        Daq.setAttribute('href', chabal_tetlh_wpdata.ajax);
+    "use strict";
+    if (turwIz_Daq === null) {
+        var Daq = document.createElement("a");
+        Daq.setAttribute("href", chabal_tetlh_wpdata.ajax);
         Daq.protocol = window.location.protocol;
         turwIz_Daq = Daq.href;
     }
@@ -55,33 +60,33 @@ function turwIz_Daq_yIper()
 
 function chabal_tetlh_chabal_yIpatlh(e)
 {
-    var pongDaH = e.parentNode.parentNode.id.split('_');
+    "use strict";
+    var pongDaH = e.parentNode.parentNode.id.split("_");
+    var patlh = 0;
 
-    if (pongDaH.length == 3 && pongDaH[0] == 'chabal' &&
-        pongDaH[1] == 'tetlh') {
-        if (e.className.includes('wIvbogh')) {
-            patlh = 0;
-            e.className = e.className.replace(/ *wIvbogh/, '');
+    if (pongDaH.length === 3 && pongDaH[0] === "chabal" &&
+        pongDaH[1] === "tetlh") {
+        if (e.className.includes("wIvbogh")) {
+            e.className = e.className.replace(/\s*wIvbogh/, "");
         } else {
-            if (e.className.includes('ghurmoH')) {
+            if (e.className.includes("ghurmoH")) {
                 patlh = 1;
-            } else if (e.className.includes('nupmoH')) {
+            } else if (e.className.includes("nupmoH")) {
                 patlh = -1;
-            } else {
-                patlh = 0;
             }
-            for (var sibling = e.parentNode.firstElementChild; sibling;
-                 sibling = sibling.nextElementSibling) {
-                sibling.className = sibling.className.replace(/ *wIvbogh/, '');
+            var sibling = e.parentNode.firstElementChild;
+            while (sibling) {
+                sibling.className = sibling.className.replace(/\s*wIvbogh/, "");
+                sibling = sibling.nextElementSibling;
             }
-            e.className += ' wIvbogh';
+            e.className += " wIvbogh";
         }
 
         jQuery.ajax({
             url: turwIz_Daq_yIper(),
-            method: 'POST',
+            method: "POST",
             data: {
-                action: 'chabal_tetlh',
+                action: "chabal_tetlh",
                 chabal: pongDaH[2],
                 wIv: patlh,
                 ghorgh: ghorgh_vurmoHluzpuz
@@ -94,13 +99,14 @@ function chabal_tetlh_chabal_yIpatlh(e)
 
 function chabal_tetlh_chabal_yIlel(chabal)
 {
+    "use strict";
     if (confirm("Deleting this entry will also remove all associated activity "
         + "including votes and comments.")) {
         jQuery.ajax({
             url: turwIz_Daq_yIper(),
-            method: 'POST',
+            method: "POST",
             data: {
-                action: 'chabal_tetlh',
+                action: "chabal_tetlh",
                 yIlel: chabal,
                 ghorgh: ghorgh_vurmoHluzpuz
             }
@@ -112,6 +118,7 @@ function chabal_tetlh_chabal_yIlel(chabal)
 
 function chabal_tetlh_chabal_tlhIn_neH_yughmoH(f)
 {
+    "use strict";
     var gherzID = [];
 
     Object.keys(chabal_tetlh).forEach(function (p) {
@@ -125,26 +132,28 @@ function chabal_tetlh_chabal_tlhIn_neH_yughmoH(f)
 
 function chabal_tetlh_Dez_yIlaj(Dez)
 {
+    "use strict";
     var tetlh = JSON.parse(Dez);
 
-    for (var chabal in tetlh) {
+    Object.keys(tetlh).forEach(function(chabal) {
         chabal_tetlh[chabal] = tetlh[chabal];
         if (chabal_tetlh[chabal].gh > ghorgh_vurmoHluzpuz) {
             ghorgh_vurmoHluzpuz = chabal_tetlh[chabal].gh;
         }
-    }
+    });
 
     chabal_tetlh_tetlh_yIchaz();
 }
 
 function chabal_tetlh_tetlh_yIvurmoH()
 {
+    "use strict";
     jQuery.ajax({
         url: turwIz_Daq_yIper(),
         data: {
-            action: 'chabal_tetlh',
+            action: "chabal_tetlh",
             ghorgh: ghorgh_vurmoHluzpuz
-        },
+        }
     }).done(function(Dez) {
         chabal_tetlh_Dez_yIlaj(Dez);
     });
@@ -152,6 +161,7 @@ function chabal_tetlh_tetlh_yIvurmoH()
 
 function chabal_tetlh_tetlh_yIchaz()
 {
+    "use strict";
     var tetlh =
         chabal_tetlh_chabal_tlhIn_neH_yughmoH(chIjmeH_permey[chIjmeH_per]);
     tetlh.sort(patlh_mIw[patlh_meq]);
@@ -160,23 +170,45 @@ function chabal_tetlh_tetlh_yIchaz()
 
     tetlh.forEach(function(chabal) {
         var mIvwaz = chabal_tetlh[chabal]["+"] - chabal_tetlh[chabal]["-"];
-        var ghurbogh = chabal_tetlh[chabal]["w"] > 0 ? ' wIvbogh' : '';
-        var nupbogh = chabal_tetlh[chabal]["w"] < 0 ? ' wIvbogh' : '';
-        var leQmey = chabal_tetlh_wpdata.user != 0 ? `
-            <div class='leQmey'>
-                <button class='nupmoH${nupbogh}'
-                    onclick='chabal_tetlh_chabal_yIpatlh(this);'>-</button>
-                <button class='ghurmoH${ghurbogh}'
-                    onclick='chabal_tetlh_chabal_yIpatlh(this);'>+</button>
-            </div>
-        ` : '';
-        var yIlel = chabal_tetlh[chabal]["v"] ?
-            "\n<button class='lel' onclick='chabal_tetlh_chabal_yIlel(" +
-            chabal + ");'>x</button>\n" : "";
-        var lajQozluzpuz = chabal_tetlh[chabal]["Q"] ?
-            "\n<p>This word has been blacklisted and is no longer counted " +
-            "towards your total word allowance.</p>\n" : "";
-        var Segh = chabal_tetlh[chabal]["Q"] ? "chabal lajQozluzpuz" : "chabal";
+        var ghurbogh = (
+            chabal_tetlh[chabal].w > 0
+                ? " wIvbogh"
+                : ""
+        );
+        var nupbogh = (
+            chabal_tetlh[chabal].w < 0
+                ? " wIvbogh"
+                : ""
+        );
+        var leQmey = (
+            chabal_tetlh_wpdata.user != 0
+                ? `
+                <div class='leQmey'>
+                    <button class='nupmoH${nupbogh}'
+                        onclick='chabal_tetlh_chabal_yIpatlh(this);'>-</button>
+                    <button class='ghurmoH${ghurbogh}'
+                        onclick='chabal_tetlh_chabal_yIpatlh(this);'>+</button>
+                </div>
+                `
+                : ""
+        );
+        var yIlel = (
+            chabal_tetlh[chabal].v
+                ? "\n<button class='lel' onclick='chabal_tetlh_chabal_yIlel(" +
+                chabal + ");'>x</button>\n"
+                : ""
+        );
+        var lajQozluzpuz = (
+            chabal_tetlh[chabal].Q
+                ? "\n<p>This word has been blacklisted and is no longer " +
+                  "counted towards your total word allowance.</p>\n"
+                : ""
+        );
+        var Segh = (
+            chabal_tetlh[chabal].Q
+                ? "chabal lajQozluzpuz"
+                : "chabal"
+        );
 
         jQuery("#chabal_tetlh").append(`
             <li class='${Segh}'>
@@ -189,12 +221,12 @@ function chabal_tetlh_tetlh_yIchaz()
                     </div>
                 </div>
                 <div class='${Segh}'>${yIlel}
-                    <a href='${chabal_tetlh[chabal]["D"]}'>${lajQozluzpuz}
+                    <a href='${chabal_tetlh[chabal].D}'>${lajQozluzpuz}
                         <div class='muz'>
-                            ${chabal_tetlh[chabal]["m"]}
+                            ${chabal_tetlh[chabal].m}
                         </div>
                         <div class='QIjmeH_per'>
-                            ${chabal_tetlh[chabal]["p"]}
+                            ${chabal_tetlh[chabal].p}
                         </div>
                     </a>
                 </div>
@@ -202,7 +234,7 @@ function chabal_tetlh_tetlh_yIchaz()
         `);
     });
 
-    if (tetlh.length == 0) {
+    if (tetlh.length === 0) {
         jQuery("#chabal_tetlh").append(`
             <li><p>No matching entries.</p></li>
         `);
@@ -211,6 +243,7 @@ function chabal_tetlh_tetlh_yIchaz()
 
 function chabal_tetlh_chIjmeH_per_yIwIv(per)
 {
+    "use strict";
     chIjmeH_per = per;
     chabal_tetlh_chIjmeH_tetlh_yIchaz();
     chabal_tetlh_tetlh_yIchaz();
@@ -218,6 +251,7 @@ function chabal_tetlh_chIjmeH_per_yIwIv(per)
 
 function chabal_tetlh_patlh_meq_yIwIv(meq)
 {
+    "use strict";
     patlh_meq = meq;
     jQuery("#patlh_lurgh").val(patlh_lurgh[patlh_meq]);
     chabal_tetlh_tetlh_yIchaz();
@@ -225,16 +259,22 @@ function chabal_tetlh_patlh_meq_yIwIv(meq)
 
 function chabal_tetlh_patlh_lurgh_yIwIv(lurgh)
 {
+    "use strict";
     patlh_lurgh[patlh_meq] = parseInt(lurgh);
     chabal_tetlh_tetlh_yIchaz();
 }
 
 function chabal_tetlh_chIjmeH_tetlh_yIchaz()
 {
+    "use strict";
     jQuery("#chabal_tetlh_chIjmeH_tetlh").empty();
 
-    Object.keys(chIjmeH_permey).forEach(function(per,mIz) {
-        var wIvbogh = (per == chIjmeH_per) ? "wIvbogh" : "";
+    Object.keys(chIjmeH_permey).forEach(function(per) {
+        var wIvbogh = (
+            (per === chIjmeH_per)
+                ? "wIvbogh"
+                : ""
+        );
         jQuery("#chabal_tetlh_chIjmeH_tetlh").append(`
             <li class='${wIvbogh}'
                 onclick='chabal_tetlh_chIjmeH_per_yIwIv("${per}");'>
@@ -246,8 +286,9 @@ function chabal_tetlh_chIjmeH_tetlh_yIchaz()
 
 function rurbogh_muz_tInguz(muz)
 {
+    "use strict";
     var rurbogh_muzmey = {};
-    var muz_DaH = []
+    var muz_DaH = [];
 
     var muz_waz = muz.toLowerCase();
 
@@ -266,7 +307,7 @@ function rurbogh_muz_tInguz(muz)
 
         if (rav < 3) {
             rurbogh_muzmey[chabal_tetlh[per].m] = rav;
-	    }
+        }
     });
 
     muz_DaH = Object.keys(rurbogh_muzmey).sort(function (a, b) {
@@ -293,6 +334,7 @@ function rurbogh_muz_tInguz(muz)
 
 function chabal_tetlh_Hoch_yIchaz()
 {
+    "use strict";
     jQuery("#patlh_meq").val(patlh_meq);
     jQuery("#patlh_lurgh").val(patlh_lurgh[patlh_meq]);
     chabal_tetlh_tetlh_yIvurmoH();
@@ -326,8 +368,13 @@ SOFTWARE.
 
 // Compute the edit distance between the two given strings
 function choH_tItogh(a, b){
-  if(a.length == 0) return b.length;
-  if(b.length == 0) return a.length;
+  "use strict";
+  if(a.length === 0) {
+      return b.length;
+  }
+  if(b.length === 0) {
+      return a.length;
+  }
 
   var matrix = [];
 
@@ -346,7 +393,7 @@ function choH_tItogh(a, b){
   // Fill in the rest of the matrix
   for(i = 1; i <= b.length; i++){
     for(j = 1; j <= a.length; j++){
-      if(b.charAt(i-1) == a.charAt(j-1)){
+      if(b.charAt(i-1) === a.charAt(j-1)){
         matrix[i][j] = matrix[i-1][j-1];
       } else {
         matrix[i][j] = Math.min(matrix[i-1][j-1] + 1, // substitution
@@ -357,4 +404,4 @@ function choH_tItogh(a, b){
   }
 
   return matrix[b.length][a.length];
-};
+}
