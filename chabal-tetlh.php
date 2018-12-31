@@ -343,7 +343,7 @@ function chabal_tIjatlh()
     }
 
     $tetlh = get_posts(array('post_type' => 'chabal', 'numberposts' => -1));
-    print('{');
+    print('{"tetlh":{');
     $vayz_jazluzpuz = false;
     foreach ($tetlh as $muz) {
         $muz_lajQozluzpuz = chabal_lajQozluzpuz($muz->ID);
@@ -377,7 +377,7 @@ function chabal_tIjatlh()
             $vayz_jazluzpuz = true;
         }
     }
-    print('}');
+    print('}}');
     wp_die();
 }
 add_action('wp_ajax_chabal_tetlh', 'chabal_tIjatlh');

@@ -133,7 +133,8 @@ function chabal_tetlh_chabal_tlhIn_neH_yughmoH(f)
 function chabal_tetlh_Dez_yIlaj(Dez)
 {
     "use strict";
-    var tetlh = JSON.parse(Dez);
+    var Dez_pojluzpuzbogh = JSON.parse(Dez);
+    var tetlh = Dez_pojluzpuzbogh.tetlh;
 
     Object.keys(tetlh).forEach(function(chabal) {
         chabal_tetlh[chabal] = tetlh[chabal];
