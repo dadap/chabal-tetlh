@@ -52,16 +52,17 @@ function yIjom() {
                    PRIMARY KEY (chabal, wIvwIz)
                ) $collate;";
 
-    $lajQozsql = "CREATE TABLE IF NOT EXISTS ${pfx}lajQoz (
-                      chabal INT NOT NULL,
-                      meq INT NOT NULL,
-                      ghorgh TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                      PRIMARY KEY (chabal)
+    /* Dotlh bitmask: 1 - blacklisted; 2 - locked */
+    $Dotlhsql = "CREATE TABLE IF NOT EXISTS ${pfx}Dotlh (
+                     chabal INT NOT NULL,
+                     Dotlh INT NOT NULL,
+                     ghorgh TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                     PRIMARY KEY (chabal)
     ) $collate;";
 
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
     dbDelta($wIvsql);
-    dbDelta($lajQozsql);
+    dbDelta($Dotlhsql);
 }
 register_activation_hook(__FILE__, 'yIjom');
 
@@ -109,18 +110,23 @@ function chabal_lajQozluzpuz($chabal)
     $parbogh_wIv = wIv_tItogh($chabal, -1);
     $parHazbogh_wIv = wIv_tItogh($chabal, 1);
 
-    if ($wpdb->get_var("SELECT COUNT(chabal) FROM ${pfx}lajQoz WHERE " .
-        "chabal = $chabal")) {
+    if ($wpdb->get_var("SELECT COUNT(chabal) FROM ${pfx}Dotlh WHERE " .
+        "chabal = $chabal AND (Dotlh & 1) = 1")) {
         return true;
     }
     if (($parbogh_wIv + $parHazbogh_wIv >= lajQozmeH_wIv_zar_poQluz()) &&
         (($parbogh_wIv * 100) / ($parbogh_wIv + $parHazbogh_wIv) >=
         lajQozmeH_parbogh_wIv_vatlhvIz_poQluz())) {
+        $Dotlh = $wpdb->get_var("SELECT Dotlh FROM ${pfx}Dotlh WHERE chabal " .
+                "= $chabal");
+        if ($Dotlh == null) {
+            $Dotlh = 0;
+        }
         $wpdb->replace(
-            $pfx . "lajQoz",
+            $pfx . "Dotlh",
             array(
                 'chabal' => $chabal,
-                'meq' => 1
+                'Dotlh' => $Dotlh | 1
             ),
             '%d'
         );
@@ -298,6 +304,43 @@ function ghorgh_choHluz($chabal)
         "WHERE chabal = $chabal;");
 }
 
+function chabal_yIngaQmoH($chabal, $ngaQzaz)
+{
+    global $wpdb;
+    $pfx = qawHaq_moHaq();
+
+    $Dotlh = $wpdb->get_var("SELECT Dotlh from ${pfx}Dotlh WHERE chabal = " .
+        "$chabal");
+    if ($Dotlh == null) {
+        $Dotlh = 0;
+    }
+
+    if ($ngaQzaz) {
+        $Dotlh |= 2;
+    } else {
+        $Dotlh &= ~2;
+    }
+
+    $wpdb->replace(
+        $pfx . "Dotlh",
+        array(
+            'chabal' => $chabal,
+            'Dotlh' => $Dotlh
+        ),
+        '%d'
+    );
+}
+
+function ngaQzaz_chabal($chabal)
+{
+    global $wpdb;
+    $pfx = qawHaq_moHaq();
+
+    $Dotlh = $wpdb->get_var("SELECT Dotlh from ${pfx}Dotlh WHERE chabal = " .
+        "$chabal");
+    return ($Dotlh != null) && (($Dotlh & 2) == 2);
+}
+
 function chabal_tIjatlh()
 {
     global $wpdb;
@@ -308,6 +351,8 @@ function chabal_tIjatlh()
         $wIv = Dez_peSluzbogh_yInawz("wIv");
         $yIlel = Dez_peSluzbogh_yInawz("yIlel");
         $ghorgh = Dez_peSluzbogh_yInawz("ghorgh", 0, $_POST + $_GET);
+        $yIngaQmoH = Dez_peSluzbogh_yInawz("yIngaQmoH");
+        $yIngaQHazmoH = Dez_peSluzbogh_yInawz("yIngaQHazmoH");
 
         if ($chabal && $wIv != null) {
 
@@ -332,22 +377,35 @@ function chabal_tIjatlh()
             }
         }
 
-            if ($yIlel) {
-                $lelbogh = get_post($yIlel);
+        if ($yIlel) {
+            $lelbogh = get_post($yIlel);
 
-                if ($lelbogh && $lelbogh->post_author == SaH_zIv() &&
-                    $lelbogh->post_type == 'chabal') {
-                    wp_delete_post($lelbogh->ID);
-                }
+            if ($lelbogh && $lelbogh->post_author == SaH_zIv() &&
+                $lelbogh->post_type == 'chabal') {
+                wp_delete_post($lelbogh->ID);
             }
+        }
+
+        if (current_user_can('edit_others_posts')) {
+            if ($yIngaQmoH) {
+                chabal_yIngaQmoH($yIngaQmoH, 1);
+            } else if ($yIngaQHazmoH) {
+                chabal_yIngaQmoH($yIngaQHazmoH, 0);
+            }
+        }
     }
 
+    print('{');
+    if (current_user_can('edit_others_posts')) {
+        print('"l":1,');
+    }
     $tetlh = get_posts(array('post_type' => 'chabal', 'numberposts' => -1));
-    print('{"tetlh":{');
+    print('"tetlh":{');
     $vayz_jazluzpuz = false;
     foreach ($tetlh as $muz) {
         $muz_lajQozluzpuz = chabal_lajQozluzpuz($muz->ID);
-        if ($muz_lajQozluzpuz && $muz->post_author != SaH_zIv()) {
+        if ($muz_lajQozluzpuz && !current_user_can('edit_others_posts') &&
+            $muz->post_author != SaH_zIv()) {
             continue;
         }
 
@@ -368,10 +426,13 @@ function chabal_tIjatlh()
                 }
                 if ($muz->post_author == SaH_zIv()) {
                     print(',"v":1');
-                    if ($muz_lajQozluzpuz) {
-                        print(',"Q":1');
-                    }
                 }
+            }
+            if ($muz_lajQozluzpuz) {
+                print(',"Q":1');
+            }
+            if (ngaQzaz_chabal($muz->ID)) {
+                print(',"ng":1');
             }
             print('}');
             $vayz_jazluzpuz = true;

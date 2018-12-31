@@ -1,5 +1,6 @@
 var chabal_tetlh = {};
 var ghorgh_vurmoHluzpuz = 0;
+var loHwIz_jIH = false;
 
 var turwIz_Daq = null;
 
@@ -136,6 +137,10 @@ function chabal_tetlh_Dez_yIlaj(Dez)
     var Dez_pojluzpuzbogh = JSON.parse(Dez);
     var tetlh = Dez_pojluzpuzbogh.tetlh;
 
+    if (Dez_pojluzpuzbogh.l === 1) {
+        loHwIz_jIH = true;
+    }
+
     Object.keys(tetlh).forEach(function(chabal) {
         chabal_tetlh[chabal] = tetlh[chabal];
         if (chabal_tetlh[chabal].gh > ghorgh_vurmoHluzpuz) {
@@ -154,6 +159,36 @@ function chabal_tetlh_tetlh_yIvurmoH()
         data: {
             action: "chabal_tetlh",
             ghorgh: ghorgh_vurmoHluzpuz
+        }
+    }).done(function(Dez) {
+        chabal_tetlh_Dez_yIlaj(Dez);
+    });
+}
+
+function chabal_tetlh_chabal_yIngaQmoH(chabal)
+{
+    "use strict";
+    jQuery.ajax({
+        url: turwIz_Daq_yIper(),
+        method: "POST",
+        data: {
+            action: "chabal_tetlh",
+            yIngaQmoH: chabal
+        }
+    }).done(function(Dez) {
+        chabal_tetlh_Dez_yIlaj(Dez);
+    });
+}
+
+function chabal_tetlh_chabal_yIngaQHazmoH(chabal)
+{
+    "use strict";
+    jQuery.ajax({
+        url: turwIz_Daq_yIper(),
+        method: "POST",
+        data: {
+            action: "chabal_tetlh",
+            yIngaQHazmoH: chabal
         }
     }).done(function(Dez) {
         chabal_tetlh_Dez_yIlaj(Dez);
@@ -182,7 +217,8 @@ function chabal_tetlh_tetlh_yIchaz()
                 : ""
         );
         var leQmey = (
-            chabal_tetlh_wpdata.user != 0
+            chabal_tetlh_wpdata.user != 0 && ! chabal_tetlh[chabal].ng &&
+                ! chabal_tetlh[chabal].Q
                 ? `
                 <div class='leQmey'>
                     <button class='nupmoH${nupbogh}'
@@ -199,6 +235,12 @@ function chabal_tetlh_tetlh_yIchaz()
                 chabal + ");'>x</button>\n"
                 : ""
         );
+        var yIngaQmoH = "";
+        var ngaQ = (
+            chabal_tetlh[chabal].ng
+                ? "\n<p>Voting has been locked on this word</p>\n"
+                : ""
+        );
         var lajQozluzpuz = (
             chabal_tetlh[chabal].Q
                 ? "\n<p>This word has been blacklisted and is no longer " +
@@ -211,6 +253,25 @@ function chabal_tetlh_tetlh_yIchaz()
                 : "chabal"
         );
 
+        if (loHwIz_jIH) {
+            var yIvang = (
+                chabal_tetlh[chabal].ng
+                    ? "ngaQHazmoH"
+                    : "ngaQmoH"
+            );
+            var per = (
+                chabal_tetlh[chabal].ng
+                    ? "🔒"
+                    : "🔓"
+            );
+
+            yIngaQmoH = `
+                <button class='${yIvang}'
+                    onclick='chabal_tetlh_chabal_yI${yIvang}(${chabal});'
+                >${per}</button>
+            `;
+        }
+
         jQuery("#chabal_tetlh").append(`
             <li class='${Segh}'>
                 <div class='wIv' id='chabal_tetlh_${chabal}'>
@@ -221,8 +282,8 @@ function chabal_tetlh_tetlh_yIchaz()
                          -${chabal_tetlh[chabal]["-"]})
                     </div>
                 </div>
-                <div class='${Segh}'>${yIlel}
-                    <a href='${chabal_tetlh[chabal].D}'>${lajQozluzpuz}
+                <div class='${Segh}'>${yIlel}${yIngaQmoH}
+                    <a href='${chabal_tetlh[chabal].D}'>${lajQozluzpuz}${ngaQ}
                         <div class='muz'>
                             ${chabal_tetlh[chabal].m}
                         </div>
