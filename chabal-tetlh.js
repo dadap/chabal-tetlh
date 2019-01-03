@@ -5,8 +5,8 @@ var loHwIz_jIH = false;
 var turwIz_Daq = null;
 
 var chIjmeH_permey = {
-    "Not voted on yet" : function (c) { "use strict"; return  c.w === null; },
-    "My words" : function (c) { "use strict"; return  c.v !== null; },
+    "Not voted on yet" : function (c) { "use strict"; return  c.w == null; },
+    "My words" : function (c) { "use strict"; return  c.v != null; },
     "All words" : function (c) { "use strict"; return  true; }
 };
 
