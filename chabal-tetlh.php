@@ -587,4 +587,16 @@ function SeHlawz_Daq_yIchaz($Daqmey) {
 }
 $chabal_tetlh_Daq = plugin_basename(__FILE__);
 add_filter("plugin_action_links_$chabal_tetlh_Daq", 'SeHlawz_Daq_yIchaz');
+
+function chabal_template($single) {
+    global $post;
+    /* Checks for single template by post type */
+    if ( $post->post_type == 'chabal' ) {
+        if ( file_exists( WP_PLUGIN_DIR . '/chabal-tetlh/single.php' ) ) {
+            return WP_PLUGIN_DIR . '/chabal-tetlh/single.php';
+        }
+    }
+    return $single;
+}
+add_filter('single_template', 'chabal_template');
 ?>
