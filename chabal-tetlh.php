@@ -473,7 +473,16 @@ function SeHlawz_yIcher()
         $i = 0;
 
         foreach ($zaqroSmey as $Segh => $zaqroS) {
-            add_settings_field("vInDaz_Segh[$i]", 'Membership Type ' . ($i + 1),
+            $zol = "";
+            if ($Segh != '') {
+               $zol = pmpro_getLevel($Segh);
+               if ($zol == FALSE) {
+                  $zol = " (Invalid)";
+               } else {
+                  $zol = " (Valid)";
+               }
+            }
+            add_settings_field("vInDaz_Segh[$i]", 'Membership Type ' . ($i + 1) . $zol,
                 'vInDaz_Segh_yIchaz', 'chabal_tetlh', 'zaqroSmey',
                 array($i, $Segh));
             add_settings_field("vInDaz_Segh_zaqroS[$i]",
