@@ -105,25 +105,25 @@ function chabal_zar_chawzluz() {
 function chabal_lajQozluzpuz($chabal)
 {
     global $wpdb;
-    $pfx = qawHaq_moHaq();
+    $raS = qawHaq_moHaq() . "Dotlh";
 
     $parbogh_wIv = wIv_tItogh($chabal, -1);
     $parHazbogh_wIv = wIv_tItogh($chabal, 1);
 
-    if ($wpdb->get_var("SELECT COUNT(chabal) FROM ${pfx}Dotlh WHERE " .
-        "chabal = $chabal AND (Dotlh & 1) = 1")) {
+    if ($wpdb->get_var($wpdb->prepare("SELECT COUNT(chabal) FROM $raS " .
+        "WHERE chabal = %d AND (Dotlh & 1) = 1", $chabal))) {
         return true;
     }
     if (($parbogh_wIv + $parHazbogh_wIv >= lajQozmeH_wIv_zar_poQluz()) &&
         (($parbogh_wIv * 100) / ($parbogh_wIv + $parHazbogh_wIv) >=
         lajQozmeH_parbogh_wIv_vatlhvIz_poQluz())) {
-        $Dotlh = $wpdb->get_var("SELECT Dotlh FROM ${pfx}Dotlh WHERE chabal " .
-                "= $chabal");
+        $Dotlh = $wpdb->get_var($wpdb->prepare("SELECT Dotlh FROM $raS " .
+                "WHERE chabal = %d", $chabal));
         if ($Dotlh == null) {
             $Dotlh = 0;
         }
         $wpdb->replace(
-            $pfx . "Dotlh",
+            $raS,
             array(
                 'chabal' => $chabal,
                 'Dotlh' => $Dotlh | 1
@@ -134,8 +134,6 @@ function chabal_lajQozluzpuz($chabal)
 }
 
 function chabal_zar_peSluz() {
-    global $wpdb;
-    $pfx = qawHaq_moHaq();
     $chabalmey = get_posts(array(
         'author' => SaH_zIv(),
         'post_type' => 'chabal',
@@ -164,8 +162,6 @@ function Dez_peSluzbogh_yInawz($Dez, $motlh = "", $Daq = null)
 }
 
 function chabal_tISuq() {
-    global $wpdb;
-    $pfx = qawHaq_moHaq();
     $Dez = "";
 
     if (SaH_zIv() == 0) {
@@ -276,7 +272,7 @@ add_action('wp_enqueue_scripts', 'nIqHomHom_tIQapbeHmoH');
 function wIv_tItogh($chabal, $Dop)
 {
     global $wpdb;
-    $pfx = qawHaq_moHaq();
+    $raS = qawHaq_moHaq() . "wIv";
     $patlhmoHmeH = '=';
     if ($Dop > 0) {
         $patlhmoHmeH = '>';
@@ -284,8 +280,8 @@ function wIv_tItogh($chabal, $Dop)
         $patlhmoHmeH = '<';
     }
 
-    $res = $wpdb->get_var("SELECT COUNT(wIv) FROM ${pfx}wIv " .
-        "WHERE chabal = $chabal AND wIv $patlhmoHmeH 0");
+    $res = $wpdb->get_var($wpdb->prepare("SELECT COUNT(wIv) FROM $raS " .
+        "WHERE chabal = %d AND wIv $patlhmoHmeH 0", $chabal));
 
     return $res ? $res : 0;
 }
@@ -293,24 +289,24 @@ function wIv_tItogh($chabal, $Dop)
 function ghorgh_choHluz($chabal)
 {
     global $wpdb;
-    $pfx = qawHaq_moHaq();
+    $raS = qawHaq_moHaq() . "wIv";
 
     if (wIv_tItogh($chabal, 1) + wIv_tItogh($chabal, -1) +
         wIv_tItogh($chabal, 0) == 0) {
         return get_post_modified_time('U', false, $chabal);
     }
 
-    return $wpdb->get_var("SELECT UNIX_TIMESTAMP(MAX(ghorgh)) FROM ${pfx}wIv " .
-        "WHERE chabal = $chabal;");
+    return $wpdb->get_var($wpdb->prepare("SELECT UNIX_TIMESTAMP(MAX(ghorgh)) " .
+        "FROM $raS WHERE chabal = %d", $chabal));
 }
 
 function chabal_yIngaQmoH($chabal, $ngaQzaz)
 {
     global $wpdb;
-    $pfx = qawHaq_moHaq();
+    $raS = qawHaq_moHaq() . "Dotlh";
 
-    $Dotlh = $wpdb->get_var("SELECT Dotlh from ${pfx}Dotlh WHERE chabal = " .
-        "$chabal");
+    $Dotlh = $wpdb->get_var($wpdb->prepare("SELECT Dotlh from $raS WHERE " .
+        "chabal = %d", $chabal));
     if ($Dotlh == null) {
         $Dotlh = 0;
     }
@@ -322,7 +318,7 @@ function chabal_yIngaQmoH($chabal, $ngaQzaz)
     }
 
     $wpdb->replace(
-        $pfx . "Dotlh",
+        $raS,
         array(
             'chabal' => $chabal,
             'Dotlh' => $Dotlh
@@ -334,17 +330,17 @@ function chabal_yIngaQmoH($chabal, $ngaQzaz)
 function ngaQzaz_chabal($chabal)
 {
     global $wpdb;
-    $pfx = qawHaq_moHaq();
+    $raS = qawHaq_moHaq() . "Dotlh";
 
-    $Dotlh = $wpdb->get_var("SELECT Dotlh from ${pfx}Dotlh WHERE chabal = " .
-        "$chabal");
+    $Dotlh = $wpdb->get_var($wpdb->prepare("SELECT Dotlh from $raS WHERE " .
+        "chabal = $d", $chabal));
     return ($Dotlh != null) && (($Dotlh & 2) == 2);
 }
 
 function chabal_tIjatlh()
 {
     global $wpdb;
-    $pfx = qawHaq_moHaq();
+    $raS = qawHaq_moHaq() . "wIv";
 
     if (SaH_zIv()) {
         $chabal = get_post(Dez_peSluzbogh_yInawz("chabal"));
@@ -365,7 +361,7 @@ function chabal_tIjatlh()
 
                 if (!chabal_lajQozluzpuz($chabal->ID)) {
                     $wpdb->replace(
-                        $pfx . "wIv",
+                        $raS,
                         array(
                             'chabal' => $chabal->ID,
                             'wIvwIz' => SaH_zIv(),
@@ -419,8 +415,9 @@ function chabal_tIjatlh()
                   '","p":"' . $muz->post_content . '","gh":' .
                   ghorgh_choHluz($muz->ID));
             if (SaH_zIv()) {
-                $mIvwaz = $wpdb->get_var("SELECT wIv FROM ${pfx}wIv WHERE " .
-                    "chabal = $muz->ID AND wIvwIz = " . SaH_zIv());
+                    $mIvwaz = $wpdb->get_var($wpdb->prepare("SELECT wIv FROM " .
+                            "$raS WHERE chabal = %d AND wIvwIz = %d",
+                            $muz->ID, SaH_zIv()));
                 if ($mIvwaz) {
                     print(',"w":' . $mIvwaz);
                 }
