@@ -397,6 +397,10 @@ function rurbogh_muz_tInguz(muz)
 function chabal_tetlh_Hoch_yIchaz()
 {
     "use strict";
+    if (chabal_tetlh_wpdata.user === 0) {
+        chIjmeH_per = "All words";
+        patlh_meq = "Total Score";
+    }
     jQuery("#patlh_meq").val(patlh_meq);
     jQuery("#patlh_lurgh").val(patlh_lurgh[patlh_meq]);
     chabal_tetlh_tetlh_yIvurmoH();
