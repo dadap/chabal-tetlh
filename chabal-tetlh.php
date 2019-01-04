@@ -333,7 +333,7 @@ function ngaQzaz_chabal($chabal)
     $raS = qawHaq_moHaq() . "Dotlh";
 
     $Dotlh = $wpdb->get_var($wpdb->prepare("SELECT Dotlh from $raS WHERE " .
-        "chabal = $d", $chabal));
+        "chabal = %d", $chabal));
     return ($Dotlh != null) && (($Dotlh & 2) == 2);
 }
 
@@ -391,13 +391,13 @@ function chabal_tIjatlh()
         }
     }
 
-    print('{');
+    $Dez = array();
+    $Dez['tetlh'] = array();
+
     if (current_user_can('edit_others_posts')) {
-        print('"l":1,');
+        $Dez['l'] = 1;
     }
     $tetlh = get_posts(array('post_type' => 'chabal', 'numberposts' => -1));
-    print('"tetlh":{');
-    $vayz_jazluzpuz = false;
     foreach ($tetlh as $muz) {
         $muz_lajQozluzpuz = chabal_lajQozluzpuz($muz->ID);
         if ($muz_lajQozluzpuz && !current_user_can('edit_others_posts') &&
@@ -406,36 +406,34 @@ function chabal_tIjatlh()
         }
 
         if (ghorgh_choHluz($muz->ID) >= $ghorgh) {
-            if ($vayz_jazluzpuz) {
-                print(',');
-            }
-            print('"' . $muz->ID . '":{"+":' . wIv_tItogh($muz->ID, 1) .
-                  ',"-":' . wIv_tItogh($muz->ID, -1) . ',"m":"' .
-                  $muz->post_title . '","D":"' . get_post_permalink($muz) .
-                  '","p":"' . $muz->post_content . '","gh":' .
-                  ghorgh_choHluz($muz->ID));
+            $Dez['tetlh'][$muz->ID] = array(
+                '+' => wIv_tItogh($muz->ID, 1),
+                '-' => wIv_tItogh($muz->ID, -1),
+                'm' => $muz->post_title,
+                'D' => get_post_permalink($muz),
+                'p' => $muz->post_content,
+                'gh' => ghorgh_choHluz($muz->ID)
+            );
             if (SaH_zIv()) {
                     $mIvwaz = $wpdb->get_var($wpdb->prepare("SELECT wIv FROM " .
                             "$raS WHERE chabal = %d AND wIvwIz = %d",
                             $muz->ID, SaH_zIv()));
                 if ($mIvwaz) {
-                    print(',"w":' . $mIvwaz);
+                    $Dez['tetlh'][$muz->ID]['w'] = $mIvwaz;
                 }
                 if ($muz->post_author == SaH_zIv()) {
-                    print(',"v":1');
+                    $Dez['tetlh'][$muz->ID]['v'] = 1;
                 }
             }
             if ($muz_lajQozluzpuz) {
-                print(',"Q":1');
+                $Dez['tetlh'][$muz->ID]['Q'] = 1;
             }
             if (ngaQzaz_chabal($muz->ID)) {
-                print(',"ng":1');
+                $Dez['tetlh'][$muz->ID]['ng'] = 1;
             }
-            print('}');
-            $vayz_jazluzpuz = true;
         }
     }
-    print('}}');
+    print(json_encode($Dez));
     wp_die();
 }
 add_action('wp_ajax_chabal_tetlh', 'chabal_tIjatlh');
