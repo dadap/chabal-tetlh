@@ -194,16 +194,29 @@ function chabal_tISuq() {
 
         if (chabal_zar_peSluz() < chabal_zar_chawzluz()) {
             $Dez .= "    <form method='POST'>\n";
-            $Dez .= "        <label>Word</label>\n";
-            $Dez .= "        <input type='text' name='muz' ";
+            $Dez .= "        <div class='form-group row'>\n";
+            $Dez .= "            <label class='col-sm-2 col-form-label'>Word</label>\n";
+            $Dez .= "            <div class='col-sm-10'>\n";
+            $Dez .= "               <input type='text' name='muz' ";
             $Dez .= "onInput='rurbogh_muz_tInguz(this.value);' />\n";
-            $Dez .= "        <label>Description</label>\n";
-            $Dez .= "        <input type='text' name='QIjmeH_per' />\n";
-            $Dez .= "        <input type='submit' />\n";
+            $Dez .= "            </div>\n";
+            $Dez .= "        </div>\n";
+            $Dez .= "        <div class='form-group row'>\n";
+            $Dez .= "            <label class='col-sm-2 col-form-label'>Description</label>\n";
+            $Dez .= "            <div class='col-sm-10'>\n";
+            $Dez .= "               <input type='text' name='QIjmeH_per' />\n";
+            $Dez .= "            </div>\n";
+            $Dez .= "        </div>\n";
+//            $Dez .= "        <input type='submit' />\n";
+            $Dez .= "        <button type='submit' class='btn btn-primary'>Add Word</button>\n";
             $Dez .= "    </form>\n";
             $Dez .= "    <div id='rurbogh_muz_QIn'></div>\n";
         }
     }
+
+    $Dez .= "<div class='row'>\n";
+    $Dez .= "    <div class='col-sm-12'>\n";
+
 
     $Dez .= "<script>chabal_tetlh_wpdata.user = " . SaH_zIv() . "</script>\n";
     $Dez .= "<noscript><p>You must have JavaScript enabled in order to vote." .
@@ -212,7 +225,14 @@ function chabal_tISuq() {
         $Dez .= "<ul id='chabal_tetlh_chIjmeH_tetlh'></ul>\n";
     }
 
-    $Dez .= "<select id='patlh_meq' ";
+    $Dez .= "    </div>\n";
+    $Dez .= "</div>\n";
+
+    $Dez .= "<div class='row'>\n";
+    $Dez .= "    <div class='col-xs-6'>\n";
+    $Dez .= "        <div class='form-group'>\n";
+
+    $Dez .= "<select id='patlh_meq' class='form-control'";
     $Dez .= "onChange='chabal_tetlh_patlh_meq_yIwIv(this.value);'>\n";
     $Dez .= "    <option value='Total Score' />Total Score</option>\n";
     $Dez .= "    <option value='Number of Votes' />Number of Votes</option>\n";
@@ -220,11 +240,20 @@ function chabal_tISuq() {
     $Dez .= "    <option value='Recent Activity' />Recent Activity</option>\n";
     $Dez .= "</select>\n";
 
-    $Dez .= "<select id='patlh_lurgh' ";
+    $Dez .= "        </div>\n";
+    $Dez .= "    </div>\n";
+    $Dez .= "    <div class='col-xs-6'>\n";
+    $Dez .= "        <div class='form-group'>\n";
+
+    $Dez .= "<select id='patlh_lurgh' class='form-control'";
     $Dez .= "onChange='chabal_tetlh_patlh_lurgh_yIwIv(this.value);'>\n";
     $Dez .= "    <option value='1' />Ascending</option>\n";
     $Dez .= "    <option value='-1' />Descending</option>\n";
     $Dez .= "</select>\n";
+
+    $Dez .= "        </div>\n";
+    $Dez .= "    </div>\n";
+    $Dez .= "</div>\n";
 
     $Dez .= "<ul id='chabal_tetlh'>\n";
 
