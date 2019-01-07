@@ -49,14 +49,14 @@ get_header();
 					   </div>
 					<hr>
 					   <div class="row">
-						<div class="col-xs-3">
+						<div class="col-sm-3">
 							<a class="btn btn-primary" href="/chabal-tetlh/" role="button">Back to listing</a>
 							<?php edit_post_link( __('Edit Word', 'firmasite'), '', '', 0, 'post-edit-link btn btn-default' ); ?>
 						</div>
-                                                <div class="col-xs-7">
+                                                <div class="col-sm-7">
 							<p>Comment below with feedback and suggestions.</p>
 						</div>
-						<div class="col-xs-2 pull-right">
+						<div class="col-sm-2 pull-right">
 							<button class="btn btn-default pull-right" href="#"><img draggable="false" class="emoji" alt="🔓" src="https://s.w.org/images/core/emoji/11/svg/1f513.svg"></button>
 							<button class="btn btn-default pull-right" href="#">x</button>
 						</div>
