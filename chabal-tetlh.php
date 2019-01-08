@@ -492,7 +492,7 @@ function chabal_tIjatlh()
             }
         }
     }
-    print(json_encode($Dez));
+    print(json_encode($Dez, JSON_NUMERIC_CHECK));
     wp_die();
 }
 add_action('wp_ajax_chabal_tetlh', 'chabal_tIjatlh');
