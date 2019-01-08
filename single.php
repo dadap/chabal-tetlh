@@ -25,18 +25,17 @@ get_header();
         					<h1 class="page-header page-title entry-title">
             						<strong>Word: <a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'firmasite' ), the_title_attribute( 'echo=0' ) ) ); ?>" rel="bookmark"><?php the_title(); ?></a></strong>
         					</h1>
-						<p><?php the_terms( 0, 'muz_Segh', "mu' Segh: ", ', ', '<br />'); ?></p>
+						<p><?php the_terms( 0, 'muz_Segh', "Category: ", ', ', '<br />'); ?></p>
     					</header>
     					<div class="entry-content">
 					   <div class="row">
-						<div class="col-xs-8">
+						<div class="col-sm-9">
 							<h5><strong>Description/Reason: </strong><?php the_content()?></h5>
 						</div>
-						<div class="col-xs-4">
-							Voting Data
-             <div class="wIv" id="chabal_tetlh_<?php the_ID(); ?>">
+						<div class="col-sm-3">
+                                                        <div class="wIv" id="chabal_tetlh_<?php the_ID(); ?>"></div>
+    						        <script>chabal_tetlh_chabal_yIvurmoH(<?php the_ID(); ?>);</script>
 						</div>
-						<script>chabal_tetlh_chabal_yIvurmoH(<?php the_ID(); ?>);</script>
 					   </div>
 					<hr>
 					   <div class="row">
@@ -44,7 +43,7 @@ get_header();
 							<a class="btn btn-primary" href="/chabal-tetlh/" role="button">Back to listing</a>
 							<?php edit_post_link( __('Edit Word', 'firmasite'), '', '', 0, 'post-edit-link btn btn-default' ); ?>
 						</div>
-                                                <div class="col-sm-7">
+                                                <div class="col-sm-9">
 							<p>Comment below with feedback and suggestions.</p>
 						</div>
 <?php /* TODO add lock/delete buttons
