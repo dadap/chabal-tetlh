@@ -25,6 +25,7 @@ get_header();
         					<h1 class="page-header page-title entry-title">
             						<strong>Word: <a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'firmasite' ), the_title_attribute( 'echo=0' ) ) ); ?>" rel="bookmark"><?php the_title(); ?></a></strong>
         					</h1>
+						<p><?php the_terms( 0, 'muz_Segh', "mu' Segh: ", ', ', '<br />'); ?></p>
     					</header>
     					<div class="entry-content">
 					   <div class="row">

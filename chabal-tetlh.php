@@ -76,9 +76,17 @@ function DezHom_Sar_yIcher() {
             'public' => true,
             'has_archive' => true,
             'rewrite' => array('slug' => 'chabal'),
+            //'taxonomies' => array( 'category' ),
         )
     );
     add_post_type_support('chabal', 'comments');
+
+    register_taxonomy( 'muz_Segh', 'chabal',
+        array(
+            'label' => __( "mu' Segh" ),
+            'rewrite' => array( 'slug' => 'muz_Segh' )
+        )
+    );
 }
 add_action( 'init', 'DezHom_Sar_yIcher' );
 
@@ -178,12 +186,14 @@ function chabal_tISuq() {
                 $Dez .= "<p class='error'>An entry already exists for the word "
                         . "$muz. Please choose a different word.</p>\n";
             } else {
-                wp_insert_post(array(
+                $pID = wp_insert_post(array(
                     'post_title' => $muz,
                     'post_content' => Dez_peSluzbogh_yInawz("QIjmeH_per"),
                     'post_status' => 'publish',
                     'post_type' => 'chabal',
                 ));
+		$SeghID = array_map( 'intval', array(Dez_peSluzbogh_yInawz("muz_Segh")) );
+                wp_set_object_terms( $pID, $SeghID, 'muz_Segh');
             }
         }
 
@@ -207,6 +217,13 @@ function chabal_tISuq() {
             $Dez .= "               <input type='text' name='QIjmeH_per' />\n";
             $Dez .= "            </div>\n";
             $Dez .= "        </div>\n";
+            $Dez .= "        <div class='form-group row'>\n";
+            $Dez .= "            <label class='col-sm-2 col-form-label'>Category</label>\n";
+            $Dez .= "            <div class='col-sm-10'>\n";
+            $Dez .= "               " . wp_dropdown_categories( "echo=0&show_option_none=Choose&taxonomy=muz_Segh&name=muz_Segh") . "\n";
+            $Dez .= "            </div>\n";
+            $Dez .= "        </div>\n";
+
 //            $Dez .= "        <input type='submit' />\n";
             $Dez .= "        <button type='submit' class='btn btn-primary'>Add Word</button>\n";
             $Dez .= "    </form>\n";
