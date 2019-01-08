@@ -195,6 +195,59 @@ function chabal_tetlh_chabal_yIngaQHazmoH(chabal)
     });
 }
 
+function chabal_tetlh_mIvwaz_yIvurmoH(chabal)
+{
+    "use strict";
+    var mIvwaz = chabal_tetlh[chabal]["+"] - chabal_tetlh[chabal]["-"];
+    var ghurbogh = (
+        chabal_tetlh[chabal].w > 0
+            ? " wIvbogh"
+            : ""
+    );
+    var nupbogh = (
+        chabal_tetlh[chabal].w < 0
+            ? " wIvbogh"
+            : ""
+    );
+    var leQmey = (
+        chabal_tetlh_wpdata.user != 0 && ! chabal_tetlh[chabal].ng &&
+            ! chabal_tetlh[chabal].Q
+            ? `
+            <div class='leQmey'>
+                <button class='nupmoH${nupbogh}'
+                    onclick='chabal_tetlh_chabal_yIpatlh(this);'>-</button>
+                <button class='ghurmoH${ghurbogh}'
+                    onclick='chabal_tetlh_chabal_yIpatlh(this);'>+</button>
+            </div>
+            `
+            : ""
+    );
+
+    jQuery(`#chabal_tetlh_${chabal}`).html(`
+            ${leQmey}
+            <div class='mIz_toghbogh'>${mIvwaz}</div>
+            <div class='gherzID_naQ'>
+                (+${chabal_tetlh[chabal]["+"]} /
+                 -${chabal_tetlh[chabal]["-"]})
+            </div>
+        </div>
+    `);
+}
+
+function chabal_tetlh_chabal_yIvurmoH(chabal)
+{
+    "use strict";
+    jQuery.ajax({
+        url: turwIz_Daq_yIper(),
+        data: {
+            action: "chabal_tetlh",
+            chabal: chabal
+        }
+    }).done(function(Dez) {
+        chabal_tetlh_Dez_yIlaj(Dez);
+    });
+}
+
 function chabal_tetlh_tetlh_yIchaz()
 {
     "use strict";
@@ -202,33 +255,17 @@ function chabal_tetlh_tetlh_yIchaz()
         chabal_tetlh_chabal_tlhIn_neH_yughmoH(chIjmeH_permey[chIjmeH_per]);
     tetlh.sort(patlh_mIw[patlh_meq]);
 
-    jQuery("#chabal_tetlh").empty();
+    var ct = jQuery("#chabal_tetlh")
+
+    if (ct.length == 0) {
+        Object.keys(chabal_tetlh).forEach(function(chabal) {
+            chabal_tetlh_mIvwaz_yIvurmoH(chabal);
+        });
+    }
+
+    ct.empty();
 
     tetlh.forEach(function(chabal) {
-        var mIvwaz = chabal_tetlh[chabal]["+"] - chabal_tetlh[chabal]["-"];
-        var ghurbogh = (
-            chabal_tetlh[chabal].w > 0
-                ? " wIvbogh"
-                : ""
-        );
-        var nupbogh = (
-            chabal_tetlh[chabal].w < 0
-                ? " wIvbogh"
-                : ""
-        );
-        var leQmey = (
-            chabal_tetlh_wpdata.user != 0 && ! chabal_tetlh[chabal].ng &&
-                ! chabal_tetlh[chabal].Q
-                ? `
-                <div class='leQmey'>
-                    <button class='nupmoH${nupbogh}'
-                        onclick='chabal_tetlh_chabal_yIpatlh(this);'>-</button>
-                    <button class='ghurmoH${ghurbogh}'
-                        onclick='chabal_tetlh_chabal_yIpatlh(this);'>+</button>
-                </div>
-                `
-                : ""
-        );
         var yIlel = (
             chabal_tetlh[chabal].v
                 ? "\n<button class='lel' onclick='chabal_tetlh_chabal_yIlel(" +
@@ -272,15 +309,9 @@ function chabal_tetlh_tetlh_yIchaz()
             `;
         }
 
-        jQuery("#chabal_tetlh").append(`
+        ct.append(`
             <li class='${Segh}'>
                 <div class='wIv' id='chabal_tetlh_${chabal}'>
-                    ${leQmey}
-                    <div class='mIz_toghbogh'>${mIvwaz}</div>
-                    <div class='gherzID_naQ'>
-                        (+${chabal_tetlh[chabal]["+"]} /
-                         -${chabal_tetlh[chabal]["-"]})
-                    </div>
                 </div>
                 <div class='${Segh}'>${yIlel}${yIngaQmoH}
                     <a href='${chabal_tetlh[chabal].D}'>${lajQozluzpuz}${ngaQ}
@@ -294,6 +325,8 @@ function chabal_tetlh_tetlh_yIchaz()
                 </div>
             </li>
         `);
+        chabal_tetlh_mIvwaz_yIvurmoH(chabal);
+
     });
 
     if (tetlh.length === 0) {

@@ -33,20 +33,10 @@ get_header();
 							<h5><strong>Description/Reason: </strong><?php the_content()?></h5>
 						</div>
 						<div class="col-xs-4">
-							Voting Data (doesn't work)
-             <div class="wIv" id="chabal_tetlh_5507">
-		<div class="leQmey">
-                    <button class="nupmoH" onclick="chabal_tetlh_chabal_yIpatlh(this);">-</button>
-                    <button class="ghurmoH wIvbogh" onclick="chabal_tetlh_chabal_yIpatlh(this);">+</button>
-                </div>
-                    <div class="mIz_toghbogh">1</div>
-                    <div class="gherzID_naQ">
-                        (+1 /
-                         -0)
-                    </div>
-                </div>
-
+							Voting Data
+             <div class="wIv" id="chabal_tetlh_<?php the_ID(); ?>">
 						</div>
+						<script>chabal_tetlh_chabal_yIvurmoH(<?php the_ID(); ?>);</script>
 					   </div>
 					<hr>
 					   <div class="row">
@@ -57,10 +47,12 @@ get_header();
                                                 <div class="col-sm-7">
 							<p>Comment below with feedback and suggestions.</p>
 						</div>
+<?php /* TODO add lock/delete buttons
 						<div class="col-sm-2 pull-right">
 							<button class="btn btn-default pull-right" href="#"><img draggable="false" class="emoji" alt="🔓" src="https://s.w.org/images/core/emoji/11/svg/1f513.svg"></button>
 							<button class="btn btn-default pull-right" href="#">x</button>
 						</div>
+*/ ?>
 					   </div>
     					</div>
    				</div>
