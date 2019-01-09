@@ -210,7 +210,7 @@ function chabal_tetlh_mIvwaz_yIvurmoH(chabal)
             : ""
     );
     var leQmey = (
-        chabal_tetlh_wpdata.user != 0 && ! chabal_tetlh[chabal].ng &&
+        chabal_tetlh_wpuser != 0 && ! chabal_tetlh[chabal].ng &&
             ! chabal_tetlh[chabal].Q
             ? `
             <div class='leQmey'>
@@ -433,7 +433,7 @@ function rurbogh_muz_tInguz(muz)
 function chabal_tetlh_Hoch_yIchaz()
 {
     "use strict";
-    if (chabal_tetlh_wpdata.user === 0) {
+    if (chabal_tetlh_wpuser === 0) {
         chIjmeH_per = "All words";
         patlh_meq = "Total Score";
     }
