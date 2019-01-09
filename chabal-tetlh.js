@@ -315,10 +315,10 @@ function chabal_tetlh_tetlh_yIchaz()
                 </div>
                 <div class='${Segh}'>${yIlel}${yIngaQmoH}
                     <a href='${chabal_tetlh[chabal].D}'>${lajQozluzpuz}${ngaQ}
-                        <div class='muz'>
+                        <div class='muz unipIqaD'>
                             ${chabal_tetlh[chabal].m}
                         </div>
-                        <div class='QIjmeH_per'>
+                        <div class='QIjmeH_per unipIqaD'>
                             ${chabal_tetlh[chabal].p}
                         </div>
                     </a>

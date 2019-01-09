@@ -177,6 +177,8 @@ function chabal_tISuq() {
                  "'>log in</a> to submit words or vote.</p>\n";
     } else {
         $muz = Dez_peSluzbogh_yInawz("muz");
+        $QIjmeH_per = Dez_peSluzbogh_yInawz("QIjmeH_per", false);
+        $muz_Segh = Dez_peSluzbogh_yInawz("muz_Segh", false);
         if ($muz) {
             $match = get_posts(array(
                 'post_type' => 'chabal',
@@ -186,14 +188,26 @@ function chabal_tISuq() {
                 $Dez .= "<p class='error'>An entry already exists for the word "
                         . "$muz. Please choose a different word.</p>\n";
             } else {
-                $pID = wp_insert_post(array(
-                    'post_title' => $muz,
-                    'post_content' => Dez_peSluzbogh_yInawz("QIjmeH_per"),
-                    'post_status' => 'publish',
-                    'post_type' => 'chabal',
-                ));
-		$SeghID = array_map( 'intval', array(Dez_peSluzbogh_yInawz("muz_Segh")) );
-                wp_set_object_terms( $pID, $SeghID, 'muz_Segh');
+                if (!$QIjmeH_per) {
+                    $Dez .= "<p class='error'>You must enter a description for the word "
+                            . "$muz to help clarify it in case of questions.</p>\n";
+                } else {
+                    if ( (!$muz_Segh) || ($muz_Segh == -1) ) {
+                        $Dez .= "<p class='error'>You must select a category for the word "
+                                . "$muz.</p>\n";
+                    } else {
+                        $pID = wp_insert_post(array(
+                            'post_title' => $muz,
+                            'post_content' => $QIjmeH_per,
+                            'post_status' => 'publish',
+                            'post_type' => 'chabal',
+                        ));
+		        $SeghID = array_map( 'intval', array($muz_Segh) );
+                        wp_set_object_terms( $pID, $SeghID, 'muz_Segh');
+                        $muz = "";
+                        $QIjmeH_per = "";
+                    }
+                }
             }
         }
 
@@ -203,28 +217,32 @@ function chabal_tISuq() {
                 " more entries.</p>\n";
 
         if (chabal_zar_peSluz() < chabal_zar_chawzluz()) {
+            $Dez .= "<p>All fields are required. One word or concept per submission.</p>\n";
             $Dez .= "    <form method='POST'>\n";
             $Dez .= "        <div class='form-group row'>\n";
             $Dez .= "            <label class='col-sm-2 col-form-label'>Word</label>\n";
             $Dez .= "            <div class='col-sm-10'>\n";
             $Dez .= "               <input type='text' name='muz' ";
+            if ($muz)
+                $Dez .= "value='$muz' ";
             $Dez .= "onInput='rurbogh_muz_tInguz(this.value);' />\n";
             $Dez .= "            </div>\n";
             $Dez .= "        </div>\n";
             $Dez .= "        <div class='form-group row'>\n";
             $Dez .= "            <label class='col-sm-2 col-form-label'>Description</label>\n";
             $Dez .= "            <div class='col-sm-10'>\n";
-            $Dez .= "               <input type='text' name='QIjmeH_per' />\n";
+            $Dez .= "               <input type='text' name='QIjmeH_per' ";
+            if ($QIjmeH_per)
+                $Dez .= "value='$QIjmeH_per' ";
+            $Dez .= " />\n";
             $Dez .= "            </div>\n";
             $Dez .= "        </div>\n";
             $Dez .= "        <div class='form-group row'>\n";
             $Dez .= "            <label class='col-sm-2 col-form-label'>Category</label>\n";
             $Dez .= "            <div class='col-sm-10'>\n";
-            $Dez .= "               " . wp_dropdown_categories( "echo=0&show_option_none=Choose&taxonomy=muz_Segh&name=muz_Segh") . "\n";
+            $Dez .= "               " . wp_dropdown_categories( "echo=0&show_option_none=Choose&taxonomy=muz_Segh&name=muz_Segh&hide_empty=0&orderby=name&order=ASC") . "\n";
             $Dez .= "            </div>\n";
             $Dez .= "        </div>\n";
-
-//            $Dez .= "        <input type='submit' />\n";
             $Dez .= "        <button type='submit' class='btn btn-primary'>Add Word</button>\n";
             $Dez .= "    </form>\n";
             $Dez .= "    <div id='rurbogh_muz_QIn'></div>\n";
@@ -704,4 +722,16 @@ function chabal_template($single) {
     return $single;
 }
 add_filter('single_template', 'chabal_template');
+
+function chabal_tetlh_template($archive) {
+    global $post;
+    /* Checks for single template by post type */
+    if ( is_post_type_archive( 'chabal' ) ) {
+        if ( file_exists( WP_PLUGIN_DIR . '/chabal-tetlh/archive.php' ) ) {
+            return WP_PLUGIN_DIR . '/chabal-tetlh/archive.php';
+        }
+    }
+    return $archive;
+}
+add_filter('archive_template', 'chabal_tetlh_template');
 ?>
