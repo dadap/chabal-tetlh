@@ -65,6 +65,10 @@ ul#chabal_tetlh button {
     font-size: 120%;
 }
 
+.muz_Segh {
+    font-size: 60%;
+}
+
 .QIjmeH_per {
     font-size: 80%;
 }
@@ -87,4 +91,8 @@ ul#chabal_tetlh_chIjmeH_tetlh > li:hover {
 
 .lajQozluzpuz {
     background-color: #666;
+}
+
+.error {
+    color: red;
 }

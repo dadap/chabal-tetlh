@@ -318,6 +318,9 @@ function chabal_tetlh_tetlh_yIchaz()
                         <div class='muz unipIqaD'>
                             ${chabal_tetlh[chabal].m}
                         </div>
+                        <div class='muz_Segh unipIqaD'>
+                            ${chabal_tetlh[chabal].S}
+                        </div>
                         <div class='QIjmeH_per unipIqaD'>
                             ${chabal_tetlh[chabal].p}
                         </div>

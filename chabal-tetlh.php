@@ -302,12 +302,14 @@ function chabal_tISuq() {
             ($zarlogh_naDluz + $zarlogh_naDHazluz) . "</div>" .
             "<div class='gherzId_naQ'>(+$zarlogh_naDluz/" .
             "-$zarlogh_naDHazluz)</div>";
+        $muz_Segh = wp_get_post_terms($muz->ID, 'muz_Segh');
         $Dez .= "    <li>\n";
         $Dez .= "        <div class='wIv' id='chabal_tetlh_$muz->ID'>\n";
         $Dez .= "            $mIvwaz\n";
         $Dez .= "        </div>\n";
         $Dez .= "        <a href='" . get_post_permalink($muz) . "'>\n";
         $Dez .= "            <div class='muz'>$muz->post_title</div>\n";
+        $Dez .= "            <div class='muz_Segh'>" . $muz_Segh[0]->name . "</div>\n";
         $Dez .= "            <div class='QIjmeH_per'>$muz->post_content</div>\n";
         $Dez .= "        </a>\n";
         $Dez .= "    </li>\n";
@@ -483,13 +485,15 @@ function chabal_tIjatlh()
         }
 
         if (ghorgh_choHluz($muz->ID) >= $ghorgh) {
+            $muz_Segh = wp_get_post_terms($muz->ID, 'muz_Segh');
             $Dez['tetlh'][$muz->ID] = array(
                 '+' => wIv_tItogh($muz->ID, 1),
                 '-' => wIv_tItogh($muz->ID, -1),
                 'm' => $muz->post_title,
                 'D' => get_post_permalink($muz),
                 'p' => $muz->post_content,
-                'gh' => ghorgh_choHluz($muz->ID)
+                'gh' => ghorgh_choHluz($muz->ID),
+                'S' => $muz_Segh[0]->name
             );
             if (SaH_zIv()) {
                     $mIvwaz = $wpdb->get_var($wpdb->prepare("SELECT wIv FROM " .
