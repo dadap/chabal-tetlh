@@ -28,6 +28,13 @@ get_header();
 						<p><?php the_terms( 0, 'muz_Segh', "Category: ", ', ', '<br />'); ?></p>
     					</header>
     					<div class="entry-content">
+                                        <?php if (chabal_lajQozluzpuz(get_the_ID())) { ?>
+					   <div class="row">
+						<div class="col-sm-12">
+							<h4><strong>This word has been blacklisted. No further votes can be made on it.</strong></h4>
+						</div>
+					   </div>
+                                        <?php } ?>
 					   <div class="row">
 						<div class="col-sm-9 unipIqaD">
 							<h5><strong>Description/Reason: </strong></h5><div class="unipIqaD"><?php the_content()?></div>
@@ -41,7 +48,10 @@ get_header();
 					   <div class="row">
 						<div class="col-sm-3">
 							<a class="btn btn-primary" href="/chabal/" role="button">Back to listing</a>
-							<?php edit_post_link( __('Edit Word', 'firmasite'), '', '', 0, 'post-edit-link btn btn-default' ); ?>
+                                                        <?php if (!chabal_lajQozluzpuz(get_the_ID())) {
+							          edit_post_link( __('Edit Word', 'firmasite'), '', '', 0, 'post-edit-link btn btn-default' );
+                                                              }
+                                                        ?>
 						</div>
                                                 <div class="col-sm-9">
 							<p>Comment below with feedback and suggestions.</p>
