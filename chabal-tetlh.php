@@ -477,6 +477,13 @@ function chabal_tIjatlh()
     if (loHwIz()) {
         $Dez['l'] = 1;
     }
+
+    $tetlh_SuqmeH_Dez = array('post_type' => 'chabal', 'numberposts' => -1);
+    $chabal_Suqluzbogh = Dez_peSluzbogh_yInawz("chabal", -1, $_GET);
+    if ($chabal_Suqluzbogh != -1) {
+        $tetlh_SuqmeH_Dez['post_id'] = $chabal_Suqluzbogh;
+    }
+
     $tetlh = get_posts(array('post_type' => 'chabal', 'numberposts' => -1));
     foreach ($tetlh as $muz) {
         $muz_lajQozluzpuz = chabal_lajQozluzpuz($muz->ID);
