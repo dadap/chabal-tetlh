@@ -253,7 +253,7 @@ function chabal_tISuq() {
     $Dez .= "    <div class='col-sm-12'>\n";
 
 
-    $Dez .= "<script>chabal_tetlh_wpdata.user = " . SaH_zIv() . "</script>\n";
+    $Dez .= "<script>chabal_tetlh_wpuser = " . SaH_zIv() . "</script>\n";
     $Dez .= "<noscript><p>You must have JavaScript enabled in order to vote." .
           "</p></noscript>\n";
     if (SaH_zIv()) {

@@ -28,15 +28,18 @@ get_header();
 						<p><?php the_terms( 0, 'muz_Segh', "Category: ", ', ', '<br />'); ?></p>
     					</header>
     					<div class="entry-content">
-					   <div class="row">
+					<div class="row">
 						<div class="col-sm-9 unipIqaD">
 							<h5><strong>Description/Reason: </strong></h5><div class="unipIqaD"><?php the_content()?></div>
 						</div>
 						<div class="col-sm-3">
-                                                        <div class="wIv" id="chabal_tetlh_<?php the_ID(); ?>"></div>
-    						        <script>chabal_tetlh_chabal_yIvurmoH(<?php the_ID(); ?>);</script>
+							<div class="wIv" id="chabal_tetlh_<?php the_ID(); ?>"></div>
+							<script>
+								chabal_tetlh_wpuser = <?php echo get_current_user_id(); ?>;
+								chabal_tetlh_chabal_yIvurmoH(<?php the_ID(); ?>);
+							</script>
 						</div>
-					   </div>
+					</div>
 					<hr>
 					   <div class="row">
 						<div class="col-sm-3">
