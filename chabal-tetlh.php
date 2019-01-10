@@ -745,4 +745,29 @@ function chabal_tetlh_template($archive) {
     return $archive;
 }
 add_filter('archive_template', 'chabal_tetlh_template');
-?>
+
+function QInHom_jabbIzID_vep($QInHom_ID, $QInHom_naDpuz) {
+    $QInHom = get_comment($QInHom_ID);
+    $QIn_ID = $QInHom->comment_post_ID;
+    $QIn_Segh = get_post_type($QIn_ID);
+
+    if ($QIn_Segh !== 'chabal') {
+        return;
+    }
+
+    $ghItlhwIz_ID = get_post_field( 'post_author', $QIn_ID );
+    $ghItlhwIz_jabbIzID = get_the_author_meta( 'user_email', $ghItlhwIz_ID );
+    //echo "Want to send mail to $ghItlhwIz_jabbIzID";
+    if (isset($ghItlhwIz_jabbIzID) && is_email($ghItlhwIz_jabbIzID)) {
+        $vep = '<p>There was a new comment on your chabal tetlh suggestion: <a href="' . get_permalink($QIn_ID) . '">' . get_the_title($QIn_ID) . '</a> '
+              .'<p>Author: ' . $QInHom->comment_author . '</p>'
+              .'<p>Content: ' . $QInHom->comment_content . '</p>';
+
+        add_filter('wp_mail_content_type',
+                   create_function('', 'return "text/html";'));
+
+        wp_mail($ghItlhwIz_jabbIzID, '[KLI chabal tetlh] New Comment on ' . get_the_title($QIn_ID), $vep);
+        //echo "Sending Mail to $ghItlhwIz_jabbIzID for " . get_the_title($QIn_ID) . ": $vep";
+    }
+}
+add_action('comment_post', 'QInHom_jabbIzID_vep', 11, 2);
