@@ -36,8 +36,17 @@ ul#chabal_tetlh button {
     margin: 1px;
 }
 
-.lel, .ngaQmoH, .ngaQHazmoH {
+.lel, .ngaQmoH, .ngaQHazmoH, .QInHomtogh {
     float: right;
+}
+
+.QInHomtogh {
+    float: right;
+    display: block;
+    width: 100px !important;
+    height: 28px;
+    padding: 0;
+    margin: 1px;
 }
 
 .wIv {

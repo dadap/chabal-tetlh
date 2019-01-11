@@ -309,11 +309,17 @@ function chabal_tetlh_tetlh_yIchaz()
             `;
         }
 
+        var QInHomtogh = `
+		<button class='QInHomtogh'
+		   onclick="location.href='${chabal_tetlh[chabal].D}#comments';"
+		>${chabal_tetlh[chabal].QH} Comments</button>
+	    `;
+
         ct.append(`
             <li class='${Segh}'>
                 <div class='wIv' id='chabal_tetlh_${chabal}'>
                 </div>
-                <div class='${Segh}'>${yIlel}${yIngaQmoH}
+                <div class='${Segh}'>${yIlel}${yIngaQmoH}${QInHomtogh}
                     <a href='${chabal_tetlh[chabal].D}'>${lajQozluzpuz}${ngaQ}
                         <div class='muz unipIqaD'>
                             ${chabal_tetlh[chabal].m}
