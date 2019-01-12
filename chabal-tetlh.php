@@ -692,7 +692,7 @@ function loH_SeHlawz_yIchaz()
 
 function loHwIz_Seghmey_tIper()
 {
-    return (array) get_option('loHwIz_Segh', array());
+    return (array) array_filter(get_option('loHwIz_Segh', array()));
 }
 
 function loHwIz_Segh_yIchaz($Dez)
