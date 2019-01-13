@@ -1,6 +1,7 @@
 var chabal_tetlh = {};
 var ghorgh_vurmoHluzpuz = 0;
 var loHwIz_jIH = false;
+var veH = 1;
 
 var turwIz_Daq = null;
 
@@ -62,26 +63,11 @@ function turwIz_Daq_yIper()
 function chabal_tetlh_chabal_yIpatlh(e)
 {
     "use strict";
-    var pongDaH = e.parentNode.parentNode.id.split("_");
-    var patlh = 0;
+    var pongDaH = e.parentNode.id.split("_");
 
     if (pongDaH.length === 3 && pongDaH[0] === "chabal" &&
         pongDaH[1] === "tetlh") {
-        if (e.className.includes("wIvbogh")) {
-            e.className = e.className.replace(/\s*wIvbogh/, "");
-        } else {
-            if (e.className.includes("ghurmoH")) {
-                patlh = 1;
-            } else if (e.className.includes("nupmoH")) {
-                patlh = -1;
-            }
-            var sibling = e.parentNode.firstElementChild;
-            while (sibling) {
-                sibling.className = sibling.className.replace(/\s*wIvbogh/, "");
-                sibling = sibling.nextElementSibling;
-            }
-            e.className += " wIvbogh";
-        }
+        var patlh = e.value;
 
         jQuery.ajax({
             url: turwIz_Daq_yIper(),
@@ -136,6 +122,8 @@ function chabal_tetlh_Dez_yIlaj(Dez)
     "use strict";
     var Dez_pojluzpuzbogh = JSON.parse(Dez);
     var tetlh = Dez_pojluzpuzbogh.tetlh;
+
+    veH = Dez_pojluzpuzbogh.v;
 
     if (Dez_pojluzpuzbogh.l === 1) {
         loHwIz_jIH = true;
@@ -195,36 +183,46 @@ function chabal_tetlh_chabal_yIngaQHazmoH(chabal)
     });
 }
 
+function chabal_tetlh_wIvmeH_leQ_yIlIng(wIv)
+{
+    var Dez = "<select class='leQ' " +
+         "onChange='chabal_tetlh_chabal_yIpatlh(this)'>\n";
+
+    for (var i = veH * -1; i <= veH; i++) {
+        Dez += "    <option value='" + i + "'";
+        if (wIv == i) {
+            Dez += " selected";
+        }
+        Dez += ">";
+        if (i > 0) {
+            Dez += "+";
+        }
+        Dez += i + "</option>\n";
+    }
+
+    Dez += "</select>\n";
+
+    return Dez;
+}
+
 function chabal_tetlh_mIvwaz_yIvurmoH(chabal)
 {
     "use strict";
     var mIvwaz = chabal_tetlh[chabal]["+"] - chabal_tetlh[chabal]["-"];
-    var ghurbogh = (
-        chabal_tetlh[chabal].w > 0
-            ? " wIvbogh"
-            : ""
+    var wIv = (
+        chabal_tetlh[chabal].hasOwnProperty("w")
+            ? chabal_tetlh[chabal].w
+            : 0
     );
-    var nupbogh = (
-        chabal_tetlh[chabal].w < 0
-            ? " wIvbogh"
-            : ""
-    );
-    var leQmey = (
+    var leQ = (
         chabal_tetlh_wpuser != 0 && ! chabal_tetlh[chabal].ng &&
             ! chabal_tetlh[chabal].Q
-            ? `
-            <div class='leQmey'>
-                <button class='nupmoH${nupbogh}'
-                    onclick='chabal_tetlh_chabal_yIpatlh(this);'>-</button>
-                <button class='ghurmoH${ghurbogh}'
-                    onclick='chabal_tetlh_chabal_yIpatlh(this);'>+</button>
-            </div>
-            `
+            ? chabal_tetlh_wIvmeH_leQ_yIlIng(wIv)
             : ""
     );
 
     jQuery(`#chabal_tetlh_${chabal}`).html(`
-            ${leQmey}
+            ${leQ}
             <div class='mIz_toghbogh'>${mIvwaz}</div>
             <div class='gherzID_naQ'>
                 (+${chabal_tetlh[chabal]["+"]} /

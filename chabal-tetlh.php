@@ -110,6 +110,11 @@ function chabal_zar_chawzluz() {
     return $Dez;
 }
 
+// TODO: adjust limit based on KLCP level and membership type
+function wIv_zar_chawzluz() {
+    return 1;
+}
+
 function chabal_lajQozluzpuz($chabal)
 {
     global $wpdb;
@@ -347,10 +352,16 @@ function wIv_tItogh($chabal, $Dop)
         $patlhmoHmeH = '<';
     }
 
-    $res = $wpdb->get_var($wpdb->prepare("SELECT COUNT(wIv) FROM $raS " .
+    if ($Dop == 0) {
+        $mIw = "COUNT";
+    } else {
+        $mIw = "SUM";
+    }
+
+    $res = $wpdb->get_var($wpdb->prepare("SELECT $mIw(wIv) FROM $raS " .
         "WHERE chabal = %d AND wIv $patlhmoHmeH 0", $chabal));
 
-    return $res ? $res : 0;
+    return $res ? abs($res) : 0;
 }
 
 function ghorgh_choHluz($chabal)
@@ -434,10 +445,12 @@ function chabal_tIjatlh()
         if ($chabal && $wIv != null) {
 
             if ($chabal && $chabal->post_type == 'chabal') {
-                if ($wIv > 0) {
-                    $wIv = 1;
-                } else if ($wIv < 0) {
-                    $wIv = -1;
+                $wIv = (int) $wIv;
+                $veH = wIv_zar_chawzluz();
+                if ($wIv > $veH) {
+                    $wIv = $veH;
+                } else if ($wIv < ($veH * -1)) {
+                    $wIv = ($veH * -1);
                 }
 
                 if (!chabal_lajQozluzpuz($chabal->ID)) {
@@ -474,6 +487,8 @@ function chabal_tIjatlh()
 
     $Dez = array();
     $Dez['tetlh'] = array();
+
+    $Dez['v'] = wIv_zar_chawzluz();
 
     if (loHwIz()) {
         $Dez['l'] = 1;
