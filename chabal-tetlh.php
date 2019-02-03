@@ -204,8 +204,8 @@ function chabal_tISuq() {
                 $Dez .= "<p class='error'>An entry already exists for the word "
                         . "$muz. Please choose a different word.</p>\n";
             } else {
-                if (!$QIjmeH_per) {
-                    $Dez .= "<p class='error'>You must enter a description for the word "
+                if ( (!$QIjmeH_per) || (strlen($QIjmeH_per) < 5) ) {
+                    $Dez .= "<p class='error'>You must enter a complete description for the word "
                             . "$muz to help clarify it in case of questions.</p>\n";
                 } else {
                     if ( (!$muz_Segh) || ($muz_Segh == -1) ) {
@@ -233,12 +233,12 @@ function chabal_tISuq() {
                 " more entries.</p>\n";
 
         if (chabal_zar_peSluz() < chabal_zar_chawzluz()) {
-            $Dez .= "<p>All fields are required. One word or concept per submission.</p>\n";
+            $Dez .= "<p><strong>All fields are required.</strong> All suggestions should include a description with examples of how the word is used in English. Suggestions with incomplete descriptions <strong>may be locked</strong> until they are updated with additional information.</p>\n";
             $Dez .= "    <form method='POST'>\n";
             $Dez .= "        <div class='form-group row'>\n";
             $Dez .= "            <label class='col-sm-2 col-form-label'>Word</label>\n";
             $Dez .= "            <div class='col-sm-10'>\n";
-            $Dez .= "               <input type='text' name='muz' ";
+            $Dez .= "               <input type='text' name='muz' placeholder='One word/concept per suggestion' ";
             if ($muz)
                 $Dez .= "value='$muz' ";
             $Dez .= "onInput='rurbogh_muz_tInguz(this.value);' />\n";
@@ -247,7 +247,7 @@ function chabal_tISuq() {
             $Dez .= "        <div class='form-group row'>\n";
             $Dez .= "            <label class='col-sm-2 col-form-label'>Description</label>\n";
             $Dez .= "            <div class='col-sm-10'>\n";
-            $Dez .= "               <input type='text' name='QIjmeH_per' ";
+            $Dez .= "               <input type='text' name='QIjmeH_per' placeholder='Include examples to help clarify the meaning of the suggestion.' ";
             if ($QIjmeH_per)
                 $Dez .= "value='$QIjmeH_per' ";
             $Dez .= " />\n";
@@ -256,7 +256,7 @@ function chabal_tISuq() {
             $Dez .= "        <div class='form-group row'>\n";
             $Dez .= "            <label class='col-sm-2 col-form-label'>Category</label>\n";
             $Dez .= "            <div class='col-sm-10'>\n";
-            $Dez .= "               " . wp_dropdown_categories( "echo=0&show_option_none=Choose&taxonomy=muz_Segh&name=muz_Segh&hide_empty=0&orderby=name&order=ASC") . "\n";
+            $Dez .= "               " . wp_dropdown_categories( "echo=0&show_option_none=Choose the type of word&taxonomy=muz_Segh&name=muz_Segh&hide_empty=0&orderby=name&order=ASC") . "\n";
             $Dez .= "            </div>\n";
             $Dez .= "        </div>\n";
             $Dez .= "        <button type='submit' class='btn btn-primary'>Add Word</button>\n";
