@@ -282,12 +282,7 @@ function chabal_tetlh_tetlh_yIchaz()
     ct.empty();
 
     tetlh.forEach(function(chabal) {
-        var yIlel = (
-            chabal_tetlh[chabal].v
-                ? "\n<button class='lel' onclick='chabal_tetlh_chabal_yIlel(" +
-                chabal + ");'>x</button>\n"
-                : ""
-        );
+        var yIlel = "";
         var yIngaQmoH = "";
         var ngaQ = (
             chabal_tetlh[chabal].ng
@@ -323,6 +318,9 @@ function chabal_tetlh_tetlh_yIchaz()
                     onclick='chabal_tetlh_chabal_yI${yIvang}(${chabal});'
                 >${per}</button>
             `;
+            yIlel =
+                "\n<button class='lel' onclick='chabal_tetlh_chabal_yIlel(" +
+                chabal + ");'>x</button>\n";
         }
 
         var QInHomtogh = `
