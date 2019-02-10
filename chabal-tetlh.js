@@ -2,6 +2,8 @@ var chabal_tetlh = {};
 var ghorgh_vurmoHluzpuz = 0;
 var loHwIz_jIH = false;
 var veH = 1;
+var chabal_zar_chazluz = 27;
+var chabal_chazluzbogh_wazDIch = 0;
 
 var turwIz_Daq = null;
 
@@ -246,12 +248,25 @@ function chabal_tetlh_chabal_yIvurmoH(chabal)
     });
 }
 
+function chabal_tetlh_chabal_chazluzbogh_tItogh()
+{
+    return chabal_tetlh_chabal_tlhIn_neH_yughmoH(
+        chIjmeH_permey[chIjmeH_per]).length;
+}
+
 function chabal_tetlh_tetlh_yIchaz()
 {
     "use strict";
     var tetlh =
         chabal_tetlh_chabal_tlhIn_neH_yughmoH(chIjmeH_permey[chIjmeH_per]);
     tetlh.sort(patlh_mIw[patlh_meq]);
+
+    chabal_tetlh_chabal_chazluzbogh_wIvmeH_leQ_yIchaz();
+
+    if (chabal_zar_chazluz < tetlh.length) {
+        tetlh = tetlh.slice(chabal_chazluzbogh_wazDIch,
+            chabal_chazluzbogh_wazDIch + chabal_zar_chazluz);
+    }
 
     var ct = jQuery("#chabal_tetlh")
 
@@ -445,6 +460,102 @@ function chabal_tetlh_Hoch_yIchaz()
     jQuery("#patlh_lurgh").val(patlh_lurgh[patlh_meq]);
     chabal_tetlh_tetlh_yIvurmoH();
     chabal_tetlh_chIjmeH_per_yIwIv(chIjmeH_per);
+}
+
+function chabal_tetlh_chabal_zar_chazluz(e)
+{
+    "use strict";
+
+    chabal_zar_chazluz = e.value;
+    chabal_tetlh_chabal_chazluzbogh_wIvmeH_leQ_yIchaz();
+    chabal_tetlh_tetlh_yIchaz();
+}
+
+function chabal_tetlh_chabal_chazluzbogh_wIvmeH_leQ_yIchaz()
+{
+    "use strict";
+    var wazDIch = parseInt(chabal_chazluzbogh_wazDIch) + 1;
+    var chabal_zar_tuzluz = chabal_tetlh_chabal_chazluzbogh_tItogh();
+    var Qav = Math.min(chabal_zar_tuzluz,
+        parseInt(chabal_chazluzbogh_wazDIch) + parseInt(chabal_zar_chazluz));
+
+    var zar = jQuery("<select>");
+    var mIz = 3;
+    var mIz_wIvluz = false;
+
+    zar.attr("onChange", "chabal_tetlh_chabal_zar_chazluz(this)");
+
+    while (mIz < chabal_zar_tuzluz) {
+        var wIv = jQuery("<option>").attr("value", mIz).html(mIz);
+        if (mIz == chabal_zar_chazluz) {
+            wIv.prop("selected", true);
+            mIz_wIvluz = true;
+        }
+        zar.append(wIv);
+        mIz = mIz * 3;
+    }
+
+    var Hoch = jQuery("<option>").attr("value", "Hoch").html("All");
+    if (!mIz_wIvluz) {
+        Hoch.prop("selected", true);
+    }
+    zar.append(Hoch);
+
+    var leQ = jQuery(".chabal_chazluzbogh_wIvmeH_leQ");
+
+    leQ.html("Show ");
+    leQ.append(zar);
+    leQ.append(" entries per page.");
+
+    if (mIz_wIvluz) {
+        leQ.append(`<div>
+            <button onclick='chabal_tetlh_chabal_wazDIch_yIwIv("wazDIch");'>
+                &lt;&lt;</button>
+            <button onclick='chabal_tetlh_chabal_wazDIch_yIwIv("vorgh");'>
+                &lt;</button>
+            <input onChange='chabal_tetlh_chabal_wazDIch_yIwIv(this.value);'
+                value='${wazDIch}' /> - ${Qav} of ${chabal_zar_tuzluz}
+            <button onclick='chabal_tetlh_chabal_wazDIch_yIwIv("veb");'>
+                &gt;</button>
+            <button onclick='chabal_tetlh_chabal_wazDIch_yIwIv("paghDIch");'>
+                &gt;&gt;</button>
+        </div>`);
+    }
+}
+
+function chabal_tetlh_chabal_wazDIch_yIwIv(wazDIch)
+{
+    "use strict";
+    var chabal_zar_tuzluz = chabal_tetlh_chabal_chazluzbogh_tItogh();
+    var wazDIch_wIvbogh;
+
+    if (wazDIch == "wazDIch") {
+        wazDIch_wIvbogh = 0;
+    } else if (wazDIch == "vorgh") {
+        wazDIch_wIvbogh = chabal_chazluzbogh_wazDIch - chabal_zar_chazluz;
+    } else if (wazDIch == "veb") {
+        wazDIch_wIvbogh = parseInt(chabal_chazluzbogh_wazDIch) +
+            parseInt(chabal_zar_chazluz);
+    } else if (wazDIch == "paghDIch") {
+        wazDIch_wIvbogh = chabal_zar_tuzluz;
+    } else {
+        wazDIch_wIvbogh = parseInt(wazDIch);
+        if (isNaN(wazDIch_wIvbogh)) {
+            wazDIch_wIvbogh = 1;
+        }
+        wazDIch_wIvbogh--;
+    }
+
+    if (wazDIch_wIvbogh < 0) {
+        wazDIch_wIvbogh = 0;
+    }
+    if (wazDIch_wIvbogh >= chabal_zar_tuzluz) {
+        wazDIch_wIvbogh = Math.floor(chabal_zar_tuzluz / chabal_zar_chazluz) *
+            chabal_zar_chazluz;
+    }
+
+    chabal_chazluzbogh_wazDIch = wazDIch_wIvbogh;
+    chabal_tetlh_tetlh_yIchaz();
 }
 
 /*

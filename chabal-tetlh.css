@@ -118,3 +118,11 @@ ul#chabal_tetlh_chIjmeH_tetlh > li:hover {
 ::-ms-input-placeholder { /* Microsoft Edge */
   color: grey !important;
 }
+
+.chabal_chazluzbogh_wIvmeH_leQ {
+    clear: both;
+}
+
+.chabal_chazluzbogh_wIvmeH_leQ input {
+    width: 3em;
+}
