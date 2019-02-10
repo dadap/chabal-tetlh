@@ -537,7 +537,7 @@ function chabal_tIjatlh()
                     $mIvwaz = $wpdb->get_var($wpdb->prepare("SELECT wIv FROM " .
                             "$raS WHERE chabal = %d AND wIvwIz = %d",
                             $muz->ID, SaH_zIv()));
-                if ($mIvwaz) {
+                if ($mIvwaz != null) {
                     $Dez['tetlh'][$muz->ID]['w'] = $mIvwaz;
                 }
                 if ($muz->post_author == SaH_zIv()) {

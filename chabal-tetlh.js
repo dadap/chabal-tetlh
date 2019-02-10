@@ -190,6 +190,9 @@ function chabal_tetlh_wIvmeH_leQ_yIlIng(wIv)
     var Dez = "<select class='leQ' " +
          "onChange='chabal_tetlh_chabal_yIpatlh(this)'>\n";
 
+    if (wIv == "pagh") {
+        Dez += "    <option value='pagh' selected></option>\n";
+    }
     for (var i = veH * -1; i <= veH; i++) {
         Dez += "    <option value='" + i + "'";
         if (wIv == i) {
@@ -214,7 +217,7 @@ function chabal_tetlh_mIvwaz_yIvurmoH(chabal)
     var wIv = (
         chabal_tetlh[chabal].hasOwnProperty("w")
             ? chabal_tetlh[chabal].w
-            : 0
+            : "pagh"
     );
     var leQ = (
         chabal_tetlh_wpuser != 0 && ! chabal_tetlh[chabal].ng &&
