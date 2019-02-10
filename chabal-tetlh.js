@@ -507,7 +507,9 @@ function chabal_tetlh_chabal_chazluzbogh_wIvmeH_leQ_yIchaz()
         mIz = mIz * 3;
     }
 
-    var Hoch = jQuery("<option>").attr("value", "Hoch").html("All");
+    var Hoch = jQuery("<option>")
+        .attr("value", Number.MAX_SAFE_INTEGER)
+        .html("All");
     if (!mIz_wIvluz) {
         Hoch.prop("selected", true);
     }
