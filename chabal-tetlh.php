@@ -485,7 +485,7 @@ function chabal_tIjatlh()
 
             if ($lelbogh && $lelbogh->post_author == SaH_zIv() &&
                 $lelbogh->post_type == 'chabal') {
-                wp_delete_post($lelbogh->ID);
+                wp_trash_post($lelbogh->ID);
             }
         }
 
