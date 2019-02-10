@@ -351,7 +351,18 @@ function chabal_tetlh_tetlh_yIchaz()
 
     });
 
-    if (tetlh.length === 0) {
+    if (Object.keys(chabal_tetlh).length === 0) {
+        jQuery("#chabal_tetlh").append(`
+            <li><p>Loading words<span id='chabal_tetlh_loSlIz'></span></p></li>
+            <script>setInterval(
+                function() {
+                    jQuery("#chabal_tetlh_loSlIz").html(".".repeat(
+                        (Date.now() % 2000) / 500));
+                    },
+                500
+            );</script>
+        `);
+    } else if (tetlh.length === 0) {
         jQuery("#chabal_tetlh").append(`
             <li><p>No matching entries.</p></li>
         `);
