@@ -187,7 +187,7 @@ function chabal_tetlh_chabal_yIngaQHazmoH(chabal)
 
 function chabal_tetlh_wIvmeH_leQ_yIlIng(wIv)
 {
-    var Dez = "<select class='leQ' " +
+    var Dez = "<select class='leQ form-control' " +
          "onChange='chabal_tetlh_chabal_yIpatlh(this)'>\n";
 
     if (wIv == "pagh") {
@@ -304,8 +304,8 @@ function chabal_tetlh_tetlh_yIchaz()
         if (loHwIz_jIH) {
             var yIvang = (
                 chabal_tetlh[chabal].ng
-                    ? "ngaQHazmoH"
-                    : "ngaQmoH"
+                    ? "ngaQHazmoH btn btn-default"
+                    : "ngaQmoH btn btn-default"
             );
             var per = (
                 chabal_tetlh[chabal].ng
@@ -319,21 +319,21 @@ function chabal_tetlh_tetlh_yIchaz()
                 >${per}</button>
             `;
             yIlel =
-                "\n<button class='lel' onclick='chabal_tetlh_chabal_yIlel(" +
+                "\n<button class='lel btn btn-default' onclick='chabal_tetlh_chabal_yIlel(" +
                 chabal + ");'>x</button>\n";
         }
 
         var QInHomtogh = `
-		<button class='QInHomtogh'
+		<button class='QInHomtogh btn btn-default'
 		   onclick="location.href='${chabal_tetlh[chabal].D}#comments';"
 		>${chabal_tetlh[chabal].QH} Comments</button>
 	    `;
 
         ct.append(`
             <li class='${Segh}'>
-                <div class='wIv' id='chabal_tetlh_${chabal}'>
+                <div class='wIv col-md-2 col-sm-3 col-xs-4' id='chabal_tetlh_${chabal}'>
                 </div>
-                <div class='${Segh}'>${yIlel}${yIngaQmoH}${QInHomtogh}
+                <div class='${Segh} col-md-10 col-sm-9 col-xs-8'>${yIlel}${yIngaQmoH}${QInHomtogh}
                     <a href='${chabal_tetlh[chabal].D}'>${lajQozluzpuz}${ngaQ}
                         <div class='muz unipIqaD'>
                             ${chabal_tetlh[chabal].m}
@@ -496,6 +496,7 @@ function chabal_tetlh_chabal_chazluzbogh_wIvmeH_leQ_yIchaz()
     var mIz_wIvluz = false;
 
     zar.attr("onChange", "chabal_tetlh_chabal_zar_chazluz(this)");
+    zar.addClass("form-control");
 
     while (mIz < chabal_zar_tuzluz) {
         var wIv = jQuery("<option>").attr("value", mIz).html(mIz);
@@ -523,15 +524,15 @@ function chabal_tetlh_chabal_chazluzbogh_wIvmeH_leQ_yIchaz()
 
     if (mIz_wIvluz) {
         leQ.append(`<div class="pull-right">
-            <button onclick='chabal_tetlh_chabal_wazDIch_yIwIv("wazDIch");'>
+            <button class='btn btn-default' onclick='chabal_tetlh_chabal_wazDIch_yIwIv("wazDIch");'>
                 &lt;&lt;</button>
-            <button onclick='chabal_tetlh_chabal_wazDIch_yIwIv("vorgh");'>
+            <button class='btn btn-default' onclick='chabal_tetlh_chabal_wazDIch_yIwIv("vorgh");'>
                 &lt;</button>
             <input onChange='chabal_tetlh_chabal_wazDIch_yIwIv(this.value);'
-                value='${wazDIch}' /> - ${Qav} of ${chabal_zar_tuzluz}
-            <button onclick='chabal_tetlh_chabal_wazDIch_yIwIv("veb");'>
+                value='${wazDIch}' class='form-control'/> - ${Qav} of ${chabal_zar_tuzluz}
+            <button class='btn btn-default' onclick='chabal_tetlh_chabal_wazDIch_yIwIv("veb");'>
                 &gt;</button>
-            <button onclick='chabal_tetlh_chabal_wazDIch_yIwIv("paghDIch");'>
+            <button class='btn btn-default' onclick='chabal_tetlh_chabal_wazDIch_yIwIv("paghDIch");'>
                 &gt;&gt;</button>
         </div>`);
     }
