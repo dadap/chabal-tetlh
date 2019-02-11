@@ -522,7 +522,7 @@ function chabal_tetlh_chabal_chazluzbogh_wIvmeH_leQ_yIchaz()
     leQ.append(" entries per page.");
 
     if (mIz_wIvluz) {
-        leQ.append(`<div>
+        leQ.append(`<div class="pull-right">
             <button onclick='chabal_tetlh_chabal_wazDIch_yIwIv("wazDIch");'>
                 &lt;&lt;</button>
             <button onclick='chabal_tetlh_chabal_wazDIch_yIwIv("vorgh");'>

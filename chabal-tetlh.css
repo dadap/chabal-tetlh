@@ -124,5 +124,12 @@ ul#chabal_tetlh_chIjmeH_tetlh > li:hover {
 }
 
 .chabal_chazluzbogh_wIvmeH_leQ input {
-    width: 3em;
+    display: inline;
+    width: 5em;
 }
+
+.chabal_chazluzbogh_wIvmeH_leQ select {
+    display: inline;
+    width: 5em;
+}
+   

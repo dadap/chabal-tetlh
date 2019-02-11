@@ -266,7 +266,7 @@ function chabal_tISuq() {
     }
 
     $Dez .= "<div class='row'>\n";
-    $Dez .= "    <div class='col-sm-12'>\n";
+    $Dez .= "    <div class='col-xs-12'>\n";
 
 
     $Dez .= "<script>chabal_tetlh_wpuser = " . SaH_zIv() . "</script>\n";
@@ -280,10 +280,20 @@ function chabal_tISuq() {
     $Dez .= "</div>\n";
 
     $Dez .= "<div class='row'>\n";
-    $Dez .= "    <div class='col-xs-6'>\n";
+    $Dez .= "    <div class='col-md-7 col-xs-12'>\n";
     $Dez .= "        <div class='form-group'>\n";
 
-    $Dez .= "<div class='chabal_chazluzbogh_wIvmeH_leQ'></div>";
+    $Dez .= "           <div class='chabal_chazluzbogh_wIvmeH_leQ'></div>";
+
+    $Dez .= "        </div>\n";
+    $Dez .= "    </div>\n";
+    $Dez .= "    <div class='col-md-1 col-xs-2'>";
+    $Dez .= "            <div class='pull-right'>Sort by</div>\n";
+
+    $Dez .= "    </div>\n";
+    $Dez .= "    <div class='col-md-2 col-xs-5'>\n";
+    $Dez .= "        <div class='form-group'>\n";
+//    $Dez .= "           <div class='chabal_chazluzbogh_wIvmeH_leQ'></div>";
 
     $Dez .= "<select id='patlh_meq' class='form-control'";
     $Dez .= "onChange='chabal_tetlh_patlh_meq_yIwIv(this.value);'>\n";
@@ -295,7 +305,7 @@ function chabal_tISuq() {
 
     $Dez .= "        </div>\n";
     $Dez .= "    </div>\n";
-    $Dez .= "    <div class='col-xs-6'>\n";
+    $Dez .= "    <div class='col-md-2 col-xs-5'>\n";
     $Dez .= "        <div class='form-group'>\n";
 
     $Dez .= "<select id='patlh_lurgh' class='form-control'";
