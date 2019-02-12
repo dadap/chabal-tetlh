@@ -267,8 +267,11 @@ function chabal_tetlh_tetlh_yIchaz()
     chabal_tetlh_chabal_chazluzbogh_wIvmeH_leQ_yIchaz();
 
     if (chabal_zar_chazluz < tetlh.length) {
+        if (chabal_chazluzbogh_wazDIch >= tetlh.length) {
+            chabal_tetlh_chabal_wazDIch_yIwIv(chabal_chazluzbogh_wazDIch);
+        }
         tetlh = tetlh.slice(chabal_chazluzbogh_wazDIch,
-            chabal_chazluzbogh_wazDIch + chabal_zar_chazluz);
+            chabal_chazluzbogh_wazDIch + parseInt(chabal_zar_chazluz));
     }
 
     var ct = jQuery("#chabal_tetlh")
