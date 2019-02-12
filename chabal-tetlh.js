@@ -2,8 +2,6 @@ var chabal_tetlh = {};
 var ghorgh_vurmoHluzpuz = 0;
 var loHwIz_jIH = false;
 var veH = 1;
-var chabal_zar_chazluz = 27;
-var chabal_chazluzbogh_wazDIch = 0;
 
 var turwIz_Daq = null;
 
@@ -45,9 +43,67 @@ var patlh_mIw = {
     }
 };
 
-var patlh_meq = "Number of Votes";
+function chabal_zar_chazluz()
+{
+    var Dez = localStorage.getItem("chabal_tetlh_chabal_zar_chazluz");
+    if (Dez === null) {
+        return 27;
+    }
+    return parseInt(Dez);
+}
 
-var chIjmeH_per = "Not voted on yet";
+function chabal_chazmeH_mIz_yIwIv(mIz)
+{
+    localStorage.setItem("chabal_tetlh_chabal_zar_chazluz", mIz);
+}
+
+function chabal_chazluzbogh_wazDIch()
+{
+    var Dez = localStorage.getItem("chabal_tetlh_chabal_chazluzbogh_wazDIch");
+    if (Dez === null) {
+        return 0;
+    }
+    return parseInt(Dez);
+}
+
+function chabal_chazluzbogh_wazDIch_yIwIv(mIz)
+{
+    localStorage.setItem("chabal_tetlh_chabal_chazluzbogh_wazDIch", mIz);
+}
+
+function patlh_meq()
+{
+    if (chabal_tetlh_wpuser !== 0) {
+        var Dez = localStorage.getItem("chabal_tetlh_patlh_meq");
+        if (Dez === null) {
+            return "Number of Votes";
+        }
+        return Dez;
+    }
+    return "Total Score";
+}
+
+function patlh_meq_yIwIv(meq)
+{
+    localStorage.setItem("chabal_tetlh_patlh_meq", meq);
+}
+
+function chIjmeH_per()
+{
+    if (chabal_tetlh_wpuser !== 0) {
+        var Dez = localStorage.getItem("chabal_tetlh_chIjmeH_per");
+        if (Dez === null) {
+            return "Not voted on yet";
+        }
+        return Dez;
+    }
+    return "All words";
+}
+
+function chIjmeH_per_yIwIv(per)
+{
+    localStorage.setItem("chabal_tetlh_chIjmeH_per", per);
+}
 
 function turwIz_Daq_yIper()
 {
@@ -254,24 +310,26 @@ function chabal_tetlh_chabal_yIvurmoH(chabal)
 function chabal_tetlh_chabal_chazluzbogh_tItogh()
 {
     return chabal_tetlh_chabal_tlhIn_neH_yughmoH(
-        chIjmeH_permey[chIjmeH_per]).length;
+        chIjmeH_permey[chIjmeH_per()]).length;
 }
 
 function chabal_tetlh_tetlh_yIchaz()
 {
     "use strict";
+    var zar_chazluz = chabal_zar_chazluz();
+    var wazDIch = chabal_chazluzbogh_wazDIch();
     var tetlh =
-        chabal_tetlh_chabal_tlhIn_neH_yughmoH(chIjmeH_permey[chIjmeH_per]);
-    tetlh.sort(patlh_mIw[patlh_meq]);
+        chabal_tetlh_chabal_tlhIn_neH_yughmoH(chIjmeH_permey[chIjmeH_per()]);
+    tetlh.sort(patlh_mIw[patlh_meq()]);
 
     chabal_tetlh_chabal_chazluzbogh_wIvmeH_leQ_yIchaz();
 
-    if (chabal_zar_chazluz < tetlh.length) {
-        if (chabal_chazluzbogh_wazDIch >= tetlh.length) {
-            chabal_tetlh_chabal_wazDIch_yIwIv(chabal_chazluzbogh_wazDIch);
+    if (zar_chazluz < tetlh.length) {
+        if (wazDIch >= tetlh.length) {
+            chabal_tetlh_chabal_wazDIch_yIwIv(wazDIch);
+            wazDIch = chabal_chazluzbogh_wazDIch();
         }
-        tetlh = tetlh.slice(chabal_chazluzbogh_wazDIch,
-            chabal_chazluzbogh_wazDIch + parseInt(chabal_zar_chazluz));
+        tetlh = tetlh.slice(wazDIch, wazDIch + zar_chazluz);
     }
 
     var ct = jQuery("#chabal_tetlh")
@@ -376,7 +434,7 @@ function chabal_tetlh_tetlh_yIchaz()
 function chabal_tetlh_chIjmeH_per_yIwIv(per)
 {
     "use strict";
-    chIjmeH_per = per;
+    chIjmeH_per_yIwIv(per);
     chabal_tetlh_chIjmeH_tetlh_yIchaz();
     chabal_tetlh_tetlh_yIchaz();
 }
@@ -384,15 +442,15 @@ function chabal_tetlh_chIjmeH_per_yIwIv(per)
 function chabal_tetlh_patlh_meq_yIwIv(meq)
 {
     "use strict";
-    patlh_meq = meq;
-    jQuery("#patlh_lurgh").val(patlh_lurgh[patlh_meq]);
+    patlh_meq_yIwIv(meq);
+    jQuery("#patlh_lurgh").val(patlh_lurgh[patlh_meq()]);
     chabal_tetlh_tetlh_yIchaz();
 }
 
 function chabal_tetlh_patlh_lurgh_yIwIv(lurgh)
 {
     "use strict";
-    patlh_lurgh[patlh_meq] = parseInt(lurgh);
+    patlh_lurgh[patlh_meq()] = parseInt(lurgh);
     chabal_tetlh_tetlh_yIchaz();
 }
 
@@ -403,7 +461,7 @@ function chabal_tetlh_chIjmeH_tetlh_yIchaz()
 
     Object.keys(chIjmeH_permey).forEach(function(per) {
         var wIvbogh = (
-            (per === chIjmeH_per)
+            (per === chIjmeH_per())
                 ? "wIvbogh"
                 : ""
         );
@@ -467,21 +525,18 @@ function rurbogh_muz_tInguz(muz)
 function chabal_tetlh_Hoch_yIchaz()
 {
     "use strict";
-    if (chabal_tetlh_wpuser === 0) {
-        chIjmeH_per = "All words";
-        patlh_meq = "Total Score";
-    }
-    jQuery("#patlh_meq").val(patlh_meq);
-    jQuery("#patlh_lurgh").val(patlh_lurgh[patlh_meq]);
+    var meq = patlh_meq();
+    jQuery("#patlh_meq").val(meq);
+    jQuery("#patlh_lurgh").val(patlh_lurgh[meq]);
     chabal_tetlh_tetlh_yIvurmoH();
-    chabal_tetlh_chIjmeH_per_yIwIv(chIjmeH_per);
+    chabal_tetlh_chIjmeH_per_yIwIv(chIjmeH_per());
 }
 
 function chabal_tetlh_chabal_zar_chazluz(e)
 {
     "use strict";
 
-    chabal_zar_chazluz = e.value;
+    chabal_chazmeH_mIz_yIwIv(e.value);
     chabal_tetlh_chabal_chazluzbogh_wIvmeH_leQ_yIchaz();
     chabal_tetlh_tetlh_yIchaz();
 }
@@ -489,10 +544,10 @@ function chabal_tetlh_chabal_zar_chazluz(e)
 function chabal_tetlh_chabal_chazluzbogh_wIvmeH_leQ_yIchaz()
 {
     "use strict";
-    var wazDIch = parseInt(chabal_chazluzbogh_wazDIch) + 1;
+    var wazDIch = chabal_chazluzbogh_wazDIch();
     var chabal_zar_tuzluz = chabal_tetlh_chabal_chazluzbogh_tItogh();
-    var Qav = Math.min(chabal_zar_tuzluz,
-        parseInt(chabal_chazluzbogh_wazDIch) + parseInt(chabal_zar_chazluz));
+    var zar_chazluz = chabal_zar_chazluz();
+    var Qav = Math.min(chabal_zar_tuzluz, wazDIch + zar_chazluz);
 
     var zar = jQuery("<select>");
     var mIz = 3;
@@ -503,7 +558,7 @@ function chabal_tetlh_chabal_chazluzbogh_wIvmeH_leQ_yIchaz()
 
     while (mIz < chabal_zar_tuzluz) {
         var wIv = jQuery("<option>").attr("value", mIz).html(mIz);
-        if (mIz == chabal_zar_chazluz) {
+        if (mIz == zar_chazluz) {
             wIv.prop("selected", true);
             mIz_wIvluz = true;
         }
@@ -532,10 +587,10 @@ function chabal_tetlh_chabal_chazluzbogh_wIvmeH_leQ_yIchaz()
             <button class='btn btn-default' onclick='chabal_tetlh_chabal_wazDIch_yIwIv("vorgh");'>
                 &lt;</button>
             <input onChange='chabal_tetlh_chabal_wazDIch_yIwIv(this.value);'
-                value='${wazDIch}' class='form-control'/> - ${Qav} of ${chabal_zar_tuzluz}
+                value='${wazDIch + 1}' class='form-control'/> - ${Qav} of ${chabal_zar_tuzluz}
             <button class='btn btn-default' onclick='chabal_tetlh_chabal_wazDIch_yIwIv("veb");'>
                 &gt;</button>
-            <button class='btn btn-default' onclick='chabal_tetlh_chabal_wazDIch_yIwIv("paghDIch");'>
+            <button class='btn btn-default' onclick='chabal_tetlh_chabal_wazDIch_yIwIv("HochDIch");'>
                 &gt;&gt;</button>
         </div>`);
     }
@@ -545,16 +600,17 @@ function chabal_tetlh_chabal_wazDIch_yIwIv(wazDIch)
 {
     "use strict";
     var chabal_zar_tuzluz = chabal_tetlh_chabal_chazluzbogh_tItogh();
+    var zar_chazluz = chabal_zar_chazluz();
+    var wazDIch_chazluzbogh = chabal_chazluzbogh_wazDIch();
     var wazDIch_wIvbogh;
 
     if (wazDIch == "wazDIch") {
         wazDIch_wIvbogh = 0;
     } else if (wazDIch == "vorgh") {
-        wazDIch_wIvbogh = chabal_chazluzbogh_wazDIch - chabal_zar_chazluz;
+        wazDIch_wIvbogh = wazDIch_chazluzbogh - zar_chazluz;
     } else if (wazDIch == "veb") {
-        wazDIch_wIvbogh = parseInt(chabal_chazluzbogh_wazDIch) +
-            parseInt(chabal_zar_chazluz);
-    } else if (wazDIch == "paghDIch") {
+        wazDIch_wIvbogh = wazDIch_chazluzbogh + zar_chazluz;
+    } else if (wazDIch == "HochDIch") {
         wazDIch_wIvbogh = chabal_zar_tuzluz;
     } else {
         wazDIch_wIvbogh = parseInt(wazDIch);
@@ -568,11 +624,11 @@ function chabal_tetlh_chabal_wazDIch_yIwIv(wazDIch)
         wazDIch_wIvbogh = 0;
     }
     if (wazDIch_wIvbogh >= chabal_zar_tuzluz) {
-        wazDIch_wIvbogh = Math.floor(chabal_zar_tuzluz / chabal_zar_chazluz) *
-            chabal_zar_chazluz;
+        wazDIch_wIvbogh =
+            Math.floor(chabal_zar_tuzluz / zar_chazluz) * zar_chazluz;
     }
 
-    chabal_chazluzbogh_wazDIch = wazDIch_wIvbogh;
+    chabal_chazluzbogh_wazDIch_yIwIv(wazDIch_wIvbogh);
     chabal_tetlh_tetlh_yIchaz();
 }
 
