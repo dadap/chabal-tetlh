@@ -15,7 +15,8 @@ var patlh_lurgh = {
     "Total Score" : -1,
     "Number of Votes" : 1,
     "Alphabetical Order" : 1,
-    "Recent Activity" : -1
+    "Recent Activity" : -1,
+    "Number of Comments" : -1
 };
 
 var patlh_mIw = {
@@ -40,6 +41,11 @@ var patlh_mIw = {
         "use strict";
         return patlh_lurgh["Recent Activity"] *
                (chabal_tetlh[a].gh - chabal_tetlh[b].gh);
+    },
+    "Number of Comments" : function (a, b) {
+        "use strict";
+        return patlh_lurgh["Number of Comments"] *
+                (chabal_tetlh[a].QH - chabal_tetlh[b].QH);
     }
 };
 

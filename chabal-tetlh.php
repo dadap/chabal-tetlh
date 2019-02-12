@@ -301,6 +301,7 @@ function chabal_tISuq() {
     $Dez .= "    <option value='Number of Votes' />Number of Votes</option>\n";
     $Dez .= "    <option value='Alphabetical Order' />Alphabetical Order</option>\n";
     $Dez .= "    <option value='Recent Activity' />Recent Activity</option>\n";
+    $Dez .= "    <option value='Number of Comments' />Number of Comments</option>\n";
     $Dez .= "</select>\n";
 
     $Dez .= "        </div>\n";
