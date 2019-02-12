@@ -213,8 +213,8 @@ function chabal_tISuq() {
                                 . "$muz.</p>\n";
                     } else {
                         $pID = wp_insert_post(array(
-                            'post_title' => $muz,
-                            'post_content' => $QIjmeH_per,
+                            'post_title' => esc_attr($muz),
+                            'post_content' => esc_attr($QIjmeH_per),
                             'post_status' => 'publish',
                             'post_type' => 'chabal',
                         ));
