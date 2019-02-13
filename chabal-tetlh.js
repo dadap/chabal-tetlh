@@ -112,18 +112,18 @@ function chabal_chazluzbogh_wazDIch_yIwIv(mIz)
 
 function patlh_meq()
 {
-    if (chabal_tetlh_wpuser !== 0) {
-        if (!Dez_qawlaHzaz()) {
-            return qawHaqHom["patlh_meq"];
-        }
-
-        var Dez = localStorage.getItem("chabal_tetlh_patlh_meq");
-        if (Dez === null) {
-            return "Number of Votes";
-        }
-        return Dez;
+    if (!Dez_qawlaHzaz()) {
+        return qawHaqHom["patlh_meq"];
     }
-    return "Total Score";
+
+    var Dez = localStorage.getItem("chabal_tetlh_patlh_meq");
+    if (Dez === null) {
+        if (chabal_tetlh_wpuser !== 0) {
+            return "Total Score";
+        }
+        return "Number of Votes";
+    }
+    return Dez;
 }
 
 function patlh_meq_yIwIv(meq)
@@ -137,17 +137,17 @@ function patlh_meq_yIwIv(meq)
 
 function chIjmeH_per()
 {
-    if (chabal_tetlh_wpuser !== 0) {
-        if (!Dez_qawlaHzaz()) {
-            return qawHaqHom["chIjmeH_per"];
-        }
-        var Dez = localStorage.getItem("chabal_tetlh_chIjmeH_per");
-        if (Dez === null) {
-            return "Not voted on yet";
-        }
-        return Dez;
+    if (!Dez_qawlaHzaz()) {
+        return qawHaqHom["chIjmeH_per"];
     }
-    return "All words";
+    var Dez = localStorage.getItem("chabal_tetlh_chIjmeH_per");
+    if (Dez === null) {
+        if (chabal_tetlh_wpuser !== 0) {
+            return "All words";
+        }
+        return "Not voted on yet";
+    }
+    return Dez;
 }
 
 function chIjmeH_per_yIwIv(per)
