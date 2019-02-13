@@ -301,7 +301,7 @@ function chabal_tetlh_wIvmeH_leQ_yIlIng(wIv)
          "onChange='chabal_tetlh_chabal_yIpatlh(this)'>\n";
 
     if (wIv == "pagh") {
-        Dez += "    <option value='pagh' selected></option>\n";
+        Dez += "    <option value='pagh' selected>Vote!</option>\n";
     }
     for (var i = veH * -1; i <= veH; i++) {
         Dez += "    <option value='" + i + "'";
