@@ -49,8 +49,29 @@ var patlh_mIw = {
     }
 };
 
+var qawHaqHom = {
+    "chabal_zar_chazluz" : 27,
+    "chabal_chazluzbogh_wazDIch" : 0,
+    "patlh_meq" : "Number of Votes",
+    "chIjmeH_per" : "Not voted on yet"
+};
+
+function Dez_qawlaHzaz()
+{
+    try {
+        localStorage.setItem("chabal_tetlh_qawHaq_waHmeH_Dez", "teH");
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 function chabal_zar_chazluz()
 {
+    if (!Dez_qawlaHzaz()) {
+        return qawHaqHom["chabal_zar_chazluz"];
+    }
+
     var Dez = localStorage.getItem("chabal_tetlh_chabal_zar_chazluz");
     if (Dez === null) {
         return 27;
@@ -60,11 +81,19 @@ function chabal_zar_chazluz()
 
 function chabal_chazmeH_mIz_yIwIv(mIz)
 {
+    if (!Dez_qawlaHzaz()) {
+        qawHaqHom["chabal_zar_chazluz"] = mIz;
+        return;
+    }
     localStorage.setItem("chabal_tetlh_chabal_zar_chazluz", mIz);
 }
 
 function chabal_chazluzbogh_wazDIch()
 {
+    if (!Dez_qawlaHzaz()) {
+        return qawHaqHom["chabal_chazluzbogh_wazDIch"];
+    }
+
     var Dez = localStorage.getItem("chabal_tetlh_chabal_chazluzbogh_wazDIch");
     if (Dez === null) {
         return 0;
@@ -74,12 +103,20 @@ function chabal_chazluzbogh_wazDIch()
 
 function chabal_chazluzbogh_wazDIch_yIwIv(mIz)
 {
+    if (!Dez_qawlaHzaz()) {
+        qawHaqHom["chabal_chazluzbogh_wazDIch"] = mIz;
+        return;
+    }
     localStorage.setItem("chabal_tetlh_chabal_chazluzbogh_wazDIch", mIz);
 }
 
 function patlh_meq()
 {
     if (chabal_tetlh_wpuser !== 0) {
+        if (!Dez_qawlaHzaz()) {
+            return qawHaqHom["patlh_meq"];
+        }
+
         var Dez = localStorage.getItem("chabal_tetlh_patlh_meq");
         if (Dez === null) {
             return "Number of Votes";
@@ -91,12 +128,19 @@ function patlh_meq()
 
 function patlh_meq_yIwIv(meq)
 {
+    if (!Dez_qawlaHzaz()) {
+        qawHaqHom["patlh_meq"] = mIz;
+        return;
+    }
     localStorage.setItem("chabal_tetlh_patlh_meq", meq);
 }
 
 function chIjmeH_per()
 {
     if (chabal_tetlh_wpuser !== 0) {
+        if (!Dez_qawlaHzaz()) {
+            return qawHaqHom["chIjmeH_per"];
+        }
         var Dez = localStorage.getItem("chabal_tetlh_chIjmeH_per");
         if (Dez === null) {
             return "Not voted on yet";
@@ -108,6 +152,10 @@ function chIjmeH_per()
 
 function chIjmeH_per_yIwIv(per)
 {
+    if (!Dez_qawlaHzaz()) {
+        qawHaqHom["chIjmeH_per"] = mIz;
+        return;
+    }
     localStorage.setItem("chabal_tetlh_chIjmeH_per", per);
 }
 
