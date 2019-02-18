@@ -432,8 +432,8 @@ function chabal_tetlh_tetlh_yIchaz()
         if (loHwIz_jIH) {
             var yIvang = (
                 chabal_tetlh[chabal].ng
-                    ? "ngaQHazmoH btn btn-default"
-                    : "ngaQmoH btn btn-default"
+                    ? "ngaQHazmoH"
+                    : "ngaQmoH"
             );
             var per = (
                 chabal_tetlh[chabal].ng
@@ -442,7 +442,7 @@ function chabal_tetlh_tetlh_yIchaz()
             );
 
             yIngaQmoH = `
-                <button class='${yIvang}'
+                <button class='${yIvang} btn btn-default'
                     onclick='chabal_tetlh_chabal_yI${yIvang}(${chabal});'
                 >${per}</button>
             `;

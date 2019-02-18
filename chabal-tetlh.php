@@ -284,7 +284,7 @@ function chabal_tISuq() {
     $Dez .= "</div>\n";
 
     $Dez .= "<div class='row'>\n";
-    $Dez .= "    <div class='col-md-7 col-xs-12'>\n";
+    $Dez .= "    <div class='col-md-6 col-xs-12'>\n";
     $Dez .= "        <div class='form-group'>\n";
 
     $Dez .= "           <div class='chabal_chazluzbogh_wIvmeH_leQ'></div>";
@@ -295,7 +295,7 @@ function chabal_tISuq() {
     $Dez .= "            <div class='pull-right'>Sort by</div>\n";
 
     $Dez .= "    </div>\n";
-    $Dez .= "    <div class='col-md-2 col-xs-5'>\n";
+    $Dez .= "    <div class='col-md-3 col-xs-5'>\n";
     $Dez .= "        <div class='form-group'>\n";
 //    $Dez .= "           <div class='chabal_chazluzbogh_wIvmeH_leQ'></div>";
 
