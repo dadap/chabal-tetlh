@@ -563,7 +563,7 @@ function rurbogh_muz_tInguz(muz)
         }
 
         if (rav < 3) {
-            rurbogh_muzmey[chabal_tetlh[per].m] = rav;
+            rurbogh_muzmey[per] = rav;
         }
     });
 
@@ -583,9 +583,11 @@ function rurbogh_muz_tInguz(muz)
             </p>
             <ul id='rurbogh_muzmey'></ul>
         `);
-         muz_DaH.forEach(function(muz) {
-             jQuery("#rurbogh_muzmey").append(`<li>${muz}</li>`);
-         });
+        muz_DaH.forEach(function(chabal) {
+            var m = chabal_tetlh[chabal].m;
+            var D = chabal_tetlh[chabal].D;
+            jQuery("#rurbogh_muzmey").append(`<li><a href='${D}'>${m}</a></li>`);
+        });
     }
 }
 
