@@ -280,6 +280,10 @@ function chabal_tISuq() {
     $Dez .= "</div>\n";
 
     $Dez .= "<div class='row'>\n";
+    $Dez .= "Search: <input onInput='chabal_tetlh_chabal_yInej(this)'></input>";
+    $Dez .= "</div>\n";
+
+    $Dez .= "<div class='row'>\n";
     $Dez .= "    <div class='col-md-7 col-xs-12'>\n";
     $Dez .= "        <div class='form-group'>\n";
 

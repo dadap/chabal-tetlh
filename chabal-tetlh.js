@@ -2,6 +2,7 @@ var chabal_tetlh = {};
 var ghorgh_vurmoHluzpuz = 0;
 var loHwIz_jIH = false;
 var veH = 1;
+var Dez_nejluzbogh = "";
 
 var turwIz_Daq = null;
 
@@ -382,6 +383,12 @@ function chabal_tetlh_tetlh_yIchaz()
         chabal_tetlh_chabal_tlhIn_neH_yughmoH(chIjmeH_permey[chIjmeH_per()]);
     tetlh.sort(patlh_mIw[patlh_meq()]);
 
+    if (Dez_nejluzbogh.length > 0) {
+        var Dez = Dez_nejluzbogh.toLowerCase();
+        tetlh = tetlh.filter(e => chabal_tetlh[e].m.toLowerCase().includes(Dez)
+            || chabal_tetlh[e].p.toLowerCase().includes(Dez));
+    }
+
     chabal_tetlh_chabal_chazluzbogh_wIvmeH_leQ_yIchaz();
 
     if (zar_chazluz < tetlh.length) {
@@ -580,6 +587,12 @@ function rurbogh_muz_tInguz(muz)
              jQuery("#rurbogh_muzmey").append(`<li>${muz}</li>`);
          });
     }
+}
+
+function chabal_tetlh_chabal_yInej(e)
+{
+    Dez_nejluzbogh = e.value;
+    chabal_tetlh_tetlh_yIchaz();
 }
 
 function chabal_tetlh_Hoch_yIchaz()
