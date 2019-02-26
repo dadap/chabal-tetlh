@@ -126,6 +126,26 @@ function wIv_zar_chawzluz() {
     return $Dez;
 }
 
+function chabal_yIlajQoz($chabal)
+{
+    global $wpdb;
+    $raS = qawHaq_moHaq() . "Dotlh";
+
+    $Dotlh = $wpdb->get_var($wpdb->prepare("SELECT Dotlh FROM $raS " .
+            "WHERE chabal = %d", $chabal));
+    if ($Dotlh == null) {
+        $Dotlh = 0;
+    }
+    $wpdb->replace(
+        $raS,
+        array(
+            'chabal' => $chabal,
+            'Dotlh' => $Dotlh | 1
+        ),
+        '%d'
+    );
+}
+
 function chabal_lajQozluzpuz($chabal)
 {
     global $wpdb;
@@ -141,19 +161,7 @@ function chabal_lajQozluzpuz($chabal)
     if (($parbogh_wIv + $parHazbogh_wIv >= lajQozmeH_wIv_zar_poQluz()) &&
         (($parbogh_wIv * 100) / ($parbogh_wIv + $parHazbogh_wIv) >=
         lajQozmeH_parbogh_wIv_vatlhvIz_poQluz())) {
-        $Dotlh = $wpdb->get_var($wpdb->prepare("SELECT Dotlh FROM $raS " .
-                "WHERE chabal = %d", $chabal));
-        if ($Dotlh == null) {
-            $Dotlh = 0;
-        }
-        $wpdb->replace(
-            $raS,
-            array(
-                'chabal' => $chabal,
-                'Dotlh' => $Dotlh | 1
-            ),
-            '%d'
-        );
+        chabal_yIlajQoz($chabal);
     }
 }
 
@@ -472,6 +480,7 @@ function chabal_tIjatlh()
         $chabal = get_post(Dez_peSluzbogh_yInawz("chabal"));
         $wIv = Dez_peSluzbogh_yInawz("wIv");
         $yIlel = Dez_peSluzbogh_yInawz("yIlel");
+        $yIlajQoz = Dez_peSluzbogh_yInawz("yIlajQoz");
         $ghorgh = Dez_peSluzbogh_yInawz("ghorgh", 0, $_POST + $_GET);
         $yIngaQmoH = Dez_peSluzbogh_yInawz("yIngaQmoH");
         $yIngaQHazmoH = Dez_peSluzbogh_yInawz("yIngaQHazmoH");
@@ -504,7 +513,7 @@ function chabal_tIjatlh()
         if ($yIlel) {
             $lelbogh = get_post($yIlel);
 
-            if ($lelbogh && $lelbogh->post_author == SaH_zIv() &&
+            if ($lelbogh && (loHwIz() || $lelbogh->post_author == SaH_zIv()) &&
                 $lelbogh->post_type == 'chabal') {
                 wp_trash_post($lelbogh->ID);
             }
@@ -515,6 +524,9 @@ function chabal_tIjatlh()
                 chabal_yIngaQmoH($yIngaQmoH, 1);
             } else if ($yIngaQHazmoH) {
                 chabal_yIngaQmoH($yIngaQHazmoH, 0);
+            }
+            if ($yIlajQoz) {
+                chabal_yIlajQoz($yIlajQoz);
             }
         }
     }
