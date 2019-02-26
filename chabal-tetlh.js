@@ -225,6 +225,25 @@ function chabal_tetlh_chabal_yIlel(chabal)
     }
 }
 
+function chabal_tetlh_chabal_yIlajQoz(chabal)
+{
+    "use strict";
+    if(confirm("Blacklisting this entry will prevent voting on it and cannot "
+       + "be undone.")) {
+        jQuery.ajax({
+            url: turwIz_Daq_yIper(),
+            method: "POST",
+            data: {
+                action: "chabal_tetlh",
+                yIlajQoz: chabal,
+                ghorgh: ghorgh_vurmoHluzpuz
+            }
+        }).done(function() {
+            location.reload(true);
+        });
+    }
+}
+
 function chabal_tetlh_chabal_tlhIn_neH_yughmoH(f)
 {
     "use strict";
@@ -415,6 +434,7 @@ function chabal_tetlh_tetlh_yIchaz()
     tetlh.forEach(function(chabal) {
         var yIlel = "";
         var yIngaQmoH = "";
+        var yIlajQoz = "";
         var ngaQ = (
             chabal_tetlh[chabal].ng
                 ? "\n<p>Voting has been locked on this word</p>\n"
@@ -443,6 +463,11 @@ function chabal_tetlh_tetlh_yIchaz()
                     ? "🔒"
                     : "🔓"
             );
+            var lajQoz = (
+                chabal_tetlh[chabal].Q
+                    ? ""
+                    : "🚫"
+            );
 
             yIngaQmoH = `
                 <button class='${yIvang} btn btn-default'
@@ -452,6 +477,13 @@ function chabal_tetlh_tetlh_yIchaz()
             yIlel =
                 "\n<button class='lel btn btn-default' onclick='chabal_tetlh_chabal_yIlel(" +
                 chabal + ");'>x</button>\n";
+            if (chabal_tetlh[chabal].Q == null) {
+                yIlajQoz = `
+                    <button class='lajQoz btn btn-default'
+                        onclick='chabal_tetlh_chabal_yIlajQoz(${chabal});'>🚫
+                    </button>
+                `;
+            }
         }
 
         var QInHomtogh = `
@@ -464,7 +496,7 @@ function chabal_tetlh_tetlh_yIchaz()
             <li class='${Segh}'>
                 <div class='wIv col-md-2 col-sm-3 col-xs-4' id='chabal_tetlh_${chabal}'>
                 </div>
-                <div class='${Segh} col-md-10 col-sm-9 col-xs-8'>${yIlel}${yIngaQmoH}${QInHomtogh}
+                <div class='${Segh} col-md-10 col-sm-9 col-xs-8'>${yIlel}${yIlajQoz}${yIngaQmoH}${QInHomtogh}
                     <a href='${chabal_tetlh[chabal].D}'>${lajQozluzpuz}${ngaQ}
                         <div class='muz unipIqaD'>
                             ${chabal_tetlh[chabal].m}
