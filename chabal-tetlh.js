@@ -7,7 +7,10 @@ var Dez_nejluzbogh = "";
 var turwIz_Daq = null;
 
 var chIjmeH_permey = {
-    "Not voted on yet" : function (c) { "use strict"; return  c.w == null; },
+    "Not voted on yet" : function (c) {
+        "use strict";
+        return  (c.w == null) && (c.ng == null) && (c.Q == null);
+    },
     "My words" : function (c) { "use strict"; return  c.v != null; },
     "All words" : function (c) { "use strict"; return  true; }
 };
