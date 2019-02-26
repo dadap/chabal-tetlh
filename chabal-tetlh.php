@@ -501,7 +501,7 @@ function chabal_tIjatlh()
         if ($yIlel) {
             $lelbogh = get_post($yIlel);
 
-            if ($lelbogh && $lelbogh->post_author == SaH_zIv() &&
+            if ($lelbogh && (loHwIz() || $lelbogh->post_author == SaH_zIv()) &&
                 $lelbogh->post_type == 'chabal') {
                 wp_trash_post($lelbogh->ID);
             }
