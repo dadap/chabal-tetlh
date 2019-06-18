@@ -463,7 +463,7 @@ function loHwIz()
     return current_user_can('edit_others_posts');
 }
 
-function chabal_tIjatlh()
+function chabal_tIgher()
 {
     global $wpdb;
     $raS = qawHaq_moHaq() . "wIv";
@@ -577,11 +577,55 @@ function chabal_tIjatlh()
             }
         }
     }
+    return $Dez;
+}
+
+function chabal_tIjatlh()
+{
+    $Dez = chabal_tIgher();
     print(json_encode($Dez, JSON_NUMERIC_CHECK));
     wp_die();
 }
 add_action('wp_ajax_chabal_tetlh', 'chabal_tIjatlh');
 add_action('wp_ajax_nopriv_chabal_tetlh', 'chabal_tIjatlh');
+
+function chabal_lunaDluzpuzbogh_tIpatlhmoH($waz, $chaz)
+{
+    $zarlogh_waz_naDluz = $waz['+'] - $waz['-'];
+    $zarlogh_chaz_naDluz = $chaz['+'] - $chaz['-'];
+
+    if ($zarlogh_waz_naDluz == $zarlogh_chaz_naDluz) {
+        return $chaz['+'] - $waz['+'];
+    }
+
+    return $zarlogh_chaz_naDluz - $zarlogh_waz_naDluz;
+}
+
+function chabal_tIwIv($zar)
+{
+    $Dez = chabal_tIgher();
+
+    foreach ($Dez['tetlh'] as $chabal_mIz => $chabal) {
+        if (array_key_exists('Q', $chabal) && $chabal['Q']) {
+            unset($Dez['tetlh'][$chabal_mIz]);
+        } else {
+            $Dez['tetlh'][$chabal_mIz]['mIz'] = $chabal_mIz;
+        }
+    }
+
+    usort($Dez['tetlh'], "chabal_lunaDluzpuzbogh_tIpatlhmoH");
+
+    $tetlh = array_values($Dez['tetlh']);
+
+    while ($zar > 0 && $zar < count($tetlh) &&
+           ($tetlh[$zar - 1]['+'] - $tetlh[$zar - 1]['-']) ==
+           ($tetlh[$zar]['+'] - $tetlh[$zar]['-']) &&
+           $tetlh[$zar - 1]['+']  == $tetlh[$zar]['+']) {
+        $zar++;
+    }
+
+    return array_slice($Dez['tetlh'], 0, $zar);
+}
 
 function SeHlawz_yIchenmoH()
 {
