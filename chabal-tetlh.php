@@ -126,24 +126,47 @@ function wIv_zar_chawzluz() {
     return $Dez;
 }
 
-function chabal_yIlajQoz($chabal)
+function Dotlh_yIchoH($chabal, $DotlhmIz, $Dotlh)
 {
     global $wpdb;
     $raS = qawHaq_moHaq() . "Dotlh";
+    $Dotlhchuz = 0;
 
-    $Dotlh = $wpdb->get_var($wpdb->prepare("SELECT Dotlh FROM $raS " .
-            "WHERE chabal = %d", $chabal));
-    if ($Dotlh == null) {
-        $Dotlh = 0;
+    $Dotlhngoz = $wpdb->get_var($wpdb->prepare("SELECT Dotlh FROM $raS " .
+                 "WHERE chabal = %d", $chabal));
+    if ($Dotlhngoz == null) {
+        $Dotlhngoz = 0;
     }
+
+    if ($Dotlh) {
+        $Dotlhchuz = $Dotlhngoz | (1 << $DotlhmIz);
+    } else {
+        $Dotlhchuz = $Dotlhngoz & ~(1 << $DotlhmIz);
+    }
+
     $wpdb->replace(
         $raS,
         array(
             'chabal' => $chabal,
-            'Dotlh' => $Dotlh | 1
+            'Dotlh' => $Dotlhchuz
         ),
         '%d'
     );
+}
+
+function Dotlh_yIjaz($chabal, $DotlhmIz)
+{
+    global $wpdb;
+    $raS = qawHaq_moHaq() . "Dotlh";
+
+    return $wpdb->get_var($wpdb->prepare("SELECT COUNT(chabal) FROM $raS " .
+           "WHERE chabal = %d AND (Dotlh & %d) != 0", $chabal, 1 << $DotlhmIz))
+            != 0;
+}
+
+function chabal_yIlajQoz($chabal)
+{
+    Dotlh_yIchoH($chabal, 0, 1);
 }
 
 function chabal_lajQozluzpuz($chabal)
@@ -154,8 +177,7 @@ function chabal_lajQozluzpuz($chabal)
     $parbogh_wIv = wIv_tItogh($chabal, -1);
     $parHazbogh_wIv = wIv_tItogh($chabal, 1);
 
-    if ($wpdb->get_var($wpdb->prepare("SELECT COUNT(chabal) FROM $raS " .
-        "WHERE chabal = %d AND (Dotlh & 1) = 1", $chabal))) {
+    if (Dotlh_yIjaz($chabal, 0)) {
         return true;
     }
     if (($parbogh_wIv + $parHazbogh_wIv >= lajQozmeH_wIv_zar_poQluz()) &&
@@ -419,39 +441,12 @@ function ghorgh_choHluz($chabal)
 
 function chabal_yIngaQmoH($chabal, $ngaQzaz)
 {
-    global $wpdb;
-    $raS = qawHaq_moHaq() . "Dotlh";
-
-    $Dotlh = $wpdb->get_var($wpdb->prepare("SELECT Dotlh from $raS WHERE " .
-        "chabal = %d", $chabal));
-    if ($Dotlh == null) {
-        $Dotlh = 0;
-    }
-
-    if ($ngaQzaz) {
-        $Dotlh |= 2;
-    } else {
-        $Dotlh &= ~2;
-    }
-
-    $wpdb->replace(
-        $raS,
-        array(
-            'chabal' => $chabal,
-            'Dotlh' => $Dotlh
-        ),
-        '%d'
-    );
+    Dotlh_yIchoH($chabal, 1, $ngaQzaz);
 }
 
 function ngaQzaz_chabal($chabal)
 {
-    global $wpdb;
-    $raS = qawHaq_moHaq() . "Dotlh";
-
-    $Dotlh = $wpdb->get_var($wpdb->prepare("SELECT Dotlh from $raS WHERE " .
-        "chabal = %d", $chabal));
-    return ($Dotlh != null) && (($Dotlh & 2) == 2);
+    return Dotlh_yIjaz($chabal, 1);
 }
 
 function loHwIz()
