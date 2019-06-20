@@ -215,6 +215,11 @@ function Dez_peSluzbogh_yInawz($Dez, $motlh = "", $Daq = null)
     return $motlh;
 }
 
+function Dez_yISayzmoH($Dez)
+{
+    return htmlspecialchars(str_replace('"', '""', $Dez));
+}
+
 function chabal_tISuq() {
     $Dez = "";
 
@@ -225,6 +230,8 @@ function chabal_tISuq() {
         $muz = Dez_peSluzbogh_yInawz("muz");
         $QIjmeH_per = Dez_peSluzbogh_yInawz("QIjmeH_per", false);
         $muz_Segh = Dez_peSluzbogh_yInawz("muz_Segh", false);
+        $wIv = Dez_peSluzbogh_yInawz("wIv", "", $_GET);
+
         if ($muz) {
             $match = get_posts(array(
                 'post_type' => 'chabal',
@@ -255,6 +262,30 @@ function chabal_tISuq() {
                     }
                 }
             }
+        } else if ($wIv) {
+            $wIvluzbogh = chabal_tIwIv($wIv);
+            $Dez .= "<pre>";
+            foreach ($wIvluzbogh as $chabal) {
+                $QInHommey = get_comments(array('post_id' => $chabal['mIz']));
+                $QInHom_chelluzpuz = false;
+                $Dez .= $chabal['mIz'] . ',';
+                $Dez .= $chabal['+'] - $chabal['-'] . ',';
+                $Dez .= '+' . $chabal['+'] . ',';
+                $Dez .= '-' . $chabal['-'] . ',';
+                $Dez .= '"' . Dez_yISayzmoH($chabal['m']) . '",';
+                $Dez .= '"' . Dez_yISayzmoH($chabal['S']) . '",';
+                $Dez .= '"' . Dez_yISayzmoH($chabal['p']) . '",';
+                $Dez .= '"';
+                foreach ($QInHommey as $QInHom) {
+                    if ($QInHom_chelluzpuz) {
+                        $Dez .= "\n";
+                    }
+                    $Dez .= Dez_yISayzmoH($QInHom->comment_author) . ': ';
+                    $Dez .= Dez_yISayzmoH($QInHom->comment_content);
+                }
+                $Dez .= "\"\n";
+            }
+            $Dez .= "</pre>\n";
         }
 
         $Dez .= "<p>Your membership level allows you to submit " .
