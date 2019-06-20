@@ -126,24 +126,47 @@ function wIv_zar_chawzluz() {
     return $Dez;
 }
 
-function chabal_yIlajQoz($chabal)
+function Dotlh_yIchoH($chabal, $DotlhmIz, $Dotlh)
 {
     global $wpdb;
     $raS = qawHaq_moHaq() . "Dotlh";
+    $Dotlhchuz = 0;
 
-    $Dotlh = $wpdb->get_var($wpdb->prepare("SELECT Dotlh FROM $raS " .
-            "WHERE chabal = %d", $chabal));
-    if ($Dotlh == null) {
-        $Dotlh = 0;
+    $Dotlhngoz = $wpdb->get_var($wpdb->prepare("SELECT Dotlh FROM $raS " .
+                 "WHERE chabal = %d", $chabal));
+    if ($Dotlhngoz == null) {
+        $Dotlhngoz = 0;
     }
+
+    if ($Dotlh) {
+        $Dotlhchuz = $Dotlhngoz | (1 << $DotlhmIz);
+    } else {
+        $Dotlhchuz = $Dotlhngoz & ~(1 << $DotlhmIz);
+    }
+
     $wpdb->replace(
         $raS,
         array(
             'chabal' => $chabal,
-            'Dotlh' => $Dotlh | 1
+            'Dotlh' => $Dotlhchuz
         ),
         '%d'
     );
+}
+
+function Dotlh_yIjaz($chabal, $DotlhmIz)
+{
+    global $wpdb;
+    $raS = qawHaq_moHaq() . "Dotlh";
+
+    return $wpdb->get_var($wpdb->prepare("SELECT COUNT(chabal) FROM $raS " .
+           "WHERE chabal = %d AND (Dotlh & %d) != 0", $chabal, 1 << $DotlhmIz))
+            != 0;
+}
+
+function chabal_yIlajQoz($chabal)
+{
+    Dotlh_yIchoH($chabal, 0, 1);
 }
 
 function chabal_lajQozluzpuz($chabal)
@@ -154,8 +177,7 @@ function chabal_lajQozluzpuz($chabal)
     $parbogh_wIv = wIv_tItogh($chabal, -1);
     $parHazbogh_wIv = wIv_tItogh($chabal, 1);
 
-    if ($wpdb->get_var($wpdb->prepare("SELECT COUNT(chabal) FROM $raS " .
-        "WHERE chabal = %d AND (Dotlh & 1) = 1", $chabal))) {
+    if (Dotlh_yIjaz($chabal, 0)) {
         return true;
     }
     if (($parbogh_wIv + $parHazbogh_wIv >= lajQozmeH_wIv_zar_poQluz()) &&
@@ -193,6 +215,11 @@ function Dez_peSluzbogh_yInawz($Dez, $motlh = "", $Daq = null)
     return $motlh;
 }
 
+function Dez_yISayzmoH($Dez)
+{
+    return htmlspecialchars(str_replace('"', '""', $Dez));
+}
+
 function chabal_tISuq() {
     $Dez = "";
 
@@ -203,6 +230,8 @@ function chabal_tISuq() {
         $muz = Dez_peSluzbogh_yInawz("muz");
         $QIjmeH_per = Dez_peSluzbogh_yInawz("QIjmeH_per", false);
         $muz_Segh = Dez_peSluzbogh_yInawz("muz_Segh", false);
+        $wIv = Dez_peSluzbogh_yInawz("wIv", "", $_GET);
+
         if ($muz) {
             $match = get_posts(array(
                 'post_type' => 'chabal',
@@ -233,6 +262,30 @@ function chabal_tISuq() {
                     }
                 }
             }
+        } else if ($wIv) {
+            $wIvluzbogh = chabal_tIwIv($wIv);
+            $Dez .= "<pre>";
+            foreach ($wIvluzbogh as $chabal) {
+                $QInHommey = get_comments(array('post_id' => $chabal['mIz']));
+                $QInHom_chelluzpuz = false;
+                $Dez .= $chabal['mIz'] . ',';
+                $Dez .= $chabal['+'] - $chabal['-'] . ',';
+                $Dez .= '+' . $chabal['+'] . ',';
+                $Dez .= '-' . $chabal['-'] . ',';
+                $Dez .= '"' . Dez_yISayzmoH($chabal['m']) . '",';
+                $Dez .= '"' . Dez_yISayzmoH($chabal['S']) . '",';
+                $Dez .= '"' . Dez_yISayzmoH($chabal['p']) . '",';
+                $Dez .= '"';
+                foreach ($QInHommey as $QInHom) {
+                    if ($QInHom_chelluzpuz) {
+                        $Dez .= "\n";
+                    }
+                    $Dez .= Dez_yISayzmoH($QInHom->comment_author) . ': ';
+                    $Dez .= Dez_yISayzmoH($QInHom->comment_content);
+                }
+                $Dez .= "\"\n";
+            }
+            $Dez .= "</pre>\n";
         }
 
         $Dez .= "<p>Your membership level allows you to submit " .
@@ -422,39 +475,12 @@ function ghorgh_choHluz($chabal)
 
 function chabal_yIngaQmoH($chabal, $ngaQzaz)
 {
-    global $wpdb;
-    $raS = qawHaq_moHaq() . "Dotlh";
-
-    $Dotlh = $wpdb->get_var($wpdb->prepare("SELECT Dotlh from $raS WHERE " .
-        "chabal = %d", $chabal));
-    if ($Dotlh == null) {
-        $Dotlh = 0;
-    }
-
-    if ($ngaQzaz) {
-        $Dotlh |= 2;
-    } else {
-        $Dotlh &= ~2;
-    }
-
-    $wpdb->replace(
-        $raS,
-        array(
-            'chabal' => $chabal,
-            'Dotlh' => $Dotlh
-        ),
-        '%d'
-    );
+    Dotlh_yIchoH($chabal, 1, $ngaQzaz);
 }
 
 function ngaQzaz_chabal($chabal)
 {
-    global $wpdb;
-    $raS = qawHaq_moHaq() . "Dotlh";
-
-    $Dotlh = $wpdb->get_var($wpdb->prepare("SELECT Dotlh from $raS WHERE " .
-        "chabal = %d", $chabal));
-    return ($Dotlh != null) && (($Dotlh & 2) == 2);
+    return Dotlh_yIjaz($chabal, 1);
 }
 
 function loHwIz()
@@ -471,7 +497,7 @@ function loHwIz()
     return current_user_can('edit_others_posts');
 }
 
-function chabal_tIjatlh()
+function chabal_tIgher()
 {
     global $wpdb;
     $raS = qawHaq_moHaq() . "wIv";
@@ -585,11 +611,55 @@ function chabal_tIjatlh()
             }
         }
     }
+    return $Dez;
+}
+
+function chabal_tIjatlh()
+{
+    $Dez = chabal_tIgher();
     print(json_encode($Dez, JSON_NUMERIC_CHECK));
     wp_die();
 }
 add_action('wp_ajax_chabal_tetlh', 'chabal_tIjatlh');
 add_action('wp_ajax_nopriv_chabal_tetlh', 'chabal_tIjatlh');
+
+function chabal_lunaDluzpuzbogh_tIpatlhmoH($waz, $chaz)
+{
+    $zarlogh_waz_naDluz = $waz['+'] - $waz['-'];
+    $zarlogh_chaz_naDluz = $chaz['+'] - $chaz['-'];
+
+    if ($zarlogh_waz_naDluz == $zarlogh_chaz_naDluz) {
+        return $chaz['+'] - $waz['+'];
+    }
+
+    return $zarlogh_chaz_naDluz - $zarlogh_waz_naDluz;
+}
+
+function chabal_tIwIv($zar)
+{
+    $Dez = chabal_tIgher();
+
+    foreach ($Dez['tetlh'] as $chabal_mIz => $chabal) {
+        if (array_key_exists('Q', $chabal) && $chabal['Q']) {
+            unset($Dez['tetlh'][$chabal_mIz]);
+        } else {
+            $Dez['tetlh'][$chabal_mIz]['mIz'] = $chabal_mIz;
+        }
+    }
+
+    usort($Dez['tetlh'], "chabal_lunaDluzpuzbogh_tIpatlhmoH");
+
+    $tetlh = array_values($Dez['tetlh']);
+
+    while ($zar > 0 && $zar < count($tetlh) &&
+           ($tetlh[$zar - 1]['+'] - $tetlh[$zar - 1]['-']) ==
+           ($tetlh[$zar]['+'] - $tetlh[$zar]['-']) &&
+           $tetlh[$zar - 1]['+']  == $tetlh[$zar]['+']) {
+        $zar++;
+    }
+
+    return array_slice($Dez['tetlh'], 0, $zar);
+}
 
 function SeHlawz_yIchenmoH()
 {
