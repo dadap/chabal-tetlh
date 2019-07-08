@@ -279,7 +279,10 @@ function chabal_tISuq() {
                 foreach ($QInHommey as $QInHom) {
                     if ($QInHom_chelluzpuz) {
                         $Dez .= "\n";
+                    } else {
+                        $QInHom_chelluzpuz = true;
                     }
+
                     $Dez .= Dez_yISayzmoH($QInHom->comment_author) . ': ';
                     $Dez .= Dez_yISayzmoH($QInHom->comment_content);
                 }
