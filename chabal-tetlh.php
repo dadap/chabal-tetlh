@@ -875,6 +875,27 @@ function loHwIz_Segh_yIchaz($Dez)
 
 function SeHlawz_yIchaz()
 {
+    $choHmey = stripcslashes(Dez_peSluzbogh_yInawz("choHmey"));
+    $choHDaH = json_decode($choHmey, true);
+
+    if (loHwIz() && $choHDaH) {
+        $choHluzpuz = false;
+        foreach($choHDaH as $choH) {
+            foreach($choH['ids'] as $chabal) {
+                if (isset($choH['set_flag'])) {
+                    Dotlh_yIchoH($chabal, $choH['set_flag'], 1);
+                    $choHluzpuz = true;
+                } else if (isset($choH['unset_flag'])) {
+                    Dotlh_yIchoH($chabal, $choH['unset_flag'], 0);
+                    $choHluzpuz = true;
+                }
+            }
+        }
+        if ($choHluzpuz) {
+            print("<div class='notice'>Processed command: $choHmey.</div>");
+        }
+    }
+
     ?>
     <div class="wrap">
         <h2>Word Limits</h2>
@@ -884,6 +905,26 @@ function SeHlawz_yIchaz()
         do_settings_sections('chabal_tetlh');
         submit_button();
     ?>
+    </form>
+    <form action="" method="POST">
+        <h2>Custom Commands</h2>
+<pre>JSON input:
+[
+    {
+# entry IDs to operate on
+        "ids" = [ list, of, ids, ... ],
+# set one of the following commands
+#
+# valid flag numbers:
+#     0: blacklisted
+#     1: locked
+        "set_flag" : flag_number,
+        "unset_flag" : flag_number,
+    },
+    ...
+]</pre>
+        <textarea name="choHmey"></textarea>
+        <input type="submit" />
     </form>
     </div>
     <?php
