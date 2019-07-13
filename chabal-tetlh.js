@@ -9,7 +9,8 @@ var turwIz_Daq = null;
 var chIjmeH_permey = {
     "Not voted on yet" : function (c) {
         "use strict";
-        return  (c.w == null) && (c.ng == null) && (c.Q == null);
+        return  (c.w == null) && (c.ng == null) && (c.Q == null) &&
+                (c.l == null);
     },
     "My words" : function (c) { "use strict"; return  c.v != null; },
     "All words" : function (c) { "use strict"; return  true; }
@@ -360,7 +361,7 @@ function chabal_tetlh_mIvwaz_yIvurmoH(chabal)
     );
     var leQ = (
         chabal_tetlh_wpuser != 0 && ! chabal_tetlh[chabal].ng &&
-            ! chabal_tetlh[chabal].Q
+            ! chabal_tetlh[chabal].Q && ! chabal_tetlh[chabal].l
             ? chabal_tetlh_wIvmeH_leQ_yIlIng(wIv)
             : ""
     );
@@ -446,6 +447,12 @@ function chabal_tetlh_tetlh_yIchaz()
                   "counted towards your total word allowance.</p>\n"
                 : ""
         );
+        var lajluzpuz = (
+            chabal_tetlh[chabal].l
+                ? "\n<p>This word has been revealed as a new word and is no " +
+                  "longer counted towards your total word allowance.</p>\n"
+                : ""
+        );
         var Segh = (
             chabal_tetlh[chabal].Q
                 ? "chabal lajQozluzpuz"
@@ -497,7 +504,7 @@ function chabal_tetlh_tetlh_yIchaz()
                 <div class='wIv col-md-2 col-sm-3 col-xs-4' id='chabal_tetlh_${chabal}'>
                 </div>
                 <div class='${Segh} col-md-10 col-sm-9 col-xs-8'>${yIlel}${yIlajQoz}${yIngaQmoH}${QInHomtogh}
-                    <a href='${chabal_tetlh[chabal].D}'>${lajQozluzpuz}${ngaQ}
+                    <a href='${chabal_tetlh[chabal].D}'>${lajQozluzpuz}${lajluzpuz}${ngaQ}
                         <div class='muz unipIqaD'>
                             ${chabal_tetlh[chabal].m}
                         </div>
