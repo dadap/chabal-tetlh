@@ -171,9 +171,6 @@ function chabal_yIlajQoz($chabal)
 
 function chabal_lajQozluzpuz($chabal)
 {
-    global $wpdb;
-    $raS = qawHaq_moHaq() . "Dotlh";
-
     $parbogh_wIv = wIv_tItogh($chabal, -1);
     $parHazbogh_wIv = wIv_tItogh($chabal, 1);
 
