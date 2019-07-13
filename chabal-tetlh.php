@@ -898,7 +898,7 @@ function SeHlawz_yIchaz()
 
     ?>
     <div class="wrap">
-        <h2>Word Limits</h2>
+        <h2>chabal tetlh options</h2>
 	<form action="options.php" method="POST">
     <?php
         settings_fields('chabal_tetlh_SeHlawz');
