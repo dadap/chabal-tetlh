@@ -52,7 +52,7 @@ function yIjom() {
                    PRIMARY KEY (chabal, wIvwIz)
                ) $collate;";
 
-    /* Dotlh bitmask: 1 - blacklisted; 2 - locked */
+    /* Dotlh bitmask: 1 - blacklisted; 2 - locked; 4 - accepted */
     $Dotlhsql = "CREATE TABLE IF NOT EXISTS ${pfx}Dotlh (
                      chabal INT NOT NULL,
                      Dotlh INT NOT NULL,
@@ -171,9 +171,6 @@ function chabal_yIlajQoz($chabal)
 
 function chabal_lajQozluzpuz($chabal)
 {
-    global $wpdb;
-    $raS = qawHaq_moHaq() . "Dotlh";
-
     $parbogh_wIv = wIv_tItogh($chabal, -1);
     $parHazbogh_wIv = wIv_tItogh($chabal, 1);
 
@@ -187,6 +184,11 @@ function chabal_lajQozluzpuz($chabal)
     }
 }
 
+function chabal_lajluzpuz($chabal)
+{
+    return Dotlh_yIjaz($chabal, 2);
+}
+
 function chabal_zar_peSluz() {
     $chabalmey = get_posts(array(
         'author' => SaH_zIv(),
@@ -196,7 +198,8 @@ function chabal_zar_peSluz() {
     $chabal_zar = 0;
 
     foreach ($chabalmey as $chabal) {
-        if (!chabal_lajQozluzpuz($chabal->ID)) {
+        if (!chabal_lajQozluzpuz($chabal->ID) &&
+            !chabal_lajluzpuz($chabal->ID)) {
             $chabal_zar++;
         }
     }
@@ -279,7 +282,10 @@ function chabal_tISuq() {
                 foreach ($QInHommey as $QInHom) {
                     if ($QInHom_chelluzpuz) {
                         $Dez .= "\n";
+                    } else {
+                        $QInHom_chelluzpuz = true;
                     }
+
                     $Dez .= Dez_yISayzmoH($QInHom->comment_author) . ': ';
                     $Dez .= Dez_yISayzmoH($QInHom->comment_content);
                 }
@@ -522,7 +528,9 @@ function chabal_tIgher()
                     $wIv = ($veH * -1);
                 }
 
-                if (!chabal_lajQozluzpuz($chabal->ID)) {
+                if (!chabal_lajQozluzpuz($chabal->ID) &&
+                    !chabal_lajluzpuz($chabal->ID) &&
+                    !ngaQzaz_chabal($chabal->ID)) {
                     $wpdb->replace(
                         $raS,
                         array(
@@ -575,7 +583,9 @@ function chabal_tIgher()
     $tetlh = get_posts(array('post_type' => 'chabal', 'numberposts' => -1));
     foreach ($tetlh as $muz) {
         $muz_lajQozluzpuz = chabal_lajQozluzpuz($muz->ID);
-        if ($muz_lajQozluzpuz && !loHwIz() && $muz->post_author != SaH_zIv()) {
+        $muz_lajluzpuz = chabal_lajluzpuz($muz->ID);
+        if (($muz_lajQozluzpuz || $muz_lajluzpuz) && !loHwIz() &&
+             $muz->post_author != SaH_zIv()) {
             continue;
         }
 
@@ -608,6 +618,9 @@ function chabal_tIgher()
             }
             if (ngaQzaz_chabal($muz->ID)) {
                 $Dez['tetlh'][$muz->ID]['ng'] = 1;
+            }
+            if ($muz_lajluzpuz) {
+                $Dez['tetlh'][$muz->ID]['l'] = 1;
             }
         }
     }
@@ -875,15 +888,57 @@ function loHwIz_Segh_yIchaz($Dez)
 
 function SeHlawz_yIchaz()
 {
+    $choHmey = stripcslashes(Dez_peSluzbogh_yInawz("choHmey"));
+    $choHDaH = json_decode($choHmey, true);
+
+    if (loHwIz() && $choHDaH) {
+        $choHluzpuz = false;
+        foreach($choHDaH as $choH) {
+            foreach($choH['ids'] as $chabal) {
+                if (isset($choH['set_flag'])) {
+                    Dotlh_yIchoH($chabal, $choH['set_flag'], 1);
+                    $choHluzpuz = true;
+                } else if (isset($choH['unset_flag'])) {
+                    Dotlh_yIchoH($chabal, $choH['unset_flag'], 0);
+                    $choHluzpuz = true;
+                }
+            }
+        }
+        if ($choHluzpuz) {
+            print("<div class='notice'>Processed command: $choHmey.</div>");
+        }
+    }
+
     ?>
     <div class="wrap">
-        <h2>Word Limits</h2>
+        <h2>chabal tetlh options</h2>
 	<form action="options.php" method="POST">
     <?php
         settings_fields('chabal_tetlh_SeHlawz');
         do_settings_sections('chabal_tetlh');
         submit_button();
     ?>
+    </form>
+    <form action="" method="POST">
+        <h2>Custom Commands</h2>
+<pre>JSON input:
+[
+    {
+# entry IDs to operate on
+        "ids" = [ list, of, ids, ... ],
+# set one of the following commands
+#
+# valid flag numbers:
+#     0: blacklisted
+#     1: locked
+#     2: accepted
+        "set_flag" : flag_number,
+        "unset_flag" : flag_number,
+    },
+    ...
+]</pre>
+        <textarea name="choHmey"></textarea>
+        <input type="submit" />
     </form>
     </div>
     <?php
