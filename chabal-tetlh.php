@@ -186,7 +186,7 @@ function chabal_lajQozluzpuz($chabal)
 
 function chabal_lajluzpuz($chabal)
 {
-    return Dotlh_yIjaz($chabal, 4);
+    return Dotlh_yIjaz($chabal, 2);
 }
 
 function chabal_zar_peSluz() {
