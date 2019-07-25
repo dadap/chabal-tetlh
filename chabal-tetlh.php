@@ -186,7 +186,7 @@ function chabal_lajQozluzpuz($chabal)
 
 function chabal_lajluzpuz($chabal)
 {
-    return Dotlh_yIjaz($chabal, 2);
+    return Dotlh_yIjaz($chabal, 4);
 }
 
 function chabal_zar_peSluz() {
@@ -288,6 +288,7 @@ function chabal_tISuq() {
 
                     $Dez .= Dez_yISayzmoH($QInHom->comment_author) . ': ';
                     $Dez .= Dez_yISayzmoH($QInHom->comment_content);
+                    $QInHom_chelluzpuz = true;
                 }
                 $Dez .= "\"\n";
             }
@@ -1002,3 +1003,14 @@ function QInHom_jabbIzID_vep($QInHom_ID, $QInHom_naDpuz) {
     }
 }
 add_action('comment_post', 'QInHom_jabbIzID_vep', 11, 2);
+
+function my_comments_open( $open, $post_id ) {
+// Disables comments for accepted posts
+	$post = get_post( $post_id );
+
+	if ( 'chabal' == $post->post_type && chabal_lajluzpuz($post_id))
+		$open = false;
+
+	return $open;
+}
+add_filter( 'comments_open', 'my_comments_open', 10, 2 );
