@@ -267,7 +267,7 @@ function chabal_tISuq() {
             }
         } else if ($wIv) {
             $wIvluzbogh = chabal_tIwIv($wIv);
-            $Dez .= "<pre>";
+            $Dez .= "<pre>HERE";
             foreach ($wIvluzbogh as $chabal) {
                 $QInHommey = get_comments(array('post_id' => $chabal['mIz']));
                 $QInHom_chelluzpuz = false;
@@ -654,7 +654,8 @@ function chabal_tIwIv($zar)
     $Dez = chabal_tIgher();
 
     foreach ($Dez['tetlh'] as $chabal_mIz => $chabal) {
-        if (array_key_exists('Q', $chabal) && $chabal['Q']) {
+        //if (array_key_exists('Q', $chabal) && $chabal['Q']) {
+        if ( (array_key_exists('Q', $chabal) && $chabal['Q'])  || (array_key_exists('l', $chabal) && $chabal['l']) ) {
             unset($Dez['tetlh'][$chabal_mIz]);
         } else {
             $Dez['tetlh'][$chabal_mIz]['mIz'] = $chabal_mIz;
