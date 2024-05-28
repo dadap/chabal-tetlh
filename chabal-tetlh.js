@@ -477,16 +477,16 @@ function chabal_tetlh_tetlh_yIchaz()
             );
 
             yIngaQmoH = `
-                <button class='${yIvang} btn btn-default'
+                <button class='${yIvang} button outline small'
                     onclick='chabal_tetlh_chabal_yI${yIvang}(${chabal});'
                 >${per}</button>
             `;
             yIlel =
-                "\n<button class='lel btn btn-default' onclick='chabal_tetlh_chabal_yIlel(" +
+                "\n<button class='lel button outline small' onclick='chabal_tetlh_chabal_yIlel(" +
                 chabal + ");'>x</button>\n";
             if (chabal_tetlh[chabal].Q == null) {
                 yIlajQoz = `
-                    <button class='lajQoz btn btn-default'
+                    <button class='lajQoz button outline small'
                         onclick='chabal_tetlh_chabal_yIlajQoz(${chabal});'>🚫
                     </button>
                 `;
@@ -494,7 +494,7 @@ function chabal_tetlh_tetlh_yIchaz()
         }
 
         var QInHomtogh = `
-		<button class='QInHomtogh btn btn-default'
+		<button class='QInHomtogh button outline small'
 		   onclick="location.href='${chabal_tetlh[chabal].D}#comments';"
 		>${chabal_tetlh[chabal].QH} Comments</button>
 	    `;
@@ -699,15 +699,15 @@ function chabal_tetlh_chabal_chazluzbogh_wIvmeH_leQ_yIchaz()
 
     if (mIz_wIvluz) {
         leQ.append(`<div class="pull-right">
-            <button class='btn btn-default' onclick='chabal_tetlh_chabal_wazDIch_yIwIv("wazDIch");'>
+            <button class='button outline small' onclick='chabal_tetlh_chabal_wazDIch_yIwIv("wazDIch");'>
                 &lt;&lt;</button>
-            <button class='btn btn-default' onclick='chabal_tetlh_chabal_wazDIch_yIwIv("vorgh");'>
+            <button class='button outline small' onclick='chabal_tetlh_chabal_wazDIch_yIwIv("vorgh");'>
                 &lt;</button>
             <input onChange='chabal_tetlh_chabal_wazDIch_yIwIv(this.value);'
                 value='${wazDIch + 1}' class='form-control'/> - ${Qav} of ${chabal_zar_tuzluz}
-            <button class='btn btn-default' onclick='chabal_tetlh_chabal_wazDIch_yIwIv("veb");'>
+            <button class='button outline small' onclick='chabal_tetlh_chabal_wazDIch_yIwIv("veb");'>
                 &gt;</button>
-            <button class='btn btn-default' onclick='chabal_tetlh_chabal_wazDIch_yIwIv("HochDIch");'>
+            <button class='button outline small' onclick='chabal_tetlh_chabal_wazDIch_yIwIv("HochDIch");'>
                 &gt;&gt;</button>
         </div>`);
     }

@@ -75,11 +75,16 @@ function DezHom_Sar_yIcher() {
             ),
             'public' => true,
             'has_archive' => true,
-            'rewrite' => array('slug' => 'chabal'),
+            'rewrite' => array(
+                'with_front' => false,
+                'slug' => 'chabal-archive'
+            ),
+            //'show_in_nav_menus' => true,
             //'taxonomies' => array( 'category' ),
         )
     );
     add_post_type_support('chabal', 'comments');
+    add_post_type_support('chabal', 'author');
 
     register_taxonomy( 'muz_Segh', 'chabal',
         array(
@@ -301,12 +306,14 @@ function chabal_tISuq() {
                 " more entries.</p>\n";
 
         if (chabal_zar_peSluz() < chabal_zar_chawzluz()) {
-            $Dez .= "<p><strong>All fields are required.</strong> All suggestions should include a description with examples of how the word is used in English. Suggestions with incomplete descriptions <strong>may be locked</strong> until they are updated with additional information.</p>\n";
+            $Dez .= "<p>Each entry should be a single question or a unique word or solid concept that does not currently exist within the Klingon Language. Be sure to use the description field to explain your entry more, including example usage. Entries with incomplete descriptions, for vague concepts, or for concepts that already exist in the language, may be locked, blacklisted or deleted.</p><p><strong>All fields are required.</strong></p>\n";
+	    $Dez .= "<p>If you are not sure if your question or request should be an entry, we recommend asking in the <a href='https://www.kli.org/questions/'>Question and Answer</a> section of the website first. </p><hr>\n";
+
             $Dez .= "    <form method='POST'>\n";
             $Dez .= "        <div class='form-group row'>\n";
-            $Dez .= "            <label class='col-sm-2 col-form-label'>Word</label>\n";
+            $Dez .= "            <label class='col-sm-2 col-form-label'>Word/Concept/Question</label>\n";
             $Dez .= "            <div class='col-sm-10'>\n";
-            $Dez .= "               <input type='text' name='muz' placeholder='One word/concept per suggestion' ";
+            $Dez .= "               <input type='text' size='100%' name='muz' placeholder='One word/concept/question per entry' ";
             if ($muz)
                 $Dez .= "value='$muz' ";
             $Dez .= "onInput='rurbogh_muz_tInguz(this.value);' />\n";
@@ -315,7 +322,7 @@ function chabal_tISuq() {
             $Dez .= "        <div class='form-group row'>\n";
             $Dez .= "            <label class='col-sm-2 col-form-label'>Description</label>\n";
             $Dez .= "            <div class='col-sm-10'>\n";
-            $Dez .= "               <input type='text' name='QIjmeH_per' placeholder='Include examples to help clarify the meaning of the suggestion.' ";
+            $Dez .= "               <input type='text' name='QIjmeH_per' size='100%' placeholder='Include examples to help clarify the meaning of the entry.' ";
             if ($QIjmeH_per)
                 $Dez .= "value='$QIjmeH_per' ";
             $Dez .= " />\n";
@@ -324,10 +331,10 @@ function chabal_tISuq() {
             $Dez .= "        <div class='form-group row'>\n";
             $Dez .= "            <label class='col-sm-2 col-form-label'>Category</label>\n";
             $Dez .= "            <div class='col-sm-10'>\n";
-            $Dez .= "               " . wp_dropdown_categories( "echo=0&show_option_none=Choose the type of word&taxonomy=muz_Segh&name=muz_Segh&hide_empty=0&orderby=name&order=ASC") . "\n";
+            $Dez .= "               " . wp_dropdown_categories( "echo=0&show_option_none=Choose the type of entry&taxonomy=muz_Segh&name=muz_Segh&hide_empty=0&orderby=name&order=ASC") . "\n";
             $Dez .= "            </div>\n";
             $Dez .= "        </div>\n";
-            $Dez .= "        <button type='submit' class='btn btn-primary'>Add Word</button>\n";
+            $Dez .= "        <button type='submit' class='button outline small'>Add Word</button>\n";
             $Dez .= "    </form>\n";
             $Dez .= "    <div id='rurbogh_muz_QIn'></div>\n";
         }
@@ -348,8 +355,7 @@ function chabal_tISuq() {
     $Dez .= "</div>\n";
 
     $Dez .= "<div class='row'>\n";
-    $Dez .= "    <div class='col-xs-12'>\n";
-    $Dez .= "        <label class='sr-only' for='searchbox'>Search</label>\n";
+    $Dez .= "    <div class='col-sm-12'>\n";
     $Dez .= "        <input class='form-control' placeholder='Search' id='searchbox' onInput='chabal_tetlh_chabal_yInej(this)'></input>\n";
     $Dez .= "    </div>\n";
     $Dez .= "</div>\n";
@@ -431,14 +437,17 @@ add_shortcode('chabal_tetlh', 'chabal_tISuq');
 
 function nIqHomHom_tIQapbeHmoH()
 {
-    wp_enqueue_script('chabal_tetlh', plugins_url('chabal-tetlh.js', __FILE__),
-        array('jquery'));
-    wp_enqueue_style('chabal_tetlh', plugins_url('chabal-tetlh.css', __FILE__));
-    wp_localize_script('chabal_tetlh', 'chabal_tetlh_wpdata',
-        array(
-            'ajax' => get_option('siteurl') . '/wp-admin/admin-ajax.php'
-        )
-    );
+    if ( (is_page("chabal")) || (is_singular("chabal")) ) {
+        wp_enqueue_script('chabal_tetlh', plugins_url('chabal-tetlh.js', __FILE__),
+            array('jquery'));
+        wp_enqueue_style('chabal_tetlh', plugins_url('chabal-tetlh.css', __FILE__));
+        wp_enqueue_style('bootstrap', plugins_url('bootstrap.min.css', __FILE__));
+        wp_localize_script('chabal_tetlh', 'chabal_tetlh_wpdata',
+            array(
+                'ajax' => get_option('siteurl') . '/wp-admin/admin-ajax.php'
+            )
+        );
+    }
 }
 
 add_action('wp_enqueue_scripts', 'nIqHomHom_tIQapbeHmoH');
@@ -971,8 +980,8 @@ function chabal_tetlh_template($archive) {
     global $post;
     /* Checks for single template by post type */
     if ( is_post_type_archive( 'chabal' ) ) {
-        if ( file_exists( WP_PLUGIN_DIR . '/chabal-tetlh/archive.php' ) ) {
-            return WP_PLUGIN_DIR . '/chabal-tetlh/archive.php';
+        if ( file_exists( WP_PLUGIN_DIR . '/chabal-tetlh/archive2.php' ) ) {
+            return WP_PLUGIN_DIR . '/chabal-tetlh/archive2.php';
         }
     }
     return $archive;
@@ -996,8 +1005,10 @@ function QInHom_jabbIzID_vep($QInHom_ID, $QInHom_naDpuz) {
               .'<p>Author: ' . $QInHom->comment_author . '</p>'
               .'<p>Content: ' . $QInHom->comment_content . '</p>';
 
-        add_filter('wp_mail_content_type',
-                   create_function('', 'return "text/html";'));
+        //add_filter('wp_mail_content_type',
+        //           create_function('', 'return "text/html";'));
+
+        add_filter('wp_mail_content_type', function() { return "text/html";});
 
         wp_mail($ghItlhwIz_jabbIzID, '[KLI chabal tetlh] New Comment on ' . get_the_title($QIn_ID), $vep);
         //echo "Sending Mail to $ghItlhwIz_jabbIzID for " . get_the_title($QIn_ID) . ": $vep";
