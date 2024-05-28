@@ -174,6 +174,11 @@ function chabal_yIlajQoz($chabal)
     Dotlh_yIchoH($chabal, 0, 1);
 }
 
+function chabal_yIlaj($chabal)
+{
+    Dotlh_yIchoH($chabal, 2, 1);
+}
+
 function chabal_lajQozluzpuz($chabal)
 {
     $parbogh_wIv = wIv_tItogh($chabal, -1);
@@ -438,9 +443,8 @@ add_shortcode('chabal_tetlh', 'chabal_tISuq');
 function nIqHomHom_tIQapbeHmoH()
 {
     if ( (is_page("chabal")) || (is_singular("chabal")) ) {
-        wp_enqueue_script('chabal_tetlh', plugins_url('chabal-tetlh.js', __FILE__),
-            array('jquery'));
-        wp_enqueue_style('chabal_tetlh', plugins_url('chabal-tetlh.css', __FILE__));
+        wp_enqueue_script('chabal_tetlh', plugins_url('chabal-tetlh.js', __FILE__), array('jquery'), 'v1.0.0');
+        wp_enqueue_style('chabal_tetlh', plugins_url('chabal-tetlh.css', __FILE__), "", 'v1.0.0');
         wp_enqueue_style('bootstrap', plugins_url('bootstrap.min.css', __FILE__));
         wp_localize_script('chabal_tetlh', 'chabal_tetlh_wpdata',
             array(
@@ -523,6 +527,7 @@ function chabal_tIgher()
         $wIv = Dez_peSluzbogh_yInawz("wIv");
         $yIlel = Dez_peSluzbogh_yInawz("yIlel");
         $yIlajQoz = Dez_peSluzbogh_yInawz("yIlajQoz");
+        $yIlaj = Dez_peSluzbogh_yInawz("yIlaj");
         $ghorgh = Dez_peSluzbogh_yInawz("ghorgh", 0, $_POST + $_GET);
         $yIngaQmoH = Dez_peSluzbogh_yInawz("yIngaQmoH");
         $yIngaQHazmoH = Dez_peSluzbogh_yInawz("yIngaQHazmoH");
@@ -571,6 +576,9 @@ function chabal_tIgher()
             }
             if ($yIlajQoz) {
                 chabal_yIlajQoz($yIlajQoz);
+            } 
+            if ($yIlaj) {
+                chabal_yIlaj($yIlaj);
             }
         }
     }

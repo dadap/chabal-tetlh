@@ -226,6 +226,25 @@ function chabal_tetlh_chabal_yIlel(chabal)
     }
 }
 
+function chabal_tetlh_chabal_yIlaj(chabal)
+{
+    "use strict";
+    if(confirm("Accepting this entry will prevent voting on it and cannot "
+       + "be undone.")) {
+        jQuery.ajax({
+            url: turwIz_Daq_yIper(),
+            method: "POST",
+            data: {
+                action: "chabal_tetlh",
+                yIlaj: chabal,
+                ghorgh: ghorgh_vurmoHluzpuz
+            }
+        }).done(function() {
+            location.reload(true);
+        });
+    }
+}
+
 function chabal_tetlh_chabal_yIlajQoz(chabal)
 {
     "use strict";
@@ -294,6 +313,8 @@ function chabal_tetlh_tetlh_yIvurmoH()
         chabal_tetlh_Dez_yIlaj(Dez);
     });
 }
+
+
 
 function chabal_tetlh_chabal_yIngaQmoH(chabal)
 {
@@ -436,6 +457,7 @@ function chabal_tetlh_tetlh_yIchaz()
         var yIlel = "";
         var yIngaQmoH = "";
         var yIlajQoz = "";
+        var yIlaj = "";
         var ngaQ = (
             chabal_tetlh[chabal].ng
                 ? "\n<p>Voting has been locked on this word</p>\n"
@@ -470,6 +492,11 @@ function chabal_tetlh_tetlh_yIchaz()
                     ? "🔒"
                     : "🔓"
             );
+            var laj = (
+                chabal_tetlh[chabal].l
+                ? ""
+                : "+"
+            );
             var lajQoz = (
                 chabal_tetlh[chabal].Q
                     ? ""
@@ -481,9 +508,7 @@ function chabal_tetlh_tetlh_yIchaz()
                     onclick='chabal_tetlh_chabal_yI${yIvang}(${chabal});'
                 >${per}</button>
             `;
-            yIlel =
-                "\n<button class='lel button outline small' onclick='chabal_tetlh_chabal_yIlel(" +
-                chabal + ");'>x</button>\n";
+            yIlel = "\n<button class='lel button outline small' onclick='chabal_tetlh_chabal_yIlel(" + chabal + ");'>x</button>\n";
             if (chabal_tetlh[chabal].Q == null) {
                 yIlajQoz = `
                     <button class='lajQoz button outline small'
@@ -491,6 +516,18 @@ function chabal_tetlh_tetlh_yIchaz()
                     </button>
                 `;
             }
+            if (chabal_tetlh[chabal].l == null) {
+                yIlaj = `
+                    <button class='laj button outline small'
+                        onclick='chabal_tetlh_chabal_yIlaj(${chabal});'>+
+                    </button>
+                `;   
+            }
+             yIlaj = `
+                    <button class='laj button outline small'
+                        onclick='chabal_tetlh_chabal_yIlaj(${chabal});'>+
+                    </button>
+                `; 
         }
 
         var QInHomtogh = `
@@ -503,7 +540,7 @@ function chabal_tetlh_tetlh_yIchaz()
             <li class='${Segh}'>
                 <div class='wIv col-md-2 col-sm-3 col-xs-4' id='chabal_tetlh_${chabal}'>
                 </div>
-                <div class='${Segh} col-md-10 col-sm-9 col-xs-8'>${yIlel}${yIlajQoz}${yIngaQmoH}${QInHomtogh}
+                <div class='${Segh} col-md-10 col-sm-9 col-xs-8'>${yIlel}${yIlajQoz}${yIlaj}${yIngaQmoH}${QInHomtogh}
                     <a href='${chabal_tetlh[chabal].D}'>${lajQozluzpuz}${lajluzpuz}${ngaQ}
                         <div class='muz unipIqaD'>
                             ${chabal_tetlh[chabal].m}
